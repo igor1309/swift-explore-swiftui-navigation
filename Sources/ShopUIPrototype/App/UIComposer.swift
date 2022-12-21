@@ -12,20 +12,20 @@ public final class UIComposer {
     let navigation: AppNavigation
     
     private let profile: Profile
-    private let categories: Categories
+    private let shopTypes: ShopTypes
     private let promos: Promos
     private let shops: Shops
     
     public init(
         navigation: AppNavigation,
         profile: Profile,
-        categories: Categories,
+        shopTypes: ShopTypes,
         promos: Promos,
         shops: Shops
     ) {
         self.navigation = navigation
         self.profile = profile
-        self.categories = categories
+        self.shopTypes = shopTypes
         self.promos = promos
         self.shops = shops
     }
@@ -52,39 +52,39 @@ extension UIComposer {
             .padding(.horizontal)
     }
     
-    public func makeCategoryStrip(route: CategoryStripViewModel.Route? = nil) -> some View {
-        CategoryStrip(
+    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route? = nil) -> some View {
+        ShopTypeStrip(
             viewModel: .init(
-                categories: categories,
+                shopTypes: shopTypes,
                 route: route
             ),
-            categoryView: categoryImageView,
-            categoryDestination: categoryDestination
+            shopTypeView: shopTypeImageView,
+            shopTypeDestination: shopTypeDestination
         )
     }
     
-    private func categoryImageView(category: Category) -> some View {
+    private func shopTypeImageView(shopType: ShopType) -> some View {
         VStack {
             Color.pink
                 .frame(width: 80, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
             
-            Text(category.title)
+            Text(shopType.title)
                 .font(.caption)
         }
     }
     
-    private func categoryDestination(category: Category) -> some View {
+    private func shopTypeDestination(shopType: ShopType) -> some View {
         ScrollView(showsIndicators: false) {
             ShopGridView(
                 viewModel: .init(
-                    shops: self.shops.filter({ $0.category == category })
+                    shops: self.shops.filter({ $0.shopType == shopType })
                 ),
                 shopView: makeShopView
             )
             .padding(.horizontal)
         }
-        .navigationTitle(category.title)
+        .navigationTitle(shopType.title)
     }
     
     public func makeFeaturedShopsView() -> some View {
@@ -157,8 +157,8 @@ extension UIComposer {
         Text("TBD: Add new address injected view")
     }
     
-    public func makeCategoryView(for category: Category) -> some View {
-        CategoryView()
+    public func makeShopTypeView(for shopType: ShopType) -> some View {
+        ShopTypeView()
     }
     
     public func makeShopView(for shop: Shop) -> some View {
@@ -183,8 +183,8 @@ extension UIComposer {
         case let .addressPicker(route):
             makeAddressPicker(route: route)
             
-        case let .category(category):
-            makeCategoryView(for: category)
+        case let .shopType(shopType):
+            makeShopTypeView(for: shopType)
             
         case let .featuredShop(shop):
             makeShopView(for: shop)

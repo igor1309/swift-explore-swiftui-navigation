@@ -31,7 +31,7 @@ extension AppNavigation {
     
     public enum Route: Hashable {
         case addressPicker(AddressPickerModel.Route? = nil)
-        case category(Category)
+        case shopType(ShopType)
         case featuredShop(Shop)
         case newFeature(Feature)
         case promo(Promo)

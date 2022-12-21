@@ -1,5 +1,5 @@
 //
-//  CategoryView.swift
+//  ShopTypeView.swift
 //  
 //
 //  Created by Igor Malyarov on 21.12.2022.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct CategoryView: View {
+struct ShopTypeView: View {
     var body: some View {
-        Text("Category View")
+        Text("ShopType View")
     }
 }
 
-struct CategoryView_Previews: PreviewProvider {
+struct ShopTypeView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryView()
+        ShopTypeView()
     }
 }

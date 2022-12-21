@@ -27,8 +27,8 @@ public struct AppView: View {
                     uiComposer.makeAddressView()
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
-                categoryStrip: {
-                    uiComposer.makeCategoryStrip()
+                shopTypeStrip: {
+                    uiComposer.makeShopTypeStrip()
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
@@ -80,7 +80,7 @@ public extension Address {
     )
 }
 
-public extension Category {
+public extension ShopType {
     static let preview: Self = .init(id: .init(), title: "Flowers")
 }
 
@@ -88,7 +88,7 @@ public extension Shop {
     
     static let preview: Self = .init(
         title: "Mr. Bouquet",
-        category: .preview
+        shopType: .preview
     )
 }
 public extension Feature {
@@ -110,7 +110,7 @@ private extension Array where Element == AppNavigation.Route? {
         .none,
         .addressPicker(),
         .addressPicker(.newAddress),
-        .category(.preview),
+        .shopType(.preview),
         .featuredShop(.preview),
         .newFeature(.preview),
         .promo(.preview),
@@ -129,7 +129,7 @@ public extension UIComposer {
         .init(
             navigation: navigation,
             profile: .preview,
-            categories: .preview,
+            shopTypes: .preview,
             promos: .preview,
             shops: .preview
         )
@@ -142,8 +142,8 @@ private extension AppNavigation.Route {
         switch self {
         case .addressPicker:
             return .addressPicker
-        case .category:
-            return .category
+        case .shopType:
+            return .shopType
         case .featuredShop:
             return .featuredShop
         case .newFeature:
@@ -160,7 +160,7 @@ private extension AppNavigation.Route {
     enum RouteCase: String {
         case addressPicker
         case newAddress
-        case category
+        case shopType
         case featuredShop
         case newFeature
         case promo

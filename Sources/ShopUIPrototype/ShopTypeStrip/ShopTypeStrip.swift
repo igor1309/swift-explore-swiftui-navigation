@@ -1,5 +1,5 @@
 //
-//  CategoryStrip.swift
+//  ShopTypeStrip.swift
 //  
 //
 //  Created by Igor Malyarov on 21.12.2022.
@@ -8,62 +8,62 @@
 import IdentifiedCollections
 import SwiftUI
 
-public typealias Categories = IdentifiedArrayOf<Category>
+public typealias ShopTypes = IdentifiedArrayOf<ShopType>
 
-public struct CategoryStrip<CategoryView, CategoryDestination>: View
-where CategoryView: View,
-      CategoryDestination: View {
+public struct ShopTypeStrip<ShopTypeView, ShopTypeDestination>: View
+where ShopTypeView: View,
+      ShopTypeDestination: View {
     
-    @ObservedObject private var viewModel: CategoryStripViewModel
+    @ObservedObject private var viewModel: ShopTypeStripViewModel
     
-    private let categoryView: (Category) -> CategoryView
-    private let categoryDestination: (Category) -> CategoryDestination
+    private let shopTypeView: (ShopType) -> ShopTypeView
+    private let shopTypeDestination: (ShopType) -> ShopTypeDestination
 
     public init(
-        viewModel: CategoryStripViewModel,
-        categoryView: @escaping (Category) -> CategoryView,
-        categoryDestination: @escaping (Category) -> CategoryDestination
+        viewModel: ShopTypeStripViewModel,
+        shopTypeView: @escaping (ShopType) -> ShopTypeView,
+        shopTypeDestination: @escaping (ShopType) -> ShopTypeDestination
     ) {
         self.viewModel = viewModel
-        self.categoryView = categoryView
-        self.categoryDestination = categoryDestination
+        self.shopTypeView = shopTypeView
+        self.shopTypeDestination = shopTypeDestination
     }
     
     public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(viewModel.categories, content: categoryTileView)
+                ForEach(viewModel.shopTypes, content: shopTypeTileView)
             }
             .padding(.horizontal)
         }
         .navigationDestination(unwrapping: $viewModel.route) { route in
             switch route.wrappedValue {
-            case let .category(category):
-                categoryDestination(category)
+            case let .shopType(shopType):
+                shopTypeDestination(shopType)
             }
         }
     }
     
-    private func categoryTileView(category: Category) -> some View {
-        categoryView(category)
+    private func shopTypeTileView(shopType: ShopType) -> some View {
+        shopTypeView(shopType)
             .contentShape(Rectangle())
             .onTapGesture {
-                viewModel.navigate(to: category)
+                viewModel.navigate(to: shopType)
             }
     }
 }
 
-struct CategoryStrip_Previews: PreviewProvider {
+struct ShopTypeStrip_Previews: PreviewProvider {
     
-    private static func categoryStrip(
-        route: CategoryStripViewModel.Route? = nil
+    private static func shopTypeStrip(
+        route: ShopTypeStripViewModel.Route? = nil
     ) -> some View {
         NavigationStack {
             VStack {
-                CategoryStrip(
-                    viewModel: .init(categories: .preview, route: route),
-                    categoryView: categoryImageView,
-                    categoryDestination: categoryDestination
+                ShopTypeStrip(
+                    viewModel: .init(shopTypes: .preview, route: route),
+                            shopTypeView: shopTypeImageView,
+                    shopTypeDestination: shopTypeDestination
                 )
                 
                 Spacer()
@@ -71,25 +71,25 @@ struct CategoryStrip_Previews: PreviewProvider {
         }
     }
     
-    private static func categoryImageView(category: Category) -> some View {
+    private static func shopTypeImageView(shopType: ShopType) -> some View {
         VStack {
             Color.pink
                 .frame(width: 80, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
             
-            Text(category.title)
+            Text(shopType.title)
                 .font(.caption)
         }
     }
     
-    private static func categoryDestination(category: Category) -> some View {
-        Text("TBD: shops in category \"\(category.title)\"")
+    private static func shopTypeDestination(shopType: ShopType) -> some View {
+        Text("TBD: shops in shopType \"\(shopType.title)\"")
     }
     
     static var previews: some View {
         Group {
-            categoryStrip()
-            categoryStrip(route: .category(.preview))
+            shopTypeStrip()
+            shopTypeStrip(route: .shopType(.preview))
         }
         .preferredColorScheme(.dark)
     }
@@ -97,17 +97,17 @@ struct CategoryStrip_Previews: PreviewProvider {
 
 #if DEBUG
 public extension IdentifiedArrayOf
-where Element == Category, ID == Category.ID {
+where Element == ShopType, ID == ShopType.ID {
     
-    static let preview: Self = .init(uniqueElements: [Category].preview)
+    static let preview: Self = .init(uniqueElements: [ShopType].preview)
 }
 
-private extension Array where Element == Category {
+private extension Array where Element == ShopType {
     
     static let preview: Self = [.farmacy, .alcohol, .hyper, .house, .zoo, .market, .flower, .extraordinary, .gadgets, .stationary]
 }
 
-public extension Category {
+public extension ShopType {
     
     static let farmacy:       Self = .init(title: "Аптеки")
     static let alcohol:       Self = .init(title: "Алкоголь")

@@ -12,15 +12,15 @@ public struct Shop: Hashable, Identifiable {
     
     public let id: Tagged<Self, UUID>
     public let title: String
-    public let category: Category
+    public let shopType: ShopType
     
     public init(
         id: Tagged<Self, UUID> = .init(),
         title: String,
-        category: Category
+        shopType: ShopType
     ) {
         self.id = id
         self.title = title
-        self.category = category
+        self.shopType = shopType
     }
 }

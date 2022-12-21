@@ -10,7 +10,7 @@ import SwiftUI
 struct MainPage<
     AddressView: View,
     DeliveryTypePicker: View,
-    CategoryStrip: View,
+    ShopTypeStrip: View,
     FeaturedShopsView: View,
     NewFeatureView: View,
     PromoStrip: View,
@@ -20,7 +20,7 @@ struct MainPage<
     
     let addressView: () -> AddressView
     let deliveryTypePicker: () -> DeliveryTypePicker
-    let categoryStrip: () -> CategoryStrip
+    let shopTypeStrip: () -> ShopTypeStrip
     let featuredShopsView: () -> FeaturedShopsView
     let newFeatureView: () -> NewFeatureView
     let promoStrip: () -> PromoStrip
@@ -32,7 +32,7 @@ struct MainPage<
             VStack(spacing: 16) {
                 addressView()
                 deliveryTypePicker()
-                categoryStrip()
+                shopTypeStrip()
                 featuredShopsView()
                 newFeatureView()
                 promoStrip()
@@ -58,8 +58,8 @@ struct MainPage_Previews: PreviewProvider {
                 TBD("Address View with edit Button")
             } deliveryTypePicker: {
                 TBD("Delivery Type Picker: All/Quick/Self")
-            } categoryStrip: {
-                TBD("Category Strip: horizontal scroll")
+            } shopTypeStrip: {
+                TBD("ShopType Strip: horizontal scroll")
             } featuredShopsView: {
                 TBD("Featured Shops View: small grid of 2")
             } newFeatureView: {

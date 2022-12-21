@@ -1,5 +1,5 @@
 //
-//  Category.swift
+//  ShopType.swift
 //  
 //
 //  Created by Igor Malyarov on 21.12.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import Tagged
 
-public struct Category: Hashable, Identifiable {
+public struct ShopType: Hashable, Identifiable {
     
     public typealias ID = Tagged<Self, UUID>
     
