@@ -48,10 +48,10 @@ where CategoryView: View,
         .navigationDestination(unwrapping: $viewModel.route) { route in
             switch route.wrappedValue {
             case let .category(category):
-                Text("TBD: \"\(category.title)\" category view")
+                categoryView(category)
                 
             case let .product(product):
-                Text("TBD: \"\(product.title)\" product view")
+                productView(product)
             }
         }
     }
