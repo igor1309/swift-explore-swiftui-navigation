@@ -7,26 +7,34 @@
 
 import SwiftUI
 
-struct AddressPicker: View {
+public final class AddressPickerModel: ObservableObject {
+
+    @Published var route: Route?
+    
+    public init(route: Route? = nil) {
+        self.route = route
+    }
+    
+    public enum Route: Identifiable {
+        case newAddress
+        
+        public var id: Self { self }
+    }
+}
+
+struct AddressPicker<NewAddressView: View>: View {
+
+    @ObservedObject var viewModel: AddressPickerModel
     
     let profile: Profile
     let selectAddress: (Address) -> Void
     let addAddressAction: () -> Void
+    let newAddressView: () -> NewAddressView
     
     var body: some View {
-        VStack{
+        VStack {
             if profile.addresses.isEmpty {
-                Color.clear
-                    .overlay {
-                        VStack(spacing: 16) {
-                            Image(systemName: "house")
-                                .imageScale(.large)
-                                .font(.system(size: 64).weight(.light))
-                            
-                            Text("NO_ADDRESSES_IN_PROFILE_MESSAGE")
-                        }
-                        .foregroundColor(.secondary)
-                    }
+                emptyAddressesView()
             } else {
                 List {
                     ForEach(profile.addresses, content: addressView)
@@ -46,6 +54,26 @@ struct AddressPicker: View {
         }
         .navigationTitle("ADRESS_PICKER_NAVIGATION_TITLE")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $viewModel.route) { route in
+            switch route {
+            case .newAddress:
+                newAddressView()
+            }
+        }
+    }
+    
+    private func emptyAddressesView() -> some View {
+        Color.clear
+            .overlay {
+                VStack(spacing: 16) {
+                    Image(systemName: "house")
+                        .imageScale(.large)
+                        .font(.system(size: 64).weight(.light))
+                    
+                    Text("NO_ADDRESSES_IN_PROFILE_MESSAGE")
+                }
+                .foregroundColor(.secondary)
+            }
     }
     
     @ViewBuilder
@@ -81,14 +109,18 @@ struct AddressEditorView_Previews: PreviewProvider {
     
     struct Demo: View {
         @State var profile: Profile
+        var route: AddressPickerModel.Route?
         
         var body: some View {
             NavigationStack {
                 AddressPicker(
+                    viewModel: .init(route: route),
                     profile: profile,
                     selectAddress: { profile.address = $0 },
                     addAddressAction: {}
-                )
+                ) {
+                    Text("Add new address injected view")
+                }
             }
         }
     }
@@ -96,6 +128,7 @@ struct AddressEditorView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             Demo(profile: .preview)
+            Demo(profile: .preview, route: .newAddress)
             Demo(profile: .noAddresses)
         }
         .preferredColorScheme(.dark)

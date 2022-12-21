@@ -32,7 +32,7 @@ extension AppNavigation {
     
     public enum Route: Hashable {
         
-        case addressPicker(Profile)
+        case addressPicker(Profile, AddressPickerModel.Route? = nil)
         #warning("move to Address/Profile module/model")
         case newAddress(Profile)
         case category(Category)
@@ -48,7 +48,7 @@ extension AppNavigation.Route: Identifiable {
     
     public var id: Tagged<Self, UUID> {
         switch self {
-        case let .addressPicker(profile):
+        case let .addressPicker(profile, _):
             return .init(rawValue: profile.id.rawValue)
         case let .newAddress(profile):
             return .init(rawValue: profile.id.rawValue)

@@ -15,6 +15,7 @@ struct ContentView: View {
             uiComposer: .preview(
                 navigation: .init(
                     // route: .address(.preview)
+                    route: .addressPicker(.preview, .newAddress)
                 )
             )
         )

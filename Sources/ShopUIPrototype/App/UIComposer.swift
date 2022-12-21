@@ -34,7 +34,7 @@ extension UIComposer {
     
     public func makeAddressView(profile: Profile) -> some View {
         AddressView(street: profile.address?.street.rawValue) { [weak self] in
-            self?.navigation.route = .addressPicker(profile)
+            self?.navigation.route = .addressPicker(profile, nil)
         }
         .padding(.horizontal)
     }
@@ -88,17 +88,27 @@ extension UIComposer {
 
 extension UIComposer {
     
-#warning("fix this - need profile binding")
-    public func makeAddressPicker(for profile: Profile) -> some View {
+    #warning("fix this - need profile binding")
+    public func makeAddressPicker(
+        route: AddressPickerModel.Route?,
+        for profile: Profile
+    ) -> some View {
         NavigationStack {
             AddressPicker(
+                viewModel: .init(route: route),
                 profile: .preview
             ) { _ in
                 #warning("fix this")
             } addAddressAction: { [weak self] in
                 self?.navigation.addNewAddressButtonTapped(profile: profile)
+            } newAddressView: {
+                self.newAddressView()
             }
         }
+    }
+    
+    private func newAddressView() -> some View {
+        Text("TBD: Add new address injected view")
     }
     
     public func makeCategoryView(for category: Category) -> some View {
@@ -124,8 +134,8 @@ extension UIComposer {
     @ViewBuilder
     public func destination(route: AppNavigation.Route) -> some View {
         switch route {
-        case let .addressPicker(profile):
-            makeAddressPicker(for: profile)
+        case let .addressPicker(profile, route):
+            makeAddressPicker(route: route, for: profile)
             
         case let .newAddress(profile):
             

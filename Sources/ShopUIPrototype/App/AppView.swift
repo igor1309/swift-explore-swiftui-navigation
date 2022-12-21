@@ -103,7 +103,8 @@ private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
         .none,
-        .addressPicker(.preview),
+        .addressPicker(.preview, nil),
+        .addressPicker(.preview, .newAddress),
         .newAddress(.preview),
         .category(.preview),
         .featuredShop(.preview),
