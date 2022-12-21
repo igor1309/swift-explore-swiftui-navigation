@@ -88,8 +88,8 @@ extension UIComposer {
 
 extension UIComposer {
     
-    public func makeAddressEditorView(for address: Address) -> some View {
-        AddressEditorView()
+    public func makeAddressPicker(for address: Address) -> some View {
+        AddressPicker()
     }
     
     public func makeCategoryView(for category: Category) -> some View {
@@ -116,7 +116,7 @@ extension UIComposer {
     public func destination(route: AppNavigation.Route) -> some View {
         switch route {
         case let .address(address):
-            makeAddressEditorView(for: address)
+            makeAddressPicker(for: address)
             
         case let .category(category):
             makeCategoryView(for: category)
