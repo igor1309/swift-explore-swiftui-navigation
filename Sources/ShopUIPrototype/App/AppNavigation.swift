@@ -59,27 +59,3 @@ extension AppNavigation.Route: Identifiable {
         }
     }
 }
-
-struct Address: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
-
-struct Category: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
-
-struct Shop: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
-
-struct Feature: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
-
-struct Promo: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
-
-struct Profile: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
-}
