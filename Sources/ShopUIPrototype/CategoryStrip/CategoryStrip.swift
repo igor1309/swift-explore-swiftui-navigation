@@ -10,31 +10,39 @@ import SwiftUI
 
 public typealias Categories = IdentifiedArrayOf<Category>
 
-struct CategoryStrip<ImageView: View>: View {
+public struct CategoryStrip<ImageView: View>: View {
     
-    private let categories: Categories
+    @ObservedObject private var viewModel: CategoryStripViewModel
+    
+#warning("move to injector")
     private let width: CGFloat
     private let height: CGFloat
     private let imageView: (Category) -> ImageView
     
-    init(
-        categories: Categories,
+    public init(
+        viewModel: CategoryStripViewModel,
         width: CGFloat = 80,
         height: CGFloat = 60,
         imageView: @escaping (Category) -> ImageView
     ) {
-        self.categories = categories
+        self.viewModel = viewModel
         self.width = width
         self.height = height
         self.imageView = imageView
     }
     
-    var body: some View {
+    public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(categories, content: categoryView)
+                ForEach(viewModel.categories, content: categoryView)
             }
             .padding(.horizontal)
+        }
+        .navigationDestination(unwrapping: $viewModel.route) { route in
+            switch route.wrappedValue {
+            case let .category(category):
+                Text("TBD: shops in category \"\(category.title)\"")
+            }
         }
     }
     
@@ -47,13 +55,35 @@ struct CategoryStrip<ImageView: View>: View {
             Text(category.title)
                 .font(.caption)
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            viewModel.navigate(to: category)
+        }
     }
 }
 
 struct CategoryStrip_Previews: PreviewProvider {
+    
+    private static func categoryStrip(
+        route: CategoryStripViewModel.Route? = nil
+    ) -> some View {
+        NavigationStack {
+            VStack {
+                CategoryStrip(
+                    viewModel: .init(categories: .preview, route: route)
+                ) { _ in Color.pink.opacity(0.5) }
+                
+                Spacer()
+            }
+        }
+    }
+    
     static var previews: some View {
-        CategoryStrip(categories: .preview) { _ in Color.pink.opacity(0.5) }
-            .preferredColorScheme(.dark)
+        Group {
+            categoryStrip()
+            categoryStrip(route: .category(.preview))
+        }
+        .preferredColorScheme(.dark)
     }
 }
 

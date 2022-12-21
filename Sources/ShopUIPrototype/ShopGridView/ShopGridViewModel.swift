@@ -8,15 +8,12 @@
 import Foundation
 
 public final class ShopGridViewModel: ObservableObject {
-
+    
     @Published var route: Route?
     
     let shops: Shops
-
-    public init(
-        shops: Shops,
-        route: Route? = nil
-    ) {
+    
+    public init(shops: Shops, route: Route? = nil) {
         self.shops = shops
         self.route = route
     }

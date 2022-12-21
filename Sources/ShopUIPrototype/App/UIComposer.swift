@@ -52,8 +52,14 @@ extension UIComposer {
             .padding(.horizontal)
     }
     
-    public func makeCategoryStrip() -> some View {
-        CategoryStrip(categories: categories, imageView: categoryImageView)
+    public func makeCategoryStrip(route: CategoryStripViewModel.Route? = nil) -> some View {
+        CategoryStrip(
+            viewModel: .init(
+                categories: categories,
+                route: route
+            ),
+            imageView: categoryImageView
+        )
     }
     
     private func categoryImageView(category: Category) -> some View {

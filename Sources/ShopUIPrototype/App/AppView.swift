@@ -27,7 +27,9 @@ public struct AppView: View {
                     uiComposer.makeAddressView()
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
-                categoryStrip: uiComposer.makeCategoryStrip,
+                categoryStrip: {
+                    uiComposer.makeCategoryStrip()
+                },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
                 promoStrip: uiComposer.makePromoStrip,
