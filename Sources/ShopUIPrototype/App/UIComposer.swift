@@ -162,7 +162,14 @@ extension UIComposer {
     }
     
     public func makeShopView(for shop: Shop) -> some View {
-        ShopView(shop: shop)
+        makeShopView(for: shop, route: nil)
+    }
+    
+    public func makeShopView(
+        for shop: Shop,
+        route: ShopViewModel.Route?
+    ) -> some View {
+        ShopView(viewModel: .init(shop: shop, route: route))
     }
     
     public func makeFeatureView(for feature: Feature) -> some View {

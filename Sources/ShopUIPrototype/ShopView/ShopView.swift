@@ -6,25 +6,79 @@
 //
 
 import SwiftUI
+import SwiftUINavigation
 
-struct ShopView: View {
+public struct ShopView: View {
     
-    let shop: Shop
+    @ObservedObject private var viewModel: ShopViewModel
     
-    var body: some View {
-        VStack {
-            Text("Shop View for shop \"\(shop.title)\"")
-                .foregroundColor(.secondary)
-                .font(.footnote)
-            
-            Spacer()
+    public init(viewModel: ShopViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    public var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack {
+                TBD("Order in flight if any")
+                
+                DeliveryTypePicker(deliveryType: .constant(.all))
+                    .padding(.horizontal)
+                
+                TBD("Quick Menu: discounts/catalogue/bought before")
+                TBD("Rotating Promo strip: collections of goods")
+                TBD("Select goods: hero cards")
+                
+                TBD("List of select categories")
+                TBD("Link to catalogue (full list of categories)")
+            }
         }
-        .navigationTitle("Shop Name")
+        .searchable(text: .constant(""))
+        .navigationTitle(viewModel.shop.title)
+        .navigationDestination(unwrapping: $viewModel.route) { route in
+            switch route.wrappedValue {
+            case let .category(category):
+                Text("TBD: \"\(category.title)\" category view")
+                
+            case let .product(product):
+                Text("TBD: \"\(product.title)\" product view")
+            }
+        }
     }
 }
 
 struct ShopView_Previews: PreviewProvider {
+    
+    private typealias Route = ShopViewModel.Route
+    
+    private static func shopView(route: Route? = nil) -> some View {
+        NavigationStack {
+            ShopView(
+                viewModel: .init(
+                    shop: .preview,
+                    route: route
+                )
+            )
+        }
+    }
+    
     static var previews: some View {
-        ShopView(shop: .preview)
+        Group {
+            shopView()
+            shopView(route: .category(.preview))
+            shopView(route: .product(.preview))
+        }
+        .preferredColorScheme(.dark)
     }
 }
+
+#if DEBUG
+public extension Category {
+    
+    static let preview: Self = .grocery
+    static let grocery: Self = .init(title: "Grocery")
+}
+
+public extension Product {
+    static let preview: Self = .init(title: "Milk", category: .grocery)
+}
+#endif
