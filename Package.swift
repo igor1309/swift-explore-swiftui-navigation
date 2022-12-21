@@ -12,6 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .identifiedCollections,
+        .swiftUINavigation,
         .tagged,
     ],
     targets: [
@@ -33,6 +34,7 @@ extension Target {
         name: .shopUIPrototype,
         dependencies: [
             .identifiedCollections,
+            .swiftUINavigation,
             .tagged,
         ]
     )
@@ -63,6 +65,10 @@ private extension Package.Dependency {
         url: .pointFreeGitHub + .swift_snapshot_testing,
         from: .init(1, 10, 0)
     )
+    static let swiftUINavigation = Package.Dependency.package(
+        url: .pointFreeGitHub + .swiftui_navigation,
+        from: .init(0, 4, 5)
+    )
     static let tagged = Package.Dependency.package(
         url: .pointFreeGitHub + .swift_tagged,
         from: .init(0, 7, 0)
@@ -87,6 +93,10 @@ private extension Target.Dependency {
         name: .snapshotTesting,
         package: .swift_snapshot_testing
     )
+    static let swiftUINavigation = product(
+        name: .swiftUINavigation,
+        package: .swiftui_navigation
+    )
     static let tagged = product(
         name: .tagged,
         package: .swift_tagged
@@ -109,7 +119,9 @@ private extension String {
     static let snapshotTesting = "SnapshotTesting"
     static let swift_snapshot_testing = "swift-snapshot-testing"
     
+    static let swiftUINavigation = "SwiftUINavigation"
+    static let swiftui_navigation = "swiftui-navigation"
+    
     static let tagged = "Tagged"
     static let swift_tagged = "swift-tagged"
 }
-
