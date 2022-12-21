@@ -1,3 +1,5 @@
 # swift-explore-navigation
 
-A description of this package.
+Exploring SwiftUI navigation: API and navigation modeling.
+
+UI inspired by СберМаркет app.
