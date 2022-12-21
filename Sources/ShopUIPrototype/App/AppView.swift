@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUINavigation
 
 public struct AppView: View {
     
@@ -41,8 +42,12 @@ public struct AppView: View {
                 }
             )
             .sheet(
-                item: $navigation.route,
-                content: uiComposer.destination(route:)
+                unwrapping: $navigation.sheetRoute,
+                content: uiComposer.makeSheetDestination(route:)
+            )
+            .navigationDestination(
+                unwrapping: $navigation.route,
+                destination: uiComposer.makeNavigationDestination(route:)
             )
         }
     }
@@ -51,19 +56,33 @@ public struct AppView: View {
 struct AppView_Previews: PreviewProvider {
     
     static let routes: [AppNavigation.Route?] = .routes
+    static let sheetRoutes: [AppNavigation.SheetRoute?] = .routes
     
-    static func appView(route: AppNavigation.Route? = nil) -> some View {
-        AppView(
+    static func appView(
+        route: AppNavigation.Route? = nil,
+        sheetRoute: AppNavigation.SheetRoute? = nil
+    ) -> some View {
+        let routeCase = route?.routeCase.rawValue ?? ""
+        let sheetRouteCase = sheetRoute?.routeCase.rawValue ?? ""
+        
+        return AppView(
             uiComposer: .preview(
-                navigation: .init(route: route)
+                navigation: .init(
+                    route: route,
+                    sheetRoute: sheetRoute
+                )
             )
         )
-        .previewDisplayName(route?.routeCase.rawValue ?? "")
+        .previewDisplayName(routeCase + " " + sheetRouteCase)
     }
     
     static var previews: some View {
-        ForEach(routes, id: \.self, content: appView)
-            .preferredColorScheme(.dark)
+        ForEach(sheetRoutes, id: \.self) { sheetRoute in
+            ForEach(routes, id: \.self) { route in
+                appView(route: route, sheetRoute: sheetRoute)
+            }
+        }
+        .preferredColorScheme(.dark)
     }
 }
 
@@ -91,12 +110,15 @@ public extension Shop {
         shopType: .preview
     )
 }
+
 public extension Feature {
     static let preview: Self = .init(id: .init())
 }
+
 public extension Promo {
     static let preview: Self = .init(id: .init())
 }
+
 public extension Profile {
     
     static let preview: Self = .init(
@@ -104,17 +126,25 @@ public extension Profile {
         addresses: [.preview, .second]
     )
 }
+
 private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
         .none,
-        .addressPicker(),
-        .addressPicker(.newAddress),
         .shopType(.preview),
         .featuredShop(.preview),
         .newFeature(.preview),
         .promo(.preview),
         .shop(.preview),
+    ]
+}
+
+private extension Array where Element == AppNavigation.SheetRoute? {
+    
+    static let routes: Self = [
+        .none,
+        .addressPicker(),
+        .addressPicker(.newAddress),
         .profile(.preview),
     ]
 }
@@ -140,8 +170,6 @@ private extension AppNavigation.Route {
     
     var routeCase: RouteCase {
         switch self {
-        case .addressPicker:
-            return .addressPicker
         case .shopType:
             return .shopType
         case .featuredShop:
@@ -152,6 +180,25 @@ private extension AppNavigation.Route {
             return .promo
         case .shop:
             return .shop
+        }
+    }
+    
+    enum RouteCase: String {
+        case newAddress
+        case shopType
+        case featuredShop
+        case newFeature
+        case promo
+        case shop
+    }
+}
+
+private extension AppNavigation.SheetRoute {
+    
+    var routeCase: RouteCase {
+        switch self {
+        case .addressPicker:
+            return .addressPicker
         case .profile:
             return .profile
         }
@@ -159,12 +206,6 @@ private extension AppNavigation.Route {
     
     enum RouteCase: String {
         case addressPicker
-        case newAddress
-        case shopType
-        case featuredShop
-        case newFeature
-        case promo
-        case shop
         case profile
     }
 }

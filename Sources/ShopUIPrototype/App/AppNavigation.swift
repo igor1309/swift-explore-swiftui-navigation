@@ -9,37 +9,43 @@ import Foundation
 import Tagged
 
 public final class AppNavigation: ObservableObject {
-    @Published var route: Route?
     
-    public init(route: Route? = nil) {
+    @Published var route: Route?
+    @Published var sheetRoute: SheetRoute?
+    
+    public init(route: Route? = nil, sheetRoute: SheetRoute? = nil) {
         self.route = route
+        self.sheetRoute = sheetRoute
     }
 }
 
 extension AppNavigation {
     
     public func showProfileButtonTapped(profile: Profile) {
-        route = .profile(profile)
+        sheetRoute = .profile(profile)
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {
-        route = .addressPicker(.newAddress)
+        sheetRoute = .addressPicker(.newAddress)
     }
 }
 
 extension AppNavigation {
     
-    public enum Route: Hashable {
+    public enum SheetRoute: Hashable, Identifiable {
         case addressPicker(AddressPickerModel.Route? = nil)
+        case profile(Profile)
+        
+        public var id: Self { self }
+    }
+    
+    public enum Route: Hashable, Identifiable {
         case shopType(ShopType)
         case featuredShop(Shop)
         case newFeature(Feature)
         case promo(Promo)
         case shop(Shop, ShopViewModel.Route? = nil)
-        case profile(Profile)
+        
+        public var id: Self { self }
     }
-}
-
-extension AppNavigation.Route: Identifiable {
-    public var id: Self { self }
 }

@@ -13,10 +13,10 @@ struct ContentView: View {
         AppView(
             uiComposer: .preview(
                 navigation: .init(
-                    // route: .addressPicker()
-                    // route: .addressPicker(.newAddress)
-                    // route: .shop(.preview)
-                    // route: .shop(.preview, .category(.preview))
+//                     sheetRoute: .addressPicker()
+//                     sheetRoute: .addressPicker(.newAddress)
+//                     route: .shop(.preview)
+//                     route: .shop(.preview, .category(.preview))
                     route: .shop(.preview, .product(.preview))
                 )
             )

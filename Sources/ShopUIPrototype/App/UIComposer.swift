@@ -42,7 +42,7 @@ extension UIComposer {
         let street = profile.address?.street.rawValue
         
         AddressView(street: street) { [weak self] in
-            self?.navigation.route = .addressPicker(route)
+            self?.navigation.sheetRoute = .addressPicker(route)
         }
         .padding(.horizontal)
     }
@@ -197,11 +197,25 @@ extension UIComposer {
     }
     
     @ViewBuilder
-    public func destination(route: AppNavigation.Route) -> some View {
-        switch route {
+    public func makeSheetDestination(
+        route: Binding<AppNavigation.SheetRoute>
+    ) -> some View {
+        
+        switch route.wrappedValue {
         case let .addressPicker(route):
             makeAddressPicker(route: route)
             
+        case let .profile(profile):
+            makeProfileView(for: profile)
+        }
+    }
+    
+    @ViewBuilder
+    public func makeNavigationDestination(
+        route: Binding<AppNavigation.Route>
+    ) -> some View {
+        
+        switch route.wrappedValue {
         case let .shopType(shopType):
             makeShopTypeView(for: shopType)
             
@@ -215,13 +229,8 @@ extension UIComposer {
             makePromoView(for: promo)
             
         case let .shop(shop, route):
-            NavigationStack {
-                makeShopView(for: shop, route: route)
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-            
-        case let .profile(profile):
-            makeProfileView(for: profile)
+            makeShopView(for: shop, route: route)
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
