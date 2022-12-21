@@ -8,12 +8,23 @@
 import SwiftUI
 import SwiftUINavigation
 
-public struct ShopView: View {
+public struct ShopView<CategoryView, ProductView>: View
+where CategoryView: View,
+      ProductView: View {
     
     @ObservedObject private var viewModel: ShopViewModel
     
-    public init(viewModel: ShopViewModel) {
+    private let categoryView: (Category) -> CategoryView
+    private let productView: (Product) -> ProductView
+    
+    public init(
+        viewModel: ShopViewModel,
+        categoryView: @escaping (Category) -> CategoryView,
+        productView: @escaping (Product) -> ProductView
+    ) {
         self.viewModel = viewModel
+        self.categoryView = categoryView
+        self.productView = productView
     }
     
     public var body: some View {
@@ -53,11 +64,12 @@ struct ShopView_Previews: PreviewProvider {
     private static func shopView(route: Route? = nil) -> some View {
         NavigationStack {
             ShopView(
-                viewModel: .init(
-                    shop: .preview,
-                    route: route
-                )
-            )
+                viewModel: .init(shop: .preview, route: route)
+            ) { category in
+                Text("TBD: \"\(category.title)\" category view")
+            } productView: { product in
+                Text("TBD: \"\(product.title)\" product view")
+            }
         }
     }
     

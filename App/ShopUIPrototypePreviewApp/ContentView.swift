@@ -15,6 +15,9 @@ struct ContentView: View {
                 navigation: .init(
                     // route: .addressPicker()
                     // route: .addressPicker(.newAddress)
+                    // route: .shop(.preview)
+                    // route: .shop(.preview, .category(.preview))
+                    route: .shop(.preview, .product(.preview))
                 )
             )
         )

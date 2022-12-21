@@ -35,7 +35,7 @@ extension AppNavigation {
         case featuredShop(Shop)
         case newFeature(Feature)
         case promo(Promo)
-        case shop(Shop)
+        case shop(Shop, ShopViewModel.Route? = nil)
         case profile(Profile)
     }
 }

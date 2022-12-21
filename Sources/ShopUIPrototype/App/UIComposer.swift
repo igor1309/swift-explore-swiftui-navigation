@@ -169,7 +169,19 @@ extension UIComposer {
         for shop: Shop,
         route: ShopViewModel.Route?
     ) -> some View {
-        ShopView(viewModel: .init(shop: shop, route: route))
+        ShopView(
+            viewModel: .init(shop: shop, route: route),
+            categoryView: makeCategoryView,
+            productView: makeProductView
+        )
+    }
+    
+    private func makeCategoryView(category: Category) -> some View {
+        Text("TBD: \"\(category.title)\" category view")
+    }
+    
+    private func makeProductView(product: Product) -> some View {
+        Text("TBD: \"\(product.title)\" product view")
     }
     
     public func makeFeatureView(for feature: Feature) -> some View {
@@ -202,8 +214,11 @@ extension UIComposer {
         case let .promo(promo):
             makePromoView(for: promo)
             
-        case let .shop(shop):
-            makeShopView(for: shop)
+        case let .shop(shop, route):
+            NavigationStack {
+                makeShopView(for: shop, route: route)
+                    .navigationBarTitleDisplayMode(.inline)
+            }
             
         case let .profile(profile):
             makeProfileView(for: profile)
