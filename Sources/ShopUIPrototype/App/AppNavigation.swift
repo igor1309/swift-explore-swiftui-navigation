@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Tagged
 
 final class AppNavigation: ObservableObject {
     
@@ -39,53 +40,46 @@ extension AppNavigation {
 
 extension AppNavigation.Route: Identifiable {
     
-#warning("replace with tagged")
-    var id: UUID {
+    var id: Tagged<Self, UUID> {
         switch self {
         case let .address(address):
-            return address.id
+            return .init(rawValue: address.id.rawValue)
         case let .category(category):
-            return category.id
+            return .init(rawValue: category.id.rawValue)
         case let .featuredShop(shop):
-            return shop.id
+            return .init(rawValue: shop.id.rawValue)
         case let .newFeature(feature):
-            return feature.id
+            return .init(rawValue: feature.id.rawValue)
         case let .promo(promo):
-            return promo.id
+            return .init(rawValue: promo.id.rawValue)
         case let .shop(shop):
-            return shop.id
+            return .init(rawValue: shop.id.rawValue)
         case let .profile(profile):
-            return profile.id
+            return .init(rawValue: profile.id.rawValue)
         }
     }
 }
 
 struct Address: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
 
 struct Category: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
 
 struct Shop: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
 
 struct Feature: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
 
 struct Promo: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
 
 struct Profile: Hashable, Identifiable {
-    #warning("replace with tagged")
-    let id: UUID
+    let id: Tagged<Self, UUID>
 }
