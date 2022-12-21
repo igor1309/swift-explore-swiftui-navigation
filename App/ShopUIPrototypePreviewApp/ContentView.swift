@@ -11,10 +11,12 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         AppView(
-            uiComposer: .preview,
             profile: .preview,
-            // navigation: .preview
-            navigation: .init(route: .address(.preview))
+            uiComposer: .init(
+                navigation: .init(
+                    // route: .address(.preview)
+                )
+            )
         )
     }
 }

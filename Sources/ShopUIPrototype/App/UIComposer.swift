@@ -9,7 +9,7 @@ import SwiftUI
 
 public final class UIComposer {
     
-    private let navigation: AppNavigation
+    let navigation: AppNavigation
     
     public init(navigation: AppNavigation) {
         self.navigation = navigation

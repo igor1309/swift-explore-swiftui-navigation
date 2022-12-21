@@ -15,13 +15,12 @@ public struct AppView: View {
     @ObservedObject var navigation: AppNavigation
     
     public init(
-        uiComposer: UIComposer,
         profile: Profile,
-        navigation: AppNavigation
+        uiComposer: UIComposer
     ) {
-        self.uiComposer = uiComposer
         self.profile = profile
-        self.navigation = navigation
+        self.uiComposer = uiComposer
+        self.navigation = uiComposer.navigation
     }
     
     public var body: some View {
@@ -52,9 +51,10 @@ struct AppView_Previews: PreviewProvider {
     
     static func appView(route: AppNavigation.Route? = nil) -> some View {
         AppView(
-            uiComposer: .preview,
             profile: .preview,
-            navigation: .init(route: route)
+            uiComposer: .init(
+                navigation: .init(route: route)
+            )
         )
         .previewDisplayName(route?.routeCase.rawValue ?? "")
     }
