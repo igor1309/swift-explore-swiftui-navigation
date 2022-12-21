@@ -114,7 +114,8 @@ public extension UIComposer {
     static func preview(navigation: AppNavigation) -> UIComposer {
         .init(
             navigation: navigation,
-            categories: .samples
+            categories: .preview,
+            promos: .preview
         )
     }
 }

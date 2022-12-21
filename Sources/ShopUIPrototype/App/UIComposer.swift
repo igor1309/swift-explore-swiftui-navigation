@@ -12,13 +12,16 @@ public final class UIComposer {
     let navigation: AppNavigation
     
     private let categories: Categories
+    private let promos: Promos
     
     public init(
         navigation: AppNavigation,
-        categories: Categories
+        categories: Categories,
+        promos: Promos
     ) {
         self.navigation = navigation
         self.categories = categories
+        self.promos = promos
     }
 }
 
@@ -51,7 +54,15 @@ extension UIComposer {
     }
     
     public func makePromoStrip() -> some View {
-        PromoStrip()
+        PromoStrip(promos: promos, promoView: promoView)
+    }
+    
+    private func promoView(promo: Promo) -> some View {
+        Text(promo.id.rawValue.uuidString)
+            .font(.caption)
+            .padding()
+            .background(.thinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
     }
     
     public func makeShopGridView() -> some View {

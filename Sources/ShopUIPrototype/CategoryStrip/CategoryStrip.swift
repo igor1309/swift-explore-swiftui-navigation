@@ -51,7 +51,7 @@ struct CategoryStrip<ImageView: View>: View {
 
 struct CategoryStrip_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryStrip(categories: .samples) { _ in Color.pink.opacity(0.5) }
+        CategoryStrip(categories: .preview) { _ in Color.pink.opacity(0.5) }
             .preferredColorScheme(.dark)
     }
 }
@@ -60,12 +60,12 @@ struct CategoryStrip_Previews: PreviewProvider {
 public extension IdentifiedArrayOf
 where Element == Category, ID == Category.ID {
     
-    static let samples: Self = .init(uniqueElements: [Category].samples)
+    static let preview: Self = .init(uniqueElements: [Category].preview)
 }
 
 private extension Array where Element == Category {
     
-    static let samples: Self = ["Аптеки", "Алкоголь", "Гипермаркеты", "Для дома", "Зоотовары", "Рынки", "Цветы", "Необычное", "Электроника", "Канцелярия"]
+    static let preview: Self = ["Аптеки", "Алкоголь", "Гипермаркеты", "Для дома", "Зоотовары", "Рынки", "Цветы", "Необычное", "Электроника", "Канцелярия"]
         .map { Category(title: $0) }
 }
 #endif
