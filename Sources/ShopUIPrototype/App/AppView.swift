@@ -67,7 +67,10 @@ struct AppView_Previews: PreviewProvider {
 
 #if DEBUG
 public extension Address {
-    static let preview: Self = .init(id: .init())
+    static let preview: Self = .init(
+        id: .init(),
+        street: .init("Some Street, 123")
+    )
 }
 public extension Category {
     static let preview: Self = .init(id: .init())
