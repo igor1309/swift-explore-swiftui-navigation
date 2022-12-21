@@ -66,22 +66,22 @@ struct AppView_Previews: PreviewProvider {
 }
 
 #if DEBUG
-private extension Address {
+public extension Address {
     static let preview: Self = .init(id: .init())
 }
-private extension Category {
+public extension Category {
     static let preview: Self = .init(id: .init())
 }
-private extension Shop {
+public extension Shop {
     static let preview: Self = .init(id: .init())
 }
-private extension Feature {
+public extension Feature {
     static let preview: Self = .init(id: .init())
 }
-private extension Promo {
+public extension Promo {
     static let preview: Self = .init(id: .init())
 }
-private extension Profile {
+public extension Profile {
     static let preview: Self = .init(id: .init())
 }
 private extension Array where Element == AppNavigation.Route? {
@@ -98,11 +98,11 @@ private extension Array where Element == AppNavigation.Route? {
     ]
 }
 
-private extension AppNavigation {
+public extension AppNavigation {
     static let preview = AppNavigation()
 }
 
-private extension UIComposer {
+public extension UIComposer {
     static let preview = UIComposer(navigation: .preview)
 }
 
