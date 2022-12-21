@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-final class UIComposer {
+public final class UIComposer {
     
     private let navigation: AppNavigation
     
-    init(navigation: AppNavigation) {
+    public init(navigation: AppNavigation) {
         self.navigation = navigation
     }
 }
@@ -20,35 +20,35 @@ final class UIComposer {
 
 extension UIComposer {
     
-    func makeAddressView() -> some View {
+    public func makeAddressView() -> some View {
         TBD("Address View with edit Button")
     }
     
-    func makeDeliveryTypePicker() -> some View {
+    public func makeDeliveryTypePicker() -> some View {
         TBD("Delivery Type Picker: All/Quick/Self")
     }
     
-    func makeCategoryStrip() -> some View {
+    public func makeCategoryStrip() -> some View {
         TBD("Category Strip: horizontal scroll")
     }
     
-    func makeFeaturedShopsView() -> some View {
+    public func makeFeaturedShopsView() -> some View {
         TBD("Featured Shops View: small grid of 2")
     }
     
-    func makeNewFeatureView() -> some View {
+    public func makeNewFeatureView() -> some View {
         TBD("New Feature View: promo")
     }
     
-    func makePromoStrip() -> some View {
+    public func makePromoStrip() -> some View {
         TBD("Promo Strip")
     }
     
-    func makeShopGridView() -> some View {
+    public func makeShopGridView() -> some View {
         TBD("Shop Grid View")
     }
     
-    func makeShowProfileButton(profile: Profile) -> some View {
+    public func makeShowProfileButton(profile: Profile) -> some View {
         Button { [weak self] in
             self?.navigation.showProfileButtonTapped(profile: profile)
         } label: {
@@ -61,32 +61,32 @@ extension UIComposer {
 
 extension UIComposer {
     
-    func makeAddressEditorView(for address: Address) -> some View {
+    public func makeAddressEditorView(for address: Address) -> some View {
         Text("Address Editor")
     }
     
-    func makeCategoryView(for category: Category) -> some View {
+    public func makeCategoryView(for category: Category) -> some View {
         Text("Category View")
     }
     
-    func makeShopView(for shop: Shop) -> some View {
+    public func makeShopView(for shop: Shop) -> some View {
         Text("Shop View")
     }
     
-    func makeFeatureView(for feature: Feature) -> some View {
+    public func makeFeatureView(for feature: Feature) -> some View {
         Text("Feature View")
     }
     
-    func makePromoView(for promo: Promo) -> some View {
+    public func makePromoView(for promo: Promo) -> some View {
         Text("Promo View")
     }
     
-    func makeProfileView(for profile: Profile) -> some View {
+    public func makeProfileView(for profile: Profile) -> some View {
         Text("Profile View")
     }
     
     @ViewBuilder
-    func destination(route: AppNavigation.Route) -> some View {
+    public func destination(route: AppNavigation.Route) -> some View {
         switch route {
         case let .address(address):
             makeAddressEditorView(for: address)

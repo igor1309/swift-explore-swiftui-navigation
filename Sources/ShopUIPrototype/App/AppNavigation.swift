@@ -8,25 +8,25 @@
 import Foundation
 import Tagged
 
-final class AppNavigation: ObservableObject {
+public final class AppNavigation: ObservableObject {
     
     @Published var route: Route?
     
-    init(route: Route? = nil) {
+    public init(route: Route? = nil) {
         self.route = route
     }
 }
 
 extension AppNavigation {
     
-    func showProfileButtonTapped(profile: Profile) {
+    public func showProfileButtonTapped(profile: Profile) {
         route = .profile(profile)
     }
 }
 
 extension AppNavigation {
     
-    enum Route: Hashable {
+    public enum Route: Hashable {
         
         case address(Address)
         case category(Category)
@@ -40,7 +40,7 @@ extension AppNavigation {
 
 extension AppNavigation.Route: Identifiable {
     
-    var id: Tagged<Self, UUID> {
+    public var id: Tagged<Self, UUID> {
         switch self {
         case let .address(address):
             return .init(rawValue: address.id.rawValue)

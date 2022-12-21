@@ -8,7 +8,10 @@
 import Foundation
 import Tagged
 
-struct Profile: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
+public struct Profile: Hashable, Identifiable {
+    public let id: Tagged<Self, UUID>
+    
+    public init(id: Tagged<Self, UUID> = .init()) {
+        self.id = id
+    }
 }
-

@@ -7,14 +7,24 @@
 
 import SwiftUI
 
-struct AppView: View {
+public struct AppView: View {
     
     let uiComposer: UIComposer
     let profile: Profile
     
     @ObservedObject var navigation: AppNavigation
     
-    var body: some View {
+    public init(
+        uiComposer: UIComposer,
+        profile: Profile,
+        navigation: AppNavigation
+    ) {
+        self.uiComposer = uiComposer
+        self.profile = profile
+        self.navigation = navigation
+    }
+    
+    public var body: some View {
         NavigationStack {
             MainPage(
                 addressView: uiComposer.makeAddressView,

@@ -8,6 +8,10 @@
 import Foundation
 import Tagged
 
-struct Category: Hashable, Identifiable {
-    let id: Tagged<Self, UUID>
+public struct Category: Hashable, Identifiable {
+    public let id: Tagged<Self, UUID>
+    
+    public init(id: Tagged<Self, UUID> = .init()) {
+        self.id = id
+    }
 }
