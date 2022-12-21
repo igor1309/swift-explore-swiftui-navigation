@@ -42,7 +42,7 @@ extension UIComposer {
         let street = profile.address?.street.rawValue
         
         AddressView(street: street) { [weak self] in
-            self?.navigation.sheetRoute = .addressPicker(route)
+            self?.navigation.sheet = .addressPicker(route)
         }
         .padding(.horizontal)
     }
@@ -198,7 +198,7 @@ extension UIComposer {
     
     @ViewBuilder
     public func makeSheetDestination(
-        route: Binding<AppNavigation.SheetRoute>
+        route: Binding<AppNavigation.Sheet>
     ) -> some View {
         
         switch route.wrappedValue {

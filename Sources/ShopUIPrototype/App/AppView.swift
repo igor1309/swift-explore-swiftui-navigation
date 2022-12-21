@@ -42,7 +42,7 @@ public struct AppView: View {
                 }
             )
             .sheet(
-                unwrapping: $navigation.sheetRoute,
+                unwrapping: $navigation.sheet,
                 content: uiComposer.makeSheetDestination(route:)
             )
             .navigationDestination(
@@ -56,11 +56,11 @@ public struct AppView: View {
 struct AppView_Previews: PreviewProvider {
     
     static let routes: [AppNavigation.Route?] = .routes
-    static let sheetRoutes: [AppNavigation.SheetRoute?] = .routes
+    static let sheetRoutes: [AppNavigation.Sheet?] = .routes
     
     static func appView(
         route: AppNavigation.Route? = nil,
-        sheetRoute: AppNavigation.SheetRoute? = nil
+        sheetRoute: AppNavigation.Sheet? = nil
     ) -> some View {
         let routeCase = route?.routeCase.rawValue ?? ""
         let sheetRouteCase = sheetRoute?.routeCase.rawValue ?? ""
@@ -139,7 +139,7 @@ private extension Array where Element == AppNavigation.Route? {
     ]
 }
 
-private extension Array where Element == AppNavigation.SheetRoute? {
+private extension Array where Element == AppNavigation.Sheet? {
     
     static let routes: Self = [
         .none,
@@ -193,7 +193,7 @@ private extension AppNavigation.Route {
     }
 }
 
-private extension AppNavigation.SheetRoute {
+private extension AppNavigation.Sheet {
     
     var routeCase: RouteCase {
         switch self {

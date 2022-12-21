@@ -11,28 +11,28 @@ import Tagged
 public final class AppNavigation: ObservableObject {
     
     @Published var route: Route?
-    @Published var sheetRoute: SheetRoute?
+    @Published var sheet: Sheet?
     
-    public init(route: Route? = nil, sheetRoute: SheetRoute? = nil) {
+    public init(route: Route? = nil, sheetRoute: Sheet? = nil) {
         self.route = route
-        self.sheetRoute = sheetRoute
+        self.sheet = sheetRoute
     }
 }
 
 extension AppNavigation {
     
     public func showProfileButtonTapped(profile: Profile) {
-        sheetRoute = .profile(profile)
+        sheet = .profile(profile)
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {
-        sheetRoute = .addressPicker(.newAddress)
+        sheet = .addressPicker(.newAddress)
     }
 }
 
 extension AppNavigation {
     
-    public enum SheetRoute: Hashable, Identifiable {
+    public enum Sheet: Hashable, Identifiable {
         case addressPicker(AddressPickerModel.Route? = nil)
         case profile(Profile)
         
