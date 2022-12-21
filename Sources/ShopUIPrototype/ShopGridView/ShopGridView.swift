@@ -33,7 +33,12 @@ struct ShopGridView: View {
 
 struct ShopGridView_Previews: PreviewProvider {
     static var previews: some View {
-        ShopGridView(shops: .preview)
+        NavigationStack {
+            ScrollView(showsIndicators: false) {
+                ShopGridView(shops: .preview)
+                    .padding()
+            }
+        }
     }
 }
 
