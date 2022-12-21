@@ -8,13 +8,33 @@
 import SwiftUI
 
 struct AddressView: View {
+    
+    let street: String
+    
     var body: some View {
-        TBD("Address View with edit Button")
+        HStack(alignment: .firstTextBaseline) {
+            Text(street)
+            
+            Spacer()
+            
+            Button {
+                
+            } label: {
+                Label("Edit Address", systemImage: "pencil.line")
+                    .labelStyle(.iconOnly)
+            }
+        }
+        .font(.footnote.bold())
     }
 }
 
 struct AddressView_Previews: PreviewProvider {
     static var previews: some View {
-        AddressView()
+        Group {
+            AddressView(street: Address.preview.street.rawValue)
+                .preferredColorScheme(.dark)
+            AddressView(street: Address.preview.street.rawValue)
+        }
+        .previewLayout(.sizeThatFits)
     }
 }

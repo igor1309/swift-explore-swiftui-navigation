@@ -20,7 +20,6 @@ struct TBD: View {
             .padding(.vertical, 6)
             .frame(maxWidth: .infinity)
             .border(.secondary, width: 1)
-            .padding(.horizontal)
     }
 }
 

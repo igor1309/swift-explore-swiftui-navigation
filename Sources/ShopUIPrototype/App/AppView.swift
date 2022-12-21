@@ -26,7 +26,9 @@ public struct AppView: View {
     public var body: some View {
         NavigationStack {
             MainPage(
-                addressView: uiComposer.makeAddressView,
+                addressView: {
+                    uiComposer.makeAddressView(profile: profile)
+                },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 categoryStrip: uiComposer.makeCategoryStrip,
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
@@ -37,6 +39,7 @@ public struct AppView: View {
                     uiComposer.makeShowProfileButton(profile: profile)
                 }
             )
+            .padding(.horizontal)
             .sheet(
                 item: $navigation.route,
                 content: uiComposer.destination(route:)
@@ -52,7 +55,7 @@ struct AppView_Previews: PreviewProvider {
     static func appView(route: AppNavigation.Route? = nil) -> some View {
         AppView(
             profile: .preview,
-            uiComposer: .init(
+            uiComposer: .preview(
                 navigation: .init(route: route)
             )
         )
@@ -67,13 +70,14 @@ struct AppView_Previews: PreviewProvider {
 
 #if DEBUG
 public extension Address {
+    
     static let preview: Self = .init(
         id: .init(),
         street: .init("Some Street, 123")
     )
 }
 public extension Category {
-    static let preview: Self = .init(id: .init())
+    static let preview: Self = .init(id: .init(), title: "Flowers")
 }
 public extension Shop {
     static let preview: Self = .init(id: .init())
@@ -85,7 +89,7 @@ public extension Promo {
     static let preview: Self = .init(id: .init())
 }
 public extension Profile {
-    static let preview: Self = .init(id: .init())
+    static let preview: Self = .init(id: .init(), address: .preview)
 }
 private extension Array where Element == AppNavigation.Route? {
     
@@ -106,7 +110,13 @@ public extension AppNavigation {
 }
 
 public extension UIComposer {
-    static let preview = UIComposer(navigation: .preview)
+    
+    static func preview(navigation: AppNavigation) -> UIComposer {
+        .init(
+            navigation: navigation,
+            categories: .samples
+        )
+    }
 }
 
 private extension AppNavigation.Route {

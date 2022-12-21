@@ -12,7 +12,7 @@ struct ContentView: View {
     var body: some View {
         AppView(
             profile: .preview,
-            uiComposer: .init(
+            uiComposer: .preview(
                 navigation: .init(
                     // route: .address(.preview)
                 )

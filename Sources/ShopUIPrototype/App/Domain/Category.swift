@@ -9,9 +9,15 @@ import Foundation
 import Tagged
 
 public struct Category: Hashable, Identifiable {
-    public let id: Tagged<Self, UUID>
     
-    public init(id: Tagged<Self, UUID> = .init()) {
+    public let id: Tagged<Self, UUID>
+    public let title: String
+    
+    public init(
+        id: Tagged<Self, UUID> = .init(),
+        title: String
+    ) {
         self.id = id
+        self.title = title
     }
 }

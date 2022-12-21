@@ -11,8 +11,14 @@ public final class UIComposer {
     
     let navigation: AppNavigation
     
-    public init(navigation: AppNavigation) {
+    private let categories: [Category]
+    
+    public init(
+        navigation: AppNavigation,
+        categories: [Category]
+    ) {
         self.navigation = navigation
+        self.categories = categories
     }
 }
 
@@ -20,16 +26,20 @@ public final class UIComposer {
 
 extension UIComposer {
     
-    public func makeAddressView() -> some View {
-        AddressView()
+    public func makeAddressView(profile: Profile) -> some View {
+        AddressView(street: profile.address.street.rawValue)
     }
     
     public func makeDeliveryTypePicker() -> some View {
-        DeliveryTypePicker()
+        DeliveryTypePicker(deliveryType: .constant(.all))
     }
     
     public func makeCategoryStrip() -> some View {
-        CategoryStrip()
+        CategoryStrip(categories: categories, imageView: categoryImageView)
+    }
+    
+    private func categoryImageView(category: Category) -> some View {
+        Color.pink.opacity(0.5)
     }
     
     public func makeFeaturedShopsView() -> some View {

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PromoStrip: View {
+    
+    // let promos: [Promo]
+    
     var body: some View {
         TBD("Promo Strip")
     }
