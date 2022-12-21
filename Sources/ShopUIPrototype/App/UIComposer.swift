@@ -35,10 +35,13 @@ public final class UIComposer {
 
 extension UIComposer {
     
+    @ViewBuilder
     public func makeAddressView(
         route: AddressPickerModel.Route? = nil
     ) -> some View {
-        AddressView(street: profile.address?.street.rawValue) { [weak self] in
+        let street = profile.address?.street.rawValue
+        
+        AddressView(street: street) { [weak self] in
             self?.navigation.route = .addressPicker(route)
         }
         .padding(.horizontal)
@@ -101,15 +104,17 @@ extension UIComposer {
     ) -> some View {
         NavigationStack {
             AddressPicker(
-                viewModel: .init(route: route),
-                profile: self.profile
-            ) { _ in
-#warning("fix this")
-            } addAddressAction: { [weak self] in
-                guard let self else { return }
-                
-                self.navigation.addNewAddressButtonTapped(profile: self.profile)
-            } newAddressView: {
+                viewModel: .init(
+                    route: route,
+                    profile: self.profile
+                ) { _ in
+                    #warning("fix this")
+                } addAddressAction: { [weak self] in
+                    guard let self else { return }
+                    
+                    self.navigation.addNewAddressButtonTapped(profile: self.profile)
+                }
+            ) {
                 self.newAddressView()
             }
         }

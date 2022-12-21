@@ -9,41 +9,27 @@ import SwiftUI
 
 public struct AddressPicker<NewAddressView: View>: View {
     
-    @ObservedObject var viewModel: AddressPickerModel
+    @ObservedObject private var viewModel: AddressPickerModel
     
-    let profile: Profile
-    let selectAddress: (Address) -> Void
-    let addAddressAction: () -> Void
-    let newAddressView: () -> NewAddressView
+    private let newAddressView: () -> NewAddressView
     
     public init(
         viewModel: AddressPickerModel,
-        profile: Profile,
-        selectAddress: @escaping (Address) -> Void,
-        addAddressAction: @escaping () -> Void,
         newAddressView: @escaping () -> NewAddressView
     ) {
         self.viewModel = viewModel
-        self.profile = profile
-        self.selectAddress = selectAddress
-        self.addAddressAction = addAddressAction
         self.newAddressView = newAddressView
     }
     
     public var body: some View {
         VStack {
-            if profile.addresses.isEmpty {
+            if viewModel.addresses.isEmpty {
                 emptyAddressesView()
             } else {
-                List {
-                    ForEach(profile.addresses, content: addressView)
-                        .listRowSeparator(.hidden)
-                }
-                .listStyle(.plain)
-                .animation(.easeInOut, value: profile.address)
+                listView()
             }
             
-            Button(action: addAddressAction) {
+            Button(action: viewModel.addAddressAction) {
                 Text("NEW_ADDRESS_BUTTON_TITLE")
                     .padding(.vertical, 4)
                     .frame(maxWidth: .infinity)
@@ -75,32 +61,37 @@ public struct AddressPicker<NewAddressView: View>: View {
             }
     }
     
+    private func listView() -> some View {
+        List {
+            ForEach(viewModel.addresses, content: addressView)
+                .listRowSeparator(.hidden)
+        }
+        .listStyle(.plain)
+        .animation(.easeInOut, value: viewModel.address)
+    }
+    
     @ViewBuilder
     private func addressView(address: Address) -> some View {
+        let labelTitle = "Select address \(address.street.rawValue)"
         let labelImage = "smallcircle.circle"
+        let symbolVariants: SymbolVariants = viewModel.isSelected(address) ? .circle.fill : .none
+        
         Button {
-            selectAddress(address)
+            viewModel.selectAddress(address)
         } label: {
             HStack(alignment: .firstTextBaseline) {
                 Text(address.street.rawValue)
                 
                 Spacer()
                 
-                Label(
-                    "Select address \(address.street.rawValue)",
-                    systemImage: labelImage
-                )
-                .labelStyle(.iconOnly)
-                .symbolVariant(isSelected(address) ? .fill : .none)
-                .symbolVariant(isSelected(address) ? .circle : .none)
+                Label(labelTitle, systemImage: labelImage)
+                    .labelStyle(.iconOnly)
+                    .symbolVariant(symbolVariants)
             }
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .foregroundColor(isSelected(address) ? .primary : .secondary)
-    }
-    
-    private func isSelected(_ address: Address) -> Bool {
-        profile.address == address
+        .foregroundColor(viewModel.isSelected(address) ? .primary : .secondary)
     }
 }
 
@@ -113,10 +104,12 @@ struct AddressEditorView_Previews: PreviewProvider {
         var body: some View {
             NavigationStack {
                 AddressPicker(
-                    viewModel: .init(route: route),
-                    profile: profile,
-                    selectAddress: { profile.address = $0 },
-                    addAddressAction: {}
+                    viewModel: .init(
+                        route: route,
+                        profile: profile,
+                        selectAddress: { profile.address = $0 },
+                        addAddressAction: {}
+                    )
                 ) {
                     Text("Add new address injected view")
                 }

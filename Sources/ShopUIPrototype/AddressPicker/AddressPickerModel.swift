@@ -11,8 +11,33 @@ public final class AddressPickerModel: ObservableObject {
 
     @Published var route: Route?
     
-    public init(route: Route? = nil) {
+    private let profile: Profile
+    
+    let selectAddress: (Address) -> Void
+    let addAddressAction: () -> Void
+
+    public init(
+        route: Route? = nil,
+        profile: Profile,
+        selectAddress: @escaping (Address) -> Void,
+        addAddressAction: @escaping () -> Void
+    ) {
         self.route = route
+        self.profile = profile
+        self.selectAddress = selectAddress
+        self.addAddressAction = addAddressAction
+    }
+    
+    var address: Address? {
+        profile.address
+    }
+    
+    var addresses: Addresses {
+        profile.addresses
+    }
+    
+    func isSelected(_ address: Address) -> Bool {
+        profile.address == address
     }
     
     public enum Route: Identifiable {

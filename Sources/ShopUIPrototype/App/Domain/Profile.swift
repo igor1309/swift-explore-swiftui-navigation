@@ -9,9 +9,9 @@ import IdentifiedCollections
 import Foundation
 import Tagged
 
+public typealias Addresses = IdentifiedArrayOf<Address>
+
 public struct Profile: Hashable, Identifiable {
-    
-    public typealias Addresses = IdentifiedArrayOf<Address>
     
     public let id: Tagged<Self, UUID>
     
