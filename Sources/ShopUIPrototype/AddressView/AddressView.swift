@@ -10,6 +10,7 @@ import SwiftUI
 struct AddressView: View {
     
     let street: String
+    let action: () -> Void
     
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
@@ -17,9 +18,7 @@ struct AddressView: View {
             
             Spacer()
             
-            Button {
-                
-            } label: {
+            Button(action: action) {
                 Label("Edit Address", systemImage: "pencil.line")
                     .labelStyle(.iconOnly)
             }
@@ -29,11 +28,16 @@ struct AddressView: View {
 }
 
 struct AddressView_Previews: PreviewProvider {
+    
+    static func addressView() -> some View {
+        AddressView(street: Address.preview.street.rawValue, action: {})
+    }
+    
     static var previews: some View {
         Group {
-            AddressView(street: Address.preview.street.rawValue)
+            addressView()
                 .preferredColorScheme(.dark)
-            AddressView(street: Address.preview.street.rawValue)
+            addressView()
         }
         .previewLayout(.sizeThatFits)
     }

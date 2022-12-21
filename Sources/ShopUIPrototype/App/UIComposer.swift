@@ -33,8 +33,10 @@ public final class UIComposer {
 extension UIComposer {
     
     public func makeAddressView(profile: Profile) -> some View {
-        AddressView(street: profile.address.street.rawValue)
-            .padding(.horizontal)
+        AddressView(street: profile.address.street.rawValue) { [weak self] in
+            self?.navigation.route = .address(profile.address)
+        }
+        .padding(.horizontal)
     }
     
     public func makeDeliveryTypePicker() -> some View {
