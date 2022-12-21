@@ -10,31 +10,24 @@ import SwiftUI
 
 public typealias Categories = IdentifiedArrayOf<Category>
 
-public struct CategoryStrip<ImageView: View>: View {
+public struct CategoryStrip<CategoryView: View>: View {
     
     @ObservedObject private var viewModel: CategoryStripViewModel
     
-#warning("move to injector")
-    private let width: CGFloat
-    private let height: CGFloat
-    private let imageView: (Category) -> ImageView
+    private let categoryView: (Category) -> CategoryView
     
     public init(
         viewModel: CategoryStripViewModel,
-        width: CGFloat = 80,
-        height: CGFloat = 60,
-        imageView: @escaping (Category) -> ImageView
+        categoryView: @escaping (Category) -> CategoryView
     ) {
         self.viewModel = viewModel
-        self.width = width
-        self.height = height
-        self.imageView = imageView
+        self.categoryView = categoryView
     }
     
     public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(viewModel.categories, content: categoryView)
+                ForEach(viewModel.categories, content: categoryTileView)
             }
             .padding(.horizontal)
         }
@@ -46,19 +39,12 @@ public struct CategoryStrip<ImageView: View>: View {
         }
     }
     
-    private func categoryView(category: Category) -> some View {
-        VStack {
-            imageView(category)
-                .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-            
-            Text(category.title)
-                .font(.caption)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            viewModel.navigate(to: category)
-        }
+    private func categoryTileView(category: Category) -> some View {
+        categoryView(category)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                viewModel.navigate(to: category)
+            }
     }
 }
 
@@ -70,11 +56,23 @@ struct CategoryStrip_Previews: PreviewProvider {
         NavigationStack {
             VStack {
                 CategoryStrip(
-                    viewModel: .init(categories: .preview, route: route)
-                ) { _ in Color.pink.opacity(0.5) }
+                    viewModel: .init(categories: .preview, route: route),
+                    categoryView: categoryImageView
+                )
                 
                 Spacer()
             }
+        }
+    }
+    
+    private static func categoryImageView(category: Category) -> some View {
+        VStack {
+            Color.pink
+                .frame(width: 80, height: 60)
+                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+            
+            Text(category.title)
+                .font(.caption)
         }
     }
     

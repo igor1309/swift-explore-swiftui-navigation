@@ -58,12 +58,19 @@ extension UIComposer {
                 categories: categories,
                 route: route
             ),
-            imageView: categoryImageView
+            categoryView: categoryImageView
         )
     }
     
     private func categoryImageView(category: Category) -> some View {
-        Color.pink//.opacity(0.5)
+        VStack {
+            Color.pink
+                .frame(width: 80, height: 60)
+                .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+            
+            Text(category.title)
+                .font(.caption)
+        }
     }
     
     public func makeFeaturedShopsView() -> some View {
