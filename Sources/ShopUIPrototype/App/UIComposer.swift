@@ -80,9 +80,14 @@ extension UIComposer {
             .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
     }
     
-    public func makeShopGridView() -> some View {
-        ShopGridView(shops: shops)
-            .padding(.horizontal)
+    public func makeShopGridView(route: ShopGridViewModel.Route? = nil) -> some View {
+        ShopGridView(
+            viewModel: .init(
+                shops: .preview,
+                route: route
+            )
+        )
+        .padding(.horizontal)
     }
     
     public func makeShowProfileButton() -> some View {
@@ -108,7 +113,7 @@ extension UIComposer {
                     route: route,
                     profile: self.profile
                 ) { _ in
-                    #warning("fix this")
+#warning("fix this")
                 } addAddressAction: { [weak self] in
                     guard let self else { return }
                     

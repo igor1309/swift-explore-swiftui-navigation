@@ -7,20 +7,41 @@
 
 import IdentifiedCollections
 import SwiftUI
+import SwiftUINavigation
 
 public typealias Shops = IdentifiedArrayOf<Shop>
 
-struct ShopGridView: View {
+public struct ShopGridView: View {
     
-    let shops: Shops
+    @ObservedObject private var viewModel: ShopGridViewModel
     
-    var body: some View {
-        LazyVGrid(columns: [.init(), .init()]) {
-            ForEach(shops, content: shopView)
-        }
+    public init(viewModel: ShopGridViewModel) {
+        self.viewModel = viewModel
     }
     
-    private func shopView(shop: Shop) -> some View {
+    public var body: some View {
+        LazyVGrid(columns: [.init(), .init()]) {
+            ForEach(viewModel.shops, content: shopTileView)
+        }
+        .navigationDestination(unwrapping: $viewModel.route) { route in
+            switch route.wrappedValue {
+            case let .shop(shop):
+                VStack {
+                    NavigationStack {
+                        VStack {
+                            Text("Shop View for shop with ID \(shop.id.rawValue.uuidString)")
+                                .foregroundColor(.secondary)
+                                .font(.footnote)
+                            
+                            Spacer()
+                        }
+                        .navigationTitle("Shop Name")
+                    }
+                }
+            }
+        }
+    }
+    private func shopTileView(shop: Shop) -> some View {
         Color.orange
             .aspectRatio(1, contentMode: .fill)
             .overlay {
@@ -28,6 +49,10 @@ struct ShopGridView: View {
                     .font(.caption)
             }
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .contentShape(Rectangle())
+            .onTapGesture {
+                viewModel.navigate(to: shop)
+            }
     }
 }
 
@@ -35,8 +60,12 @@ struct ShopGridView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
-                ShopGridView(shops: .preview)
-                    .padding()
+                ShopGridView(
+                    viewModel: .init(
+                        shops: .preview
+                    )
+                )
+                .padding()
             }
         }
     }

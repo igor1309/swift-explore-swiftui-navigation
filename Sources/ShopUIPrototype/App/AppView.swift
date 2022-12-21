@@ -31,12 +31,13 @@ public struct AppView: View {
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
                 promoStrip: uiComposer.makePromoStrip,
-                shopGridView: uiComposer.makeShopGridView,
+                shopGridView: {
+                    uiComposer.makeShopGridView()
+                },
                 showProfileButton: {
                     uiComposer.makeShowProfileButton()
                 }
             )
-//            .padding(.horizontal)
             .sheet(
                 item: $navigation.route,
                 content: uiComposer.destination(route:)
