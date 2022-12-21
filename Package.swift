@@ -11,9 +11,10 @@ let package = Package(
         .shopUIPrototype,
     ],
     dependencies: [
+        .tagged,
     ],
     targets: [
-        .target(name: "ShopUIPrototype"),
+        .shopUIPrototype,
     ]
 )
 
@@ -27,7 +28,12 @@ extension Product {
 
 extension Target {
     
-    static let shopUIPrototype = target(name: .shopUIPrototype)
+    static let shopUIPrototype = target(
+        name: .shopUIPrototype,
+        dependencies: [
+            .tagged,
+        ]
+    )
 }
 
 extension String {
