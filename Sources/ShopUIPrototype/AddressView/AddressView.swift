@@ -9,36 +9,48 @@ import SwiftUI
 
 struct AddressView: View {
     
-    let street: String
-    let action: () -> Void
+    let street: String?
+    let selectAddressAction: () -> Void
     
     var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(street)
-            
-            Spacer()
-            
-            Button(action: action) {
-                Label("Edit Address", systemImage: "pencil.line")
-                    .labelStyle(.iconOnly)
+        Group {
+            switch street {
+            case .none:
+                selectAddressButton()
+                
+            case let .some(street):
+                HStack(alignment: .firstTextBaseline) {
+                    Text(street)
+                    
+                    Spacer()
+                    
+                    selectAddressButton()
+                        .labelStyle(.iconOnly)
+                }
             }
         }
         .font(.footnote.bold())
+    }
+    
+    private func selectAddressButton() -> Button<Label<Text, Image>> {
+        return Button(action: selectAddressAction) {
+            Label("Select Address", systemImage: "house.fill")
+        }
     }
 }
 
 struct AddressView_Previews: PreviewProvider {
     
-    static func addressView() -> some View {
-        AddressView(street: Address.preview.street.rawValue, action: {})
+    static func addressView(_ street: String? = nil) -> some View {
+        AddressView(street: street, selectAddressAction: {})
     }
     
     static var previews: some View {
-        Group {
+        VStack {
             addressView()
-                .preferredColorScheme(.dark)
-            addressView()
+            addressView(Address.preview.street.rawValue)
         }
+        .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)
     }
 }

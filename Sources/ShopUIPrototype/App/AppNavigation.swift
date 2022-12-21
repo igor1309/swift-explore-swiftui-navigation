@@ -9,7 +9,7 @@ import Foundation
 import Tagged
 
 public final class AppNavigation: ObservableObject {
-    
+    #warning("add `private(set)` to route")
     @Published var route: Route?
     
     public init(route: Route? = nil) {
@@ -22,13 +22,19 @@ extension AppNavigation {
     public func showProfileButtonTapped(profile: Profile) {
         route = .profile(profile)
     }
+    
+    public func addNewAddressButtonTapped(profile: Profile) {
+        route = .newAddress(profile)
+    }
 }
 
 extension AppNavigation {
     
     public enum Route: Hashable {
         
-        case address(Address)
+        case addressPicker(Profile)
+        #warning("move to Address/Profile module/model")
+        case newAddress(Profile)
         case category(Category)
         case featuredShop(Shop)
         case newFeature(Feature)
@@ -42,8 +48,10 @@ extension AppNavigation.Route: Identifiable {
     
     public var id: Tagged<Self, UUID> {
         switch self {
-        case let .address(address):
-            return .init(rawValue: address.id.rawValue)
+        case let .addressPicker(profile):
+            return .init(rawValue: profile.id.rawValue)
+        case let .newAddress(profile):
+            return .init(rawValue: profile.id.rawValue)
         case let .category(category):
             return .init(rawValue: category.id.rawValue)
         case let .featuredShop(shop):

@@ -75,6 +75,10 @@ public extension Address {
         id: .init(),
         street: .init("Some Street, 123")
     )
+    static let second: Self = .init(
+        id: .init(),
+        street: .init("Second Avenue, 45")
+    )
 }
 public extension Category {
     static let preview: Self = .init(id: .init(), title: "Flowers")
@@ -89,13 +93,18 @@ public extension Promo {
     static let preview: Self = .init(id: .init())
 }
 public extension Profile {
-    static let preview: Self = .init(id: .init(), address: .preview)
+    
+    static let preview: Self = .init(
+        address: .preview,
+        addresses: [.preview, .second]
+    )
 }
 private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
         .none,
-        .address(.preview),
+        .addressPicker(.preview),
+        .newAddress(.preview),
         .category(.preview),
         .featuredShop(.preview),
         .newFeature(.preview),
@@ -125,8 +134,10 @@ private extension AppNavigation.Route {
     
     var routeCase: RouteCase {
         switch self {
-        case .address:
-            return .address
+        case .addressPicker:
+            return .addressPicker
+        case .newAddress:
+            return .newAddress
         case .category:
             return .category
         case .featuredShop:
@@ -143,7 +154,8 @@ private extension AppNavigation.Route {
     }
     
     enum RouteCase: String {
-        case address
+        case addressPicker
+        case newAddress
         case category
         case featuredShop
         case newFeature

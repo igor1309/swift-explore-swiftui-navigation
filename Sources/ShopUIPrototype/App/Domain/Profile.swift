@@ -5,19 +5,26 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import IdentifiedCollections
 import Foundation
 import Tagged
 
 public struct Profile: Hashable, Identifiable {
     
+    public typealias Addresses = IdentifiedArrayOf<Address>
+    
     public let id: Tagged<Self, UUID>
-    public let address: Address
+    
+    public var address: Address?
+    public var addresses: Addresses
     
     public init(
         id: Tagged<Self, UUID> = .init(),
-        address: Address
+        address: Address? = nil,
+        addresses: Addresses = []
     ) {
         self.id = id
         self.address = address
+        self.addresses = addresses
     }
 }

@@ -8,13 +8,102 @@
 import SwiftUI
 
 struct AddressPicker: View {
+    
+    let profile: Profile
+    let selectAddress: (Address) -> Void
+    let addAddressAction: () -> Void
+    
     var body: some View {
-        Text("Address Editor")
+        VStack{
+            if profile.addresses.isEmpty {
+                Color.clear
+                    .overlay {
+                        VStack(spacing: 16) {
+                            Image(systemName: "house")
+                                .imageScale(.large)
+                                .font(.system(size: 64).weight(.light))
+                            
+                            Text("NO_ADDRESSES_IN_PROFILE_MESSAGE")
+                        }
+                        .foregroundColor(.secondary)
+                    }
+            } else {
+                List {
+                    ForEach(profile.addresses, content: addressView)
+                        .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
+                .animation(.easeInOut, value: profile.address)
+            }
+            
+            Button(action: addAddressAction) {
+                Text("NEW_ADDRESS_BUTTON_TITLE")
+                    .padding(.vertical, 4)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .padding([.horizontal, .bottom])
+        }
+        .navigationTitle("ADRESS_PICKER_NAVIGATION_TITLE")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    @ViewBuilder
+    private func addressView(address: Address) -> some View {
+        let labelImage = "smallcircle.circle"
+        Button {
+            selectAddress(address)
+        } label: {
+            HStack(alignment: .firstTextBaseline) {
+                Text(address.street.rawValue)
+                
+                Spacer()
+                
+                Label(
+                    "Select address \(address.street.rawValue)",
+                    systemImage: labelImage
+                )
+                .labelStyle(.iconOnly)
+                .symbolVariant(isSelected(address) ? .fill : .none)
+                .symbolVariant(isSelected(address) ? .circle : .none)
+            }
+        }
+        .buttonStyle(.plain)
+        .foregroundColor(isSelected(address) ? .primary : .secondary)
+    }
+    
+    private func isSelected(_ address: Address) -> Bool {
+        profile.address == address
     }
 }
 
 struct AddressEditorView_Previews: PreviewProvider {
+    
+    struct Demo: View {
+        @State var profile: Profile
+        
+        var body: some View {
+            NavigationStack {
+                AddressPicker(
+                    profile: profile,
+                    selectAddress: { profile.address = $0 },
+                    addAddressAction: {}
+                )
+            }
+        }
+    }
+    
     static var previews: some View {
-        AddressPicker()
+        Group {
+            Demo(profile: .preview)
+            Demo(profile: .noAddresses)
+        }
+        .preferredColorScheme(.dark)
     }
 }
+
+#if DEBUG
+public extension Profile {    
+    static let noAddresses: Self = .init()
+}
+#endif
