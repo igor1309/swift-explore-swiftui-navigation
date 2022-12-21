@@ -79,7 +79,8 @@ extension UIComposer {
             ShopGridView(
                 viewModel: .init(
                     shops: self.shops.filter({ $0.category == category })
-                )
+                ),
+                shopView: makeShopView
             )
             .padding(.horizontal)
         }
@@ -111,7 +112,8 @@ extension UIComposer {
             viewModel: .init(
                 shops: .preview,
                 route: route
-            )
+            ),
+            shopView: makeShopView
         )
         .padding(.horizontal)
     }
@@ -160,7 +162,7 @@ extension UIComposer {
     }
     
     public func makeShopView(for shop: Shop) -> some View {
-        ShopView()
+        ShopView(shop: shop)
     }
     
     public func makeFeatureView(for feature: Feature) -> some View {

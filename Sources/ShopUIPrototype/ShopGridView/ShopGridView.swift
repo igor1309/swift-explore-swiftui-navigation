@@ -11,12 +11,18 @@ import SwiftUINavigation
 
 public typealias Shops = IdentifiedArrayOf<Shop>
 
-public struct ShopGridView: View {
+public struct ShopGridView<ShopView: View>: View {
     
     @ObservedObject private var viewModel: ShopGridViewModel
     
-    public init(viewModel: ShopGridViewModel) {
+    private let shopView: (Shop) -> ShopView
+    
+    public init(
+        viewModel: ShopGridViewModel,
+        shopView: @escaping (Shop) -> ShopView
+    ) {
         self.viewModel = viewModel
+        self.shopView = shopView
     }
     
     public var body: some View {
@@ -26,18 +32,7 @@ public struct ShopGridView: View {
         .navigationDestination(unwrapping: $viewModel.route) { route in
             switch route.wrappedValue {
             case let .shop(shop):
-                VStack {
-                    NavigationStack {
-                        VStack {
-                            Text("Shop View for shop with ID \(shop.id.rawValue.uuidString)")
-                                .foregroundColor(.secondary)
-                                .font(.footnote)
-                            
-                            Spacer()
-                        }
-                        .navigationTitle("Shop Name")
-                    }
-                }
+                shopView(shop)
             }
         }
     }
@@ -65,7 +60,20 @@ struct ShopGridView_Previews: PreviewProvider {
                     viewModel: .init(
                         shops: .preview
                     )
-                )
+                ) { shop in
+                    VStack {
+                        NavigationStack {
+                            VStack {
+                                Text("Shop View for shop with ID \(shop.id.rawValue.uuidString)")
+                                    .foregroundColor(.secondary)
+                                    .font(.footnote)
+                                
+                                Spacer()
+                            }
+                            .navigationTitle("Shop Name")
+                        }
+                    }
+                }
                 .padding()
             }
         }

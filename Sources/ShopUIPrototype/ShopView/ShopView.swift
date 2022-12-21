@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct ShopView: View {
+    
+    let shop: Shop
+    
     var body: some View {
-        Text("Shop View")
+        VStack {
+            Text("Shop View for shop \"\(shop.title)\"")
+                .foregroundColor(.secondary)
+                .font(.footnote)
+            
+            Spacer()
+        }
+        .navigationTitle("Shop Name")
     }
 }
 
 struct ShopView_Previews: PreviewProvider {
     static var previews: some View {
-        ShopView()
+        ShopView(shop: .preview)
     }
 }
