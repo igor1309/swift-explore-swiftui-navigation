@@ -15,7 +15,7 @@ struct MainPage<
     NewFeatureView: View,
     PromoStrip: View,
     ShopGridView: View,
-    ProfileButton: View
+    ShowProfileButton: View
 >: View {
     
     let addressView: () -> AddressView
@@ -25,7 +25,7 @@ struct MainPage<
     let newFeatureView: () -> NewFeatureView
     let promoStrip: () -> PromoStrip
     let shopGridView: () -> ShopGridView
-    let profileButton: () -> ProfileButton
+    let showProfileButton: () -> ShowProfileButton
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -47,7 +47,7 @@ struct MainPage<
     
     @ToolbarContentBuilder
     private func toolbar() -> some ToolbarContent {
-        ToolbarItem(placement: .primaryAction, content: profileButton)
+        ToolbarItem(placement: .primaryAction, content: showProfileButton)
     }
 }
 
@@ -68,7 +68,7 @@ struct MainPage_Previews: PreviewProvider {
                 TBD("Promo Strip")
             } shopGridView: {
                 TBD("Shop Grid View")
-            } profileButton: {
+            } showProfileButton: {
                 Button {
                     
                 } label: {
