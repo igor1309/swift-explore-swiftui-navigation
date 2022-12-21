@@ -25,3 +25,14 @@ public final class ShopViewModel: ObservableObject {
         public var id: Self { self }
     }
 }
+
+extension ShopViewModel: Hashable {
+    
+    public static func == (lhs: ShopViewModel, rhs:ShopViewModel) -> Bool {
+        lhs === rhs
+    }
+    
+    public func hash (into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+}
