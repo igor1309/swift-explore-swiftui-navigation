@@ -46,3 +46,14 @@ public final class AddressPickerModel: ObservableObject {
         public var id: Self { self }
     }
 }
+
+extension AddressPickerModel: Hashable {
+    
+    public static func == (lhs: AddressPickerModel, rhs: AddressPickerModel) -> Bool {
+        lhs === rhs
+    }
+    
+    public func hash (into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+}

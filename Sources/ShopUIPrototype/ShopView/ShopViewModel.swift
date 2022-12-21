@@ -28,7 +28,7 @@ public final class ShopViewModel: ObservableObject {
 
 extension ShopViewModel: Hashable {
     
-    public static func == (lhs: ShopViewModel, rhs:ShopViewModel) -> Bool {
+    public static func == (lhs: ShopViewModel, rhs: ShopViewModel) -> Bool {
         lhs === rhs
     }
     
