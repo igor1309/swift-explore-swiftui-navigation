@@ -82,15 +82,3 @@ struct ShopView_Previews: PreviewProvider {
         .preferredColorScheme(.dark)
     }
 }
-
-#if DEBUG
-public extension Category {
-    
-    static let preview: Self = .grocery
-    static let grocery: Self = .init(title: "Grocery")
-}
-
-public extension Product {
-    static let preview: Self = .init(title: "Milk", category: .grocery)
-}
-#endif

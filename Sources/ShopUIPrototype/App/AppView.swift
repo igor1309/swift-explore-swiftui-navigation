@@ -87,46 +87,6 @@ struct AppView_Previews: PreviewProvider {
 }
 
 #if DEBUG
-public extension Address {
-    
-    static let preview: Self = .init(
-        id: .init(),
-        street: .init("Some Street, 123")
-    )
-    static let second: Self = .init(
-        id: .init(),
-        street: .init("Second Avenue, 45")
-    )
-}
-
-public extension ShopType {
-    static let preview: Self = .init(id: .init(), title: "Flowers")
-}
-
-public extension Shop {
-    
-    static let preview: Self = .init(
-        title: "Mr. Bouquet",
-        shopType: .preview
-    )
-}
-
-public extension Feature {
-    static let preview: Self = .init(id: .init())
-}
-
-public extension Promo {
-    static let preview: Self = .init(id: .init())
-}
-
-public extension Profile {
-    
-    static let preview: Self = .init(
-        address: .preview,
-        addresses: [.preview, .second]
-    )
-}
-
 private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
@@ -148,32 +108,6 @@ private extension Array where Element == AppNavigation.Sheet? {
         .profile(.preview),
     ]
 }
-
-public extension ProfileViewModel {
-    static let preview = ProfileViewModel(profile: .preview)
-}
-
-public extension ShopViewModel {
-    static let preview = ShopViewModel(shop: .preview)
-}
-
-public extension AppNavigation {
-    static let preview = AppNavigation()
-}
-
-public extension UIComposer {
-    
-    static func preview(navigation: AppNavigation) -> UIComposer {
-        .init(
-            navigation: navigation,
-            profile: .preview,
-            shopTypes: .preview,
-            promos: .preview,
-            shops: .preview
-        )
-    }
-}
-
 private extension AppNavigation.Route {
     
     var routeCase: RouteCase {

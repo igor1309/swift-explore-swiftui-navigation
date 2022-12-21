@@ -126,9 +126,3 @@ struct AddressEditorView_Previews: PreviewProvider {
         .preferredColorScheme(.dark)
     }
 }
-
-#if DEBUG
-public extension Profile {    
-    static let noAddresses: Self = .init()
-}
-#endif

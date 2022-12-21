@@ -5,10 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
-import IdentifiedCollections
 import SwiftUI
-
-public typealias ShopTypes = IdentifiedArrayOf<ShopType>
 
 public struct ShopTypeStrip<ShopTypeView, ShopTypeDestination>: View
 where ShopTypeView: View,
@@ -94,30 +91,3 @@ struct ShopTypeStrip_Previews: PreviewProvider {
         .preferredColorScheme(.dark)
     }
 }
-
-#if DEBUG
-public extension IdentifiedArrayOf
-where Element == ShopType, ID == ShopType.ID {
-    
-    static let preview: Self = .init(uniqueElements: [ShopType].preview)
-}
-
-private extension Array where Element == ShopType {
-    
-    static let preview: Self = [.farmacy, .alcohol, .hyper, .house, .zoo, .market, .flower, .extraordinary, .gadgets, .stationary]
-}
-
-public extension ShopType {
-    
-    static let farmacy:       Self = .init(title: "Аптеки")
-    static let alcohol:       Self = .init(title: "Алкоголь")
-    static let hyper:         Self = .init(title: "Гипермаркеты")
-    static let house:         Self = .init(title: "Для дома")
-    static let zoo:           Self = .init(title: "Зоотовары")
-    static let market:        Self = .init(title: "Рынки")
-    static let flower:        Self = .init(title: "Цветы")
-    static let extraordinary: Self = .init(title: "Необычное")
-    static let gadgets:       Self = .init(title: "Электроника")
-    static let stationary:    Self = .init(title: "Канцелярия")
-}
-#endif
