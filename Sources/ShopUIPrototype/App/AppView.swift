@@ -149,6 +149,10 @@ private extension Array where Element == AppNavigation.Sheet? {
     ]
 }
 
+public extension ShopViewModel {
+    static let preview = ShopViewModel(shop: .preview)
+}
+
 public extension AppNavigation {
     static let preview = AppNavigation()
 }

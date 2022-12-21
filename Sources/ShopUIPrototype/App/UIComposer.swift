@@ -87,6 +87,10 @@ extension UIComposer {
         .navigationTitle(shopType.title)
     }
     
+    private func makeShopView(for shop: Shop) -> some View {
+        makeShopView(viewModel: .init(shop: shop))
+    }
+    
     public func makeFeaturedShopsView() -> some View {
         FeaturedShopsView()
     }
@@ -161,16 +165,9 @@ extension UIComposer {
         ShopTypeView()
     }
     
-    public func makeShopView(for shop: Shop) -> some View {
-        makeShopView(for: shop, route: nil)
-    }
-    
-    public func makeShopView(
-        for shop: Shop,
-        route: ShopViewModel.Route?
-    ) -> some View {
+    public func makeShopView(viewModel: ShopViewModel) -> some View {
         ShopView(
-            viewModel: .init(shop: shop, route: route),
+            viewModel: viewModel,
             categoryView: makeCategoryView,
             productView: makeProductView
         )
@@ -228,8 +225,8 @@ extension UIComposer {
         case let .promo(promo):
             makePromoView(for: promo)
             
-        case let .shop(shop, route):
-            makeShopView(for: shop, route: route)
+        case let .shop(viewModel):
+            makeShopView(viewModel: viewModel)
                 .navigationBarTitleDisplayMode(.inline)
         }
     }

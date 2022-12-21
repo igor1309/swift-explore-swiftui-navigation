@@ -44,7 +44,7 @@ extension AppNavigation {
         case featuredShop(Shop)
         case newFeature(Feature)
         case promo(Promo)
-        case shop(Shop, ShopViewModel.Route? = nil)
+        case shop(ShopViewModel)
         
         public var id: Self { self }
     }
