@@ -41,12 +41,13 @@ public struct ShopGridView: View {
             }
         }
     }
+    
     private func shopTileView(shop: Shop) -> some View {
         Color.orange
             .aspectRatio(1, contentMode: .fill)
             .overlay {
-                Text(shop.id.rawValue.uuidString.prefix(8))
-                    .font(.caption)
+                Text(shop.title)
+                    .font(.headline)
             }
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             .contentShape(Rectangle())
@@ -78,7 +79,25 @@ public extension Shops {
 }
 
 private extension Array where Element == Shop {
-    
-    static let preview: Self = (0..<17).map { _ in .init() }
+#warning("move to sample data in Domain")
+    static let preview: Self = [
+        .preview,
+        .init(title: "Е-Аптека", category: .farmacy),
+        .init(title: "Ашан", category: .hyper),
+        .init(title: "Лента", category: .hyper),
+        .init(title: "Магнит", category: .hyper),
+        .init(title: "Пятерочка", category: .hyper),
+        .init(title: "Перекресток", category: .hyper),
+        .init(title: "Вкусвил", category: .hyper),
+        .init(title: "Технопарк", category: .gadgets),
+        .init(title: "Бетховен", category: .zoo),
+        .init(title: "Зоогалерея", category: .zoo),
+        .init(title: "Столетов", category: .farmacy),
+        .init(title: "Твой дом", category: .house),
+        .init(title: "Улыбка радуги", category: .house),
+        .init(title: "Интернет аптека", category: .farmacy),
+        .init(title: "Мосцветторг", category: .flower),
+        .init(title: "Мр. Букет", category: .flower),
+    ]
 }
 #endif

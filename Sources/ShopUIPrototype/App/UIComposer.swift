@@ -58,7 +58,8 @@ extension UIComposer {
                 categories: categories,
                 route: route
             ),
-            categoryView: categoryImageView
+            categoryView: categoryImageView,
+            categoryDestination: categoryDestination
         )
     }
     
@@ -71,6 +72,18 @@ extension UIComposer {
             Text(category.title)
                 .font(.caption)
         }
+    }
+    
+    private func categoryDestination(category: Category) -> some View {
+        ScrollView(showsIndicators: false) {
+            ShopGridView(
+                viewModel: .init(
+                    shops: self.shops.filter({ $0.category == category })
+                )
+            )
+            .padding(.horizontal)
+        }
+        .navigationTitle(category.title)
     }
     
     public func makeFeaturedShopsView() -> some View {

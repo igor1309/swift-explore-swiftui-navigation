@@ -10,18 +10,23 @@ import SwiftUI
 
 public typealias Categories = IdentifiedArrayOf<Category>
 
-public struct CategoryStrip<CategoryView: View>: View {
+public struct CategoryStrip<CategoryView, CategoryDestination>: View
+where CategoryView: View,
+      CategoryDestination: View {
     
     @ObservedObject private var viewModel: CategoryStripViewModel
     
     private let categoryView: (Category) -> CategoryView
-    
+    private let categoryDestination: (Category) -> CategoryDestination
+
     public init(
         viewModel: CategoryStripViewModel,
-        categoryView: @escaping (Category) -> CategoryView
+        categoryView: @escaping (Category) -> CategoryView,
+        categoryDestination: @escaping (Category) -> CategoryDestination
     ) {
         self.viewModel = viewModel
         self.categoryView = categoryView
+        self.categoryDestination = categoryDestination
     }
     
     public var body: some View {
@@ -34,7 +39,7 @@ public struct CategoryStrip<CategoryView: View>: View {
         .navigationDestination(unwrapping: $viewModel.route) { route in
             switch route.wrappedValue {
             case let .category(category):
-                Text("TBD: shops in category \"\(category.title)\"")
+                categoryDestination(category)
             }
         }
     }
@@ -57,7 +62,8 @@ struct CategoryStrip_Previews: PreviewProvider {
             VStack {
                 CategoryStrip(
                     viewModel: .init(categories: .preview, route: route),
-                    categoryView: categoryImageView
+                    categoryView: categoryImageView,
+                    categoryDestination: categoryDestination
                 )
                 
                 Spacer()
@@ -74,6 +80,10 @@ struct CategoryStrip_Previews: PreviewProvider {
             Text(category.title)
                 .font(.caption)
         }
+    }
+    
+    private static func categoryDestination(category: Category) -> some View {
+        Text("TBD: shops in category \"\(category.title)\"")
     }
     
     static var previews: some View {
@@ -94,7 +104,20 @@ where Element == Category, ID == Category.ID {
 
 private extension Array where Element == Category {
     
-    static let preview: Self = ["Аптеки", "Алкоголь", "Гипермаркеты", "Для дома", "Зоотовары", "Рынки", "Цветы", "Необычное", "Электроника", "Канцелярия"]
-        .map { Category(title: $0) }
+    static let preview: Self = [.farmacy, .alcohol, .hyper, .house, .zoo, .market, .flower, .extraordinary, .gadgets, .stationary]
+}
+
+public extension Category {
+    
+    static let farmacy:       Self = .init(title: "Аптеки")
+    static let alcohol:       Self = .init(title: "Алкоголь")
+    static let hyper:         Self = .init(title: "Гипермаркеты")
+    static let house:         Self = .init(title: "Для дома")
+    static let zoo:           Self = .init(title: "Зоотовары")
+    static let market:        Self = .init(title: "Рынки")
+    static let flower:        Self = .init(title: "Цветы")
+    static let extraordinary: Self = .init(title: "Необычное")
+    static let gadgets:       Self = .init(title: "Электроника")
+    static let stationary:    Self = .init(title: "Канцелярия")
 }
 #endif

@@ -79,11 +79,17 @@ public extension Address {
         street: .init("Second Avenue, 45")
     )
 }
+
 public extension Category {
     static let preview: Self = .init(id: .init(), title: "Flowers")
 }
+
 public extension Shop {
-    static let preview: Self = .init(id: .init())
+    
+    static let preview: Self = .init(
+        title: "Mr. Bouquet",
+        category: .preview
+    )
 }
 public extension Feature {
     static let preview: Self = .init(id: .init())
