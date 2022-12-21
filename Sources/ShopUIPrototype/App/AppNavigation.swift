@@ -22,7 +22,7 @@ public final class AppNavigation: ObservableObject {
 extension AppNavigation {
     
     public func showProfileButtonTapped(profile: Profile) {
-        sheet = .profile(profile)
+        sheet = .profile(.init(profile: profile))
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {
@@ -34,7 +34,7 @@ extension AppNavigation {
     
     public enum Sheet: Hashable, Identifiable {
         case addressPicker(AddressPickerModel.Route? = nil)
-        case profile(Profile)
+        case profile(ProfileViewModel)
         
         public var id: Self { self }
     }

@@ -189,8 +189,8 @@ extension UIComposer {
         PromoView()
     }
     
-    public func makeProfileView(for profile: Profile) -> some View {
-        ProfileView()
+    public func makeProfileView(viewModel: ProfileViewModel) -> some View {
+        ProfileView(viewModel: viewModel)
     }
     
     @ViewBuilder
@@ -202,8 +202,10 @@ extension UIComposer {
         case let .addressPicker(route):
             makeAddressPicker(route: route)
             
-        case let .profile(profile):
-            makeProfileView(for: profile)
+        case let .profile(viewModel):
+            NavigationStack {
+                makeProfileView(viewModel: viewModel)
+            }
         }
     }
     
