@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-explore-navigation",
+    name: "swift-explore-swiftui-navigation",
     platforms: [
         .iOS(.v16)
     ],
