@@ -10,15 +10,12 @@ import SwiftUI
 public struct AppView: View {
     
     let uiComposer: UIComposer
-    let profile: Profile
     
     @ObservedObject var navigation: AppNavigation
     
     public init(
-        profile: Profile,
         uiComposer: UIComposer
     ) {
-        self.profile = profile
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -27,7 +24,7 @@ public struct AppView: View {
         NavigationStack {
             MainPage(
                 addressView: {
-                    uiComposer.makeAddressView(profile: profile)
+                    uiComposer.makeAddressView()
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 categoryStrip: uiComposer.makeCategoryStrip,
@@ -36,7 +33,7 @@ public struct AppView: View {
                 promoStrip: uiComposer.makePromoStrip,
                 shopGridView: uiComposer.makeShopGridView,
                 showProfileButton: {
-                    uiComposer.makeShowProfileButton(profile: profile)
+                    uiComposer.makeShowProfileButton()
                 }
             )
 //            .padding(.horizontal)
@@ -54,7 +51,6 @@ struct AppView_Previews: PreviewProvider {
     
     static func appView(route: AppNavigation.Route? = nil) -> some View {
         AppView(
-            profile: .preview,
             uiComposer: .preview(
                 navigation: .init(route: route)
             )
@@ -103,9 +99,8 @@ private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
         .none,
-        .addressPicker(.preview, nil),
-        .addressPicker(.preview, .newAddress),
-        .newAddress(.preview),
+        .addressPicker(),
+        .addressPicker(.newAddress),
         .category(.preview),
         .featuredShop(.preview),
         .newFeature(.preview),
@@ -124,6 +119,7 @@ public extension UIComposer {
     static func preview(navigation: AppNavigation) -> UIComposer {
         .init(
             navigation: navigation,
+            profile: .preview,
             categories: .preview,
             promos: .preview,
             shops: .preview
@@ -137,8 +133,6 @@ private extension AppNavigation.Route {
         switch self {
         case .addressPicker:
             return .addressPicker
-        case .newAddress:
-            return .newAddress
         case .category:
             return .category
         case .featuredShop:

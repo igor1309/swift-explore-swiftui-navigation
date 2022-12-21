@@ -9,7 +9,6 @@ import Foundation
 import Tagged
 
 public final class AppNavigation: ObservableObject {
-    #warning("add `private(set)` to route")
     @Published var route: Route?
     
     public init(route: Route? = nil) {
@@ -24,17 +23,14 @@ extension AppNavigation {
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {
-        route = .newAddress(profile)
+        route = .addressPicker(.newAddress)
     }
 }
 
 extension AppNavigation {
     
     public enum Route: Hashable {
-        
-        case addressPicker(Profile, AddressPickerModel.Route? = nil)
-        #warning("move to Address/Profile module/model")
-        case newAddress(Profile)
+        case addressPicker(AddressPickerModel.Route? = nil)
         case category(Category)
         case featuredShop(Shop)
         case newFeature(Feature)
@@ -45,25 +41,5 @@ extension AppNavigation {
 }
 
 extension AppNavigation.Route: Identifiable {
-    
-    public var id: Tagged<Self, UUID> {
-        switch self {
-        case let .addressPicker(profile, _):
-            return .init(rawValue: profile.id.rawValue)
-        case let .newAddress(profile):
-            return .init(rawValue: profile.id.rawValue)
-        case let .category(category):
-            return .init(rawValue: category.id.rawValue)
-        case let .featuredShop(shop):
-            return .init(rawValue: shop.id.rawValue)
-        case let .newFeature(feature):
-            return .init(rawValue: feature.id.rawValue)
-        case let .promo(promo):
-            return .init(rawValue: promo.id.rawValue)
-        case let .shop(shop):
-            return .init(rawValue: shop.id.rawValue)
-        case let .profile(profile):
-            return .init(rawValue: profile.id.rawValue)
-        }
-    }
+    public var id: Self { self }
 }
