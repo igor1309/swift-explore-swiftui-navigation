@@ -29,7 +29,7 @@ struct MainPage<
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 16) {
                 addressView()
                 deliveryTypePicker()
                 categoryStrip()

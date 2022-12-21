@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewFeatureView: View {
     var body: some View {
-        TBD("New Feature View: promo")
+        TBD("New Feature View")
     }
 }
 

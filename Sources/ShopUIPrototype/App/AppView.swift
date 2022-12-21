@@ -39,7 +39,7 @@ public struct AppView: View {
                     uiComposer.makeShowProfileButton(profile: profile)
                 }
             )
-            .padding(.horizontal)
+//            .padding(.horizontal)
             .sheet(
                 item: $navigation.route,
                 content: uiComposer.destination(route:)
@@ -115,7 +115,8 @@ public extension UIComposer {
         .init(
             navigation: navigation,
             categories: .preview,
-            promos: .preview
+            promos: .preview,
+            shops: .preview
         )
     }
 }

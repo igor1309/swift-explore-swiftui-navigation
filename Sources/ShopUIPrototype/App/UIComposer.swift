@@ -13,15 +13,18 @@ public final class UIComposer {
     
     private let categories: Categories
     private let promos: Promos
+    private let shops: Shops
     
     public init(
         navigation: AppNavigation,
         categories: Categories,
-        promos: Promos
+        promos: Promos,
+        shops: Shops
     ) {
         self.navigation = navigation
         self.categories = categories
         self.promos = promos
+        self.shops = shops
     }
 }
 
@@ -31,10 +34,12 @@ extension UIComposer {
     
     public func makeAddressView(profile: Profile) -> some View {
         AddressView(street: profile.address.street.rawValue)
+            .padding(.horizontal)
     }
     
     public func makeDeliveryTypePicker() -> some View {
         DeliveryTypePicker(deliveryType: .constant(.all))
+            .padding(.horizontal)
     }
     
     public func makeCategoryStrip() -> some View {
@@ -42,7 +47,7 @@ extension UIComposer {
     }
     
     private func categoryImageView(category: Category) -> some View {
-        Color.pink.opacity(0.5)
+        Color.pink//.opacity(0.5)
     }
     
     public func makeFeaturedShopsView() -> some View {
@@ -66,7 +71,8 @@ extension UIComposer {
     }
     
     public func makeShopGridView() -> some View {
-        ShopGridView()
+        ShopGridView(shops: shops)
+            .padding(.horizontal)
     }
     
     public func makeShowProfileButton(profile: Profile) -> some View {

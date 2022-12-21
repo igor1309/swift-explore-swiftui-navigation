@@ -34,6 +34,7 @@ struct CategoryStrip<ImageView: View>: View {
             HStack {
                 ForEach(categories, content: categoryView)
             }
+            .padding(.horizontal)
         }
     }
     

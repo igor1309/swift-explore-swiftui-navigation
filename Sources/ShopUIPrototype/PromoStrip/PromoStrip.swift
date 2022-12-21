@@ -20,6 +20,7 @@ struct PromoStrip<PromoView: View>: View {
             LazyHStack {
                 ForEach(promos, content: promoView)
             }
+            .padding(.horizontal)
         }
     }
 }
