@@ -6,90 +6,35 @@
 	objectVersion = 56;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		2AFF101C2952F953003E11E5 /* ExploreSwiftUINavigationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF101B2952F953003E11E5 /* ExploreSwiftUINavigationApp.swift */; };
-		2AFF101E2952F953003E11E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF101D2952F953003E11E5 /* ContentView.swift */; };
-		2AFF10202952F955003E11E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFF101F2952F955003E11E5 /* Assets.xcassets */; };
-		2AFF10232952F955003E11E5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFF10222952F955003E11E5 /* Preview Assets.xcassets */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		2AFF10182952F953003E11E5 /* ExploreSwiftUINavigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExploreSwiftUINavigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2AFF101B2952F953003E11E5 /* ExploreSwiftUINavigationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSwiftUINavigationApp.swift; sourceTree = "<group>"; };
-		2AFF101D2952F953003E11E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2AFF101F2952F955003E11E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2AFF10222952F955003E11E5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "swift-explore-swiftui-navigation"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		2AFF10152952F953003E11E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2AFF100F2952F953003E11E5 = {
 			isa = PBXGroup;
 			children = (
 				2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */,
-				2AFF101A2952F953003E11E5 /* ExploreSwiftUINavigation */,
 				2AFF10192952F953003E11E5 /* Products */,
+				2AFF102A2952FAEE003E11E5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		2AFF10192952F953003E11E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2AFF10182952F953003E11E5 /* ExploreSwiftUINavigation.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2AFF101A2952F953003E11E5 /* ExploreSwiftUINavigation */ = {
+		2AFF102A2952FAEE003E11E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2AFF101B2952F953003E11E5 /* ExploreSwiftUINavigationApp.swift */,
-				2AFF101D2952F953003E11E5 /* ContentView.swift */,
-				2AFF101F2952F955003E11E5 /* Assets.xcassets */,
-				2AFF10212952F955003E11E5 /* Preview Content */,
 			);
-			path = ExploreSwiftUINavigation;
-			sourceTree = "<group>";
-		};
-		2AFF10212952F955003E11E5 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2AFF10222952F955003E11E5 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
-
-/* Begin PBXNativeTarget section */
-		2AFF10172952F953003E11E5 /* ExploreSwiftUINavigation */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2AFF10262952F955003E11E5 /* Build configuration list for PBXNativeTarget "ExploreSwiftUINavigation" */;
-			buildPhases = (
-				2AFF10142952F953003E11E5 /* Sources */,
-				2AFF10152952F953003E11E5 /* Frameworks */,
-				2AFF10162952F953003E11E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ExploreSwiftUINavigation;
-			productName = ExploreSwiftUINavigation;
-			productReference = 2AFF10182952F953003E11E5 /* ExploreSwiftUINavigation.app */;
-			productType = "com.apple.product-type.application";
-		};
-/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		2AFF10102952F953003E11E5 /* Project object */ = {
@@ -98,11 +43,6 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
-				TargetAttributes = {
-					2AFF10172952F953003E11E5 = {
-						CreatedOnToolsVersion = 14.2;
-					};
-				};
 			};
 			buildConfigurationList = 2AFF10132952F953003E11E5 /* Build configuration list for PBXProject "ExploreSwiftUINavigation" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -117,34 +57,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2AFF10172952F953003E11E5 /* ExploreSwiftUINavigation */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		2AFF10162952F953003E11E5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2AFF10232952F955003E11E5 /* Preview Assets.xcassets in Resources */,
-				2AFF10202952F955003E11E5 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		2AFF10142952F953003E11E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2AFF101E2952F953003E11E5 /* ContentView.swift in Sources */,
-				2AFF101C2952F953003E11E5 /* ExploreSwiftUINavigationApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		2AFF10242952F955003E11E5 /* Debug */ = {
@@ -261,64 +176,6 @@
 			};
 			name = Release;
 		};
-		2AFF10272952F955003E11E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ExploreSwiftUINavigation/Preview Content\"";
-				DEVELOPMENT_TEAM = VRVJ9YNRQU;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.ExploreSwiftUINavigation;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		2AFF10282952F955003E11E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ExploreSwiftUINavigation/Preview Content\"";
-				DEVELOPMENT_TEAM = VRVJ9YNRQU;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.ExploreSwiftUINavigation;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -327,15 +184,6 @@
 			buildConfigurations = (
 				2AFF10242952F955003E11E5 /* Debug */,
 				2AFF10252952F955003E11E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2AFF10262952F955003E11E5 /* Build configuration list for PBXNativeTarget "ExploreSwiftUINavigation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2AFF10272952F955003E11E5 /* Debug */,
-				2AFF10282952F955003E11E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
