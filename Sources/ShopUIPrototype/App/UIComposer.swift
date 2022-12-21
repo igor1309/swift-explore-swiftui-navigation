@@ -11,11 +11,11 @@ public final class UIComposer {
     
     let navigation: AppNavigation
     
-    private let categories: [Category]
+    private let categories: Categories
     
     public init(
         navigation: AppNavigation,
-        categories: [Category]
+        categories: Categories
     ) {
         self.navigation = navigation
         self.categories = categories

@@ -10,11 +10,13 @@ import Tagged
 
 public struct Category: Hashable, Identifiable {
     
-    public let id: Tagged<Self, UUID>
+    public typealias ID = Tagged<Self, UUID>
+    
+    public let id: ID
     public let title: String
     
     public init(
-        id: Tagged<Self, UUID> = .init(),
+        id: ID = .init(),
         title: String
     ) {
         self.id = id

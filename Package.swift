@@ -11,6 +11,7 @@ let package = Package(
         .shopUIPrototype,
     ],
     dependencies: [
+        .identifiedCollections,
         .tagged,
     ],
     targets: [
@@ -31,6 +32,7 @@ extension Target {
     static let shopUIPrototype = target(
         name: .shopUIPrototype,
         dependencies: [
+            .identifiedCollections,
             .tagged,
         ]
     )

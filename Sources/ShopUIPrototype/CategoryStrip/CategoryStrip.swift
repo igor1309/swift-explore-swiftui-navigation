@@ -5,17 +5,20 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import IdentifiedCollections
 import SwiftUI
 
+public typealias Categories = IdentifiedArrayOf<Category>
+
 struct CategoryStrip<ImageView: View>: View {
-#warning("replace with Identified array of")
-    private let categories: [Category]
+    
+    private let categories: Categories
     private let width: CGFloat
     private let height: CGFloat
     private let imageView: (Category) -> ImageView
     
     init(
-        categories: [Category],
+        categories: Categories,
         width: CGFloat = 80,
         height: CGFloat = 60,
         imageView: @escaping (Category) -> ImageView
@@ -54,8 +57,13 @@ struct CategoryStrip_Previews: PreviewProvider {
 }
 
 #if DEBUG
-#warning("replace with Identified array of")
-public extension Array where Element == Category {
+public extension IdentifiedArrayOf
+where Element == Category, ID == Category.ID {
+    
+    static let samples: Self = .init(uniqueElements: [Category].samples)
+}
+
+private extension Array where Element == Category {
     
     static let samples: Self = ["Аптеки", "Алкоголь", "Гипермаркеты", "Для дома", "Зоотовары", "Рынки", "Цветы", "Необычное", "Электроника", "Канцелярия"]
         .map { Category(title: $0) }
