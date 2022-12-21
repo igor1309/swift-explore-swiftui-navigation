@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "swift-explore-navigation",
+    platforms: [
+        .iOS(.v16)
+    ],
     products: [
         .shopUIPrototype,
     ],
