@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct AddressPicker<NewAddressView: View>: View {
-
+public struct AddressPicker<NewAddressView: View>: View {
+    
     @ObservedObject var viewModel: AddressPickerModel
     
     let profile: Profile
@@ -16,7 +16,21 @@ struct AddressPicker<NewAddressView: View>: View {
     let addAddressAction: () -> Void
     let newAddressView: () -> NewAddressView
     
-    var body: some View {
+    public init(
+        viewModel: AddressPickerModel,
+        profile: Profile,
+        selectAddress: @escaping (Address) -> Void,
+        addAddressAction: @escaping () -> Void,
+        newAddressView: @escaping () -> NewAddressView
+    ) {
+        self.viewModel = viewModel
+        self.profile = profile
+        self.selectAddress = selectAddress
+        self.addAddressAction = addAddressAction
+        self.newAddressView = newAddressView
+    }
+    
+    public var body: some View {
         VStack {
             if profile.addresses.isEmpty {
                 emptyAddressesView()
