@@ -9,9 +9,12 @@ import Foundation
 import Tagged
 
 public struct Feature: Hashable, Identifiable {
-    public let id: Tagged<Self, UUID>
+ 
+    public typealias ID = Tagged<Self, UUID>
     
-    public init(id: Tagged<Self, UUID> = .init()) {
+    public let id: ID
+    
+    public init(id: ID = .init()) {
         self.id = id
     }
 }

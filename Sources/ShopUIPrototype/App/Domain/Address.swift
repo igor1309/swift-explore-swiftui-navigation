@@ -10,12 +10,15 @@ import Tagged
 
 public struct Address: Hashable, Identifiable {
     
-    public let id: Tagged<Self, UUID>
-    public let street: Tagged<Street, String>
+    public typealias ID = Tagged<Self, UUID>
+    public typealias Street = Tagged<StreetType, String>
+    
+    public let id: ID
+    public let street: Street
     
     public init(
-        id: Tagged<Self, UUID> = .init(),
-        street: Tagged<Street, String>
+        id: ID = .init(),
+        street: Street
     ) {
         self.id = id
         self.street = street
@@ -24,5 +27,5 @@ public struct Address: Hashable, Identifiable {
 
 public extension Address {
     
-    enum Street {}
+    enum StreetType {}
 }

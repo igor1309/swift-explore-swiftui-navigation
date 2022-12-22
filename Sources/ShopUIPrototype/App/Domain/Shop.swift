@@ -10,12 +10,14 @@ import Tagged
 
 public struct Shop: Hashable, Identifiable {
     
-    public let id: Tagged<Self, UUID>
+    public typealias ID = Tagged<Self, UUID>
+    
+    public let id: ID
     public let title: String
     public let shopType: ShopType
     
     public init(
-        id: Tagged<Self, UUID> = .init(),
+        id: ID = .init(),
         title: String,
         shopType: ShopType
     ) {
