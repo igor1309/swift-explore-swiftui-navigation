@@ -132,7 +132,6 @@ extension UIComposer {
 
 extension UIComposer {
     
-#warning("fix this - need profile binding")
     public func makeAddressPicker(
         profile: Profile,
         route: AddressPickerModel.Route?
@@ -142,10 +141,9 @@ extension UIComposer {
                 viewModel: .init(
                     address: profile.address,
                     addresses: profile.addresses,
-                    route: route
-                ) { _ in
-#warning("fix this")
-                } addNewAddressAction: { [weak self] in
+                    route: route,
+                    selectAddress: appViewModel.setAddress(to:)
+                ) { [weak self] in
                     guard let self else { return }
                     
                     self.navigation.addNewAddressButtonTapped(profile: profile)
