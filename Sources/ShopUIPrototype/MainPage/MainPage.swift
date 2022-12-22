@@ -39,7 +39,10 @@ struct MainPage<
                 shopGridView()
             }
         }
-        .searchable(text: .constant(""), prompt: "MAIN_PAGE_SEARCH_PROMPT")
+        // .searchable(text: .constant(""), prompt: "MAIN_PAGE_SEARCH_PROMPT")
+        .searchable(text: .constant("")) {
+            Text("MAIN_PAGE_SEARCH_PROMPT", bundle: .module)
+        }
         .navigationTitle("Main Page")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: toolbar)

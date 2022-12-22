@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "swift-explore-swiftui-navigation",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v16)
     ],

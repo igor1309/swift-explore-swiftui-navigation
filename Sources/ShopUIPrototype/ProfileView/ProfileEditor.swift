@@ -42,7 +42,11 @@ struct ProfileEditor: View {
                     Text("PHONE")
                 } footer: {
                     Button(role: .destructive, action: deleteAccount) {
-                        Label("DELETE_ACCOUNT_BUTTON_TITLE", systemImage: "trash")
+                        Label {
+                            Text("DELETE_ACCOUNT_BUTTON_TITLE", bundle: .module)
+                        } icon: {
+                            Image(systemName: "trash")
+                        }
                     }
                     .font(.caption)
                     .padding(.top)
@@ -55,11 +59,18 @@ struct ProfileEditor: View {
             Button {
                 saveProfile(user)
             } label: {
-                Label("SAVE_PROFILE_CHANGES", systemImage: "square.and.arrow.down")
+                Label {
+                    Text("SAVE_PROFILE_CHANGES", bundle: .module)
+                        .padding(.vertical, 3)
+                } icon: {
+                    Image(systemName: "square.and.arrow.down")
+                }
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
+            .padding([.bottom, .horizontal])
         }
-        .navigationTitle("EDIT_PROFILE_NAVIGATION_TITLE")
+        .navigationTitle(Text("EDIT_PROFILE_NAVIGATION_TITLE", bundle: .module))
         .navigationBarTitleDisplayMode(.inline)
     }
     

@@ -1,0 +1,10 @@
+
+"MAIN_PAGE_SEARCH_PROMPT" = "Search products in shops";
+
+"EDIT_PROFILE_NAVIGATION_TITLE" = "Edit Profile";
+"DELETE_ACCOUNT_BUTTON_TITLE" = "Delete account";
+"SAVE_PROFILE_CHANGES" = "Save profile";
+
+"NO_ADDRESSES_IN_PROFILE_MESSAGE" = "No addresses in the profile.";
+"NEW_ADDRESS_BUTTON_TITLE" = "Add new address";
+"ADRESS_PICKER_NAVIGATION_TITLE" = "Select Address";

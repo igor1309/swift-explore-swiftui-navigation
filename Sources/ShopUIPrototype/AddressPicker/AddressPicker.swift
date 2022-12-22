@@ -30,14 +30,14 @@ public struct AddressPicker<NewAddressView: View>: View {
             }
             
             Button(action: viewModel.addAddressAction) {
-                Text("NEW_ADDRESS_BUTTON_TITLE")
+                Text("NEW_ADDRESS_BUTTON_TITLE", bundle: .module)
                     .padding(.vertical, 4)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
             .padding([.horizontal, .bottom])
         }
-        .navigationTitle("ADRESS_PICKER_NAVIGATION_TITLE")
+        .navigationTitle(Text("ADRESS_PICKER_NAVIGATION_TITLE", bundle: .module))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $viewModel.route) { route in
             switch route {
@@ -55,7 +55,7 @@ public struct AddressPicker<NewAddressView: View>: View {
                         .imageScale(.large)
                         .font(.system(size: 64).weight(.light))
                     
-                    Text("NO_ADDRESSES_IN_PROFILE_MESSAGE")
+                    Text("NO_ADDRESSES_IN_PROFILE_MESSAGE", bundle: .module)
                 }
                 .foregroundColor(.secondary)
             }
