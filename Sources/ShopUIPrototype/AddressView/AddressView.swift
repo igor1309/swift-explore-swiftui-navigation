@@ -32,7 +32,7 @@ struct AddressView: View {
         .font(.footnote.bold())
     }
     
-    private func selectAddressButton() -> Button<Label<Text, Image>> {
+    private func selectAddressButton() -> some View {
         return Button(action: selectAddressAction) {
             Label("Select Address", systemImage: "house.fill")
         }
