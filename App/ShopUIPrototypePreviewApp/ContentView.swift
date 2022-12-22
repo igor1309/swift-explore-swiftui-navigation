@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     // private let route: AppNavigation.Route? = nil
-    private let route: AppNavigation.Route? = Route.cards()
+    private let route: AppNavigation.Route? = Route.editProfile()
     
     var body: some View {
         AppView(

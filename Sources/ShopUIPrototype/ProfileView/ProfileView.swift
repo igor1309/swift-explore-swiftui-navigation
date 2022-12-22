@@ -39,6 +39,20 @@ public struct ProfileView<
     public var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
+                VStack(spacing: 9) {
+                    Text(viewModel.profile.name)
+                        .font(.title3.bold())
+                    
+                    Group {
+                        Text(viewModel.profile.email.rawValue)
+                        Text(viewModel.profile.phone.rawValue)
+                    }
+                    .foregroundColor(.secondary)
+                    .font(.subheadline)
+                }
+                
+                Divider()
+                
                 Text("Profile View for \(String(describing: viewModel.profile))")
                     .foregroundColor(.secondary)
                     .font(.caption)
