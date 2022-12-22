@@ -29,7 +29,7 @@ public struct AddressPicker<NewAddressView: View>: View {
                 listView()
             }
             
-            Button(action: viewModel.addAddressAction) {
+            Button(action: viewModel.addNewAddressAction) {
                 Text("NEW_ADDRESS_BUTTON_TITLE", bundle: .module)
                     .padding(.vertical, 4)
                     .frame(maxWidth: .infinity)
@@ -113,7 +113,7 @@ struct AddressEditorView_Previews: PreviewProvider {
                         route: route,
                         profile: profile,
                         selectAddress: { profile.address = $0 },
-                        addAddressAction: {}
+                        addNewAddressAction: {}
                     )
                 ) {
                     Text("Add new address injected view")

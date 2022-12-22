@@ -144,7 +144,7 @@ extension UIComposer {
                     profile: profile
                 ) { _ in
 #warning("fix this")
-                } addAddressAction: { [weak self] in
+                } addNewAddressAction: { [weak self] in
                     guard let self else { return }
                     
                     self.navigation.addNewAddressButtonTapped(profile: profile)

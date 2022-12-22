@@ -14,18 +14,18 @@ public final class AddressPickerModel: ObservableObject {
     private let profile: Profile
     
     let selectAddress: (Address) -> Void
-    let addAddressAction: () -> Void
+    let addNewAddressAction: () -> Void
 
     public init(
         route: Route? = nil,
         profile: Profile,
         selectAddress: @escaping (Address) -> Void,
-        addAddressAction: @escaping () -> Void
+        addNewAddressAction: @escaping () -> Void
     ) {
         self.route = route
         self.profile = profile
         self.selectAddress = selectAddress
-        self.addAddressAction = addAddressAction
+        self.addNewAddressAction = addNewAddressAction
     }
     
     var address: Address? {
