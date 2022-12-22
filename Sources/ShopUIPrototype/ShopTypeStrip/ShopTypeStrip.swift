@@ -33,7 +33,12 @@ where ShopTypeView: View,
             }
             .padding(.horizontal)
         }
-        .navigationDestination(unwrapping: $viewModel.route) { route in
+        .navigationDestination(
+            unwrapping: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            )
+        ) { route in
             switch route.wrappedValue {
             case let .shopType(shopType):
                 shopTypeDestination(shopType)

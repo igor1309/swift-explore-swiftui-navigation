@@ -9,8 +9,8 @@ import Foundation
 
 public final class ShopTypeStripViewModel: ObservableObject {
     
-    @Published var route: Route?
-    
+    @Published private(set) var route: Route?
+
     let shopTypes: ShopTypes
     
     public init(shopTypes: ShopTypes, route: Route? = nil) {
@@ -18,8 +18,12 @@ public final class ShopTypeStripViewModel: ObservableObject {
         self.route = route
     }
     
+    public func navigate(to route: Route?) {
+        self.route = route
+    }
+    
     func navigate(to shopType: ShopType) {
-        route = .shopType(shopType)
+        navigate(to: .shopType(shopType))
     }
     
     public enum Route: Hashable, Identifiable {
