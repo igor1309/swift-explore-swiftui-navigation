@@ -9,10 +9,7 @@
 public extension UIComposer {
     
     static func preview(navigation: AppNavigation) -> UIComposer {
-        .init(
-            navigation: navigation,
-            shops: .preview
-        )
+        .init(navigation: navigation)
     }
 }
 #endif

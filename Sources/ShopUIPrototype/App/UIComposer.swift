@@ -11,14 +11,8 @@ public final class UIComposer {
     
     let navigation: AppNavigation
     
-    private let shops: Shops
-    
-    public init(
-        navigation: AppNavigation,
-        shops: Shops
-    ) {
+    public init(navigation: AppNavigation) {
         self.navigation = navigation
-        self.shops = shops
     }
 }
 
@@ -44,6 +38,7 @@ extension UIComposer {
     
     public func makeShopTypeStrip(
         shopTypes: ShopTypes,
+        shops: Shops,
         route: ShopTypeStripViewModel.Route?
     ) -> some View {
         ShopTypeStrip(
@@ -52,7 +47,9 @@ extension UIComposer {
                 route: route
             ),
             shopTypeView: shopTypeImageView,
-            shopTypeDestination: shopTypeDestination
+            shopTypeDestination: {
+                self.shopTypeDestination(shopType: $0, shops: shops)
+            }
         )
     }
     
@@ -67,11 +64,14 @@ extension UIComposer {
         }
     }
     
-    private func shopTypeDestination(shopType: ShopType) -> some View {
+    private func shopTypeDestination(
+        shopType: ShopType,
+        shops: Shops
+    ) -> some View {
         ScrollView(showsIndicators: false) {
             ShopGridView(
                 viewModel: .init(
-                    shops: self.shops.filter({ $0.shopType == shopType })
+                    shops: shops.filter({ $0.shopType == shopType })
                 ),
                 shopView: makeShopView
             )

@@ -14,15 +14,16 @@ struct ContentView: View {
             profile: .preview,
             shopTypes: .preview,
             promos: .preview,
+            shops: .preview,
             uiComposer: .preview(
                 navigation: .init(
-//                     sheetRoute: .addressPicker()
-//                     sheetRoute: .addressPicker(.newAddress)
+                    // sheetRoute: .addressPicker()
+                    // sheetRoute: .addressPicker(.newAddress)
                     sheetRoute: .profile(.init(profile: .preview, route: .editProfile))
-//                    sheetRoute: .profile(.init(profile: .preview, route: .a))
-//                     route: .shop(.preview)
-//                    route: .shop(.init(shop: .preview, route: .category(.preview)))
-//                    route: .shop(.init(shop: .preview, route: .product(.preview)))
+                    // sheetRoute: .profile(.init(profile: .preview, route: .a))
+                    // route: .shop(.preview)
+                    // route: .shop(.init(shop: .preview, route: .category(.preview)))
+                    // route: .shop(.init(shop: .preview, route: .product(.preview)))
                 )
             )
         )

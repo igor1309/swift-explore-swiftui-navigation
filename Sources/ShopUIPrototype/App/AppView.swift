@@ -15,18 +15,21 @@ public struct AppView: View {
     private let profile: Profile
     private let shopTypes: ShopTypes
     private let promos: Promos
-
+    private let shops: Shops
+    
     @ObservedObject var navigation: AppNavigation
     
     public init(
         profile: Profile,
         shopTypes: ShopTypes,
         promos: Promos,
+        shops: Shops,
         uiComposer: UIComposer
     ) {
         self.profile = profile
         self.shopTypes = shopTypes
         self.promos = promos
+        self.shops = shops
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -44,6 +47,7 @@ public struct AppView: View {
                 shopTypeStrip: {
                     uiComposer.makeShopTypeStrip(
                         shopTypes: shopTypes,
+                        shops: shops,
                         route: nil
                     )
                 },
@@ -100,6 +104,7 @@ struct AppView_Previews: PreviewProvider {
             profile: .preview,
             shopTypes: .preview,
             promos: .preview,
+            shops: .preview,
             uiComposer: .preview(
                 navigation: .init(
                     route: route,
