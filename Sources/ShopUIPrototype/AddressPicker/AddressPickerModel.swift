@@ -9,8 +9,8 @@ import Foundation
 
 public final class AddressPickerModel: ObservableObject {
 
-    @Published var route: Route?
-    
+    @Published private(set) var route: Route?
+
     private let profile: Profile
     
     let selectAddress: (Address) -> Void
@@ -34,6 +34,10 @@ public final class AddressPickerModel: ObservableObject {
     
     var addresses: Addresses {
         profile.addresses
+    }
+    
+    public func navigate(to route: Route?) {
+        self.route = route
     }
     
     func isSelected(_ address: Address) -> Bool {

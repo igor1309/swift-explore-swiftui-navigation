@@ -39,7 +39,12 @@ public struct AddressPicker<NewAddressView: View>: View {
         }
         .navigationTitle(Text("ADRESS_PICKER_NAVIGATION_TITLE", bundle: .module))
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(item: $viewModel.route) { route in
+        .sheet(
+            item: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            )
+        ) { route in
             switch route {
             case .newAddress:
                 newAddressView()
