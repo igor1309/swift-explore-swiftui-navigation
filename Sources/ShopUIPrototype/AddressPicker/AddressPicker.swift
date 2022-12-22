@@ -110,8 +110,9 @@ struct AddressEditorView_Previews: PreviewProvider {
             NavigationStack {
                 AddressPicker(
                     viewModel: .init(
+                        address: profile.address,
+                        addresses: profile.addresses,
                         route: route,
-                        profile: profile,
                         selectAddress: { profile.address = $0 },
                         addNewAddressAction: {}
                     )

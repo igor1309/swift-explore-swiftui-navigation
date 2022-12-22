@@ -140,8 +140,9 @@ extension UIComposer {
         NavigationStack {
             AddressPicker(
                 viewModel: .init(
-                    route: route,
-                    profile: profile
+                    address: profile.address,
+                    addresses: profile.addresses,
+                    route: route
                 ) { _ in
 #warning("fix this")
                 } addNewAddressAction: { [weak self] in
