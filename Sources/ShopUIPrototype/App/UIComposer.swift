@@ -11,16 +11,13 @@ public final class UIComposer {
     
     let navigation: AppNavigation
     
-    private let promos: Promos
     private let shops: Shops
     
     public init(
         navigation: AppNavigation,
-        promos: Promos,
         shops: Shops
     ) {
         self.navigation = navigation
-        self.promos = promos
         self.shops = shops
     }
 }
@@ -95,7 +92,7 @@ extension UIComposer {
         NewFeatureView()
     }
     
-    public func makePromoStrip() -> some View {
+    public func makePromoStrip(promos: Promos) -> some View {
         PromoStrip(promos: promos, promoView: promoView)
     }
     

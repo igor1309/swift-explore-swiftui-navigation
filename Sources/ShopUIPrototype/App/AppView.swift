@@ -14,16 +14,19 @@ public struct AppView: View {
     #warning("move profile/shopTypes to view model")
     private let profile: Profile
     private let shopTypes: ShopTypes
+    private let promos: Promos
 
     @ObservedObject var navigation: AppNavigation
     
     public init(
         profile: Profile,
         shopTypes: ShopTypes,
+        promos: Promos,
         uiComposer: UIComposer
     ) {
         self.profile = profile
         self.shopTypes = shopTypes
+        self.promos = promos
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -46,7 +49,9 @@ public struct AppView: View {
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
-                promoStrip: uiComposer.makePromoStrip,
+                promoStrip: {
+                    uiComposer.makePromoStrip(promos: promos)
+                },
                 shopGridView: {
                     uiComposer.makeShopGridView(route: nil)
                 },
@@ -94,6 +99,7 @@ struct AppView_Previews: PreviewProvider {
         return AppView(
             profile: .preview,
             shopTypes: .preview,
+            promos: .preview,
             uiComposer: .preview(
                 navigation: .init(
                     route: route,

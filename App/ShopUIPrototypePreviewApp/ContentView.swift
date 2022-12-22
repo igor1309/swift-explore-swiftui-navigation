@@ -13,6 +13,7 @@ struct ContentView: View {
         AppView(
             profile: .preview,
             shopTypes: .preview,
+            promos: .preview,
             uiComposer: .preview(
                 navigation: .init(
 //                     sheetRoute: .addressPicker()
