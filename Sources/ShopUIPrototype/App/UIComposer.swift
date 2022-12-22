@@ -10,21 +10,18 @@ import SwiftUI
 public final class UIComposer {
     
     let navigation: AppNavigation
-    
-    private let profile: Profile
+
     private let shopTypes: ShopTypes
     private let promos: Promos
     private let shops: Shops
     
     public init(
         navigation: AppNavigation,
-        profile: Profile,
         shopTypes: ShopTypes,
         promos: Promos,
         shops: Shops
     ) {
         self.navigation = navigation
-        self.profile = profile
         self.shopTypes = shopTypes
         self.promos = promos
         self.shops = shops
@@ -34,14 +31,13 @@ public final class UIComposer {
 // MARK: - Main Page Components
 
 extension UIComposer {
-    
+    #warning("remove all `...Route? = nil`")
     @ViewBuilder
     public func makeAddressView(
+        street: Address.Street?,
         route: AddressPickerModel.Route? = nil
     ) -> some View {
-        let street = profile.address?.street.rawValue
-        
-        AddressView(street: street) { [weak self] in
+        AddressView(street: street?.rawValue) { [weak self] in
             self?.navigation.navigate(to: .addressPicker(route))
         }
         .padding(.horizontal)
@@ -52,7 +48,8 @@ extension UIComposer {
             .padding(.horizontal)
     }
     
-    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route? = nil) -> some View {
+    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route? = nil
+    ) -> some View {
         ShopTypeStrip(
             viewModel: .init(
                 shopTypes: shopTypes,
@@ -122,11 +119,11 @@ extension UIComposer {
         .padding(.horizontal)
     }
     
-    public func makeShowProfileButton() -> some View {
+    public func makeShowProfileButton(profile: Profile) -> some View {
         ShowProfileButton(profile: profile) { [weak self] in
             guard let self else { return }
             
-            self.navigation.showProfileButtonTapped(profile: self.profile)
+            self.navigation.showProfileButtonTapped(profile: profile)
         }
     }
 }
@@ -137,19 +134,20 @@ extension UIComposer {
     
 #warning("fix this - need profile binding")
     public func makeAddressPicker(
+        profile: Profile,
         route: AddressPickerModel.Route?
     ) -> some View {
         NavigationStack {
             AddressPicker(
                 viewModel: .init(
                     route: route,
-                    profile: self.profile
+                    profile: profile
                 ) { _ in
 #warning("fix this")
                 } addAddressAction: { [weak self] in
                     guard let self else { return }
                     
-                    self.navigation.addNewAddressButtonTapped(profile: self.profile)
+                    self.navigation.addNewAddressButtonTapped(profile: profile)
                 }
             ) {
                 self.newAddressView()
@@ -195,12 +193,13 @@ extension UIComposer {
     
     @ViewBuilder
     public func makeSheetDestination(
+        profile: Profile,
         route: Binding<AppNavigation.Sheet>
     ) -> some View {
         
         switch route.wrappedValue {
         case let .addressPicker(route):
-            makeAddressPicker(route: route)
+            makeAddressPicker(profile: profile, route: route)
             
         case let .profile(viewModel):
             NavigationStack {

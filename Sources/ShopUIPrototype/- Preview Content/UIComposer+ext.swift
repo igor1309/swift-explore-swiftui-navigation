@@ -11,7 +11,6 @@ public extension UIComposer {
     static func preview(navigation: AppNavigation) -> UIComposer {
         .init(
             navigation: navigation,
-            profile: .preview,
             shopTypes: .preview,
             promos: .preview,
             shops: .preview

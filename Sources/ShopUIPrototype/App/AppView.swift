@@ -10,13 +10,17 @@ import SwiftUINavigation
 
 public struct AppView: View {
     
-    let uiComposer: UIComposer
+    private let uiComposer: UIComposer
+    #warning("move profile to view model")
+    private let profile: Profile
     
     @ObservedObject var navigation: AppNavigation
     
     public init(
+        profile: Profile,
         uiComposer: UIComposer
     ) {
+        self.profile = profile
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -25,7 +29,9 @@ public struct AppView: View {
         NavigationStack {
             MainPage(
                 addressView: {
-                    uiComposer.makeAddressView()
+                    uiComposer.makeAddressView(
+                        street: profile.address?.street
+                    )
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 shopTypeStrip: {
@@ -38,7 +44,9 @@ public struct AppView: View {
                     uiComposer.makeShopGridView()
                 },
                 showProfileButton: {
-                    uiComposer.makeShowProfileButton()
+                    uiComposer.makeShowProfileButton(
+                        profile: profile
+                    )
                 }
             )
             .sheet(
@@ -46,7 +54,12 @@ public struct AppView: View {
                     get: { navigation.sheet },
                     set: { navigation.navigate(to: $0) }
                 ),
-                content: uiComposer.makeSheetDestination(route:)
+                content: {
+                    uiComposer.makeSheetDestination(
+                        profile: profile,
+                        route: $0
+                    )
+                }
             )
             .navigationDestination(
                 unwrapping: .init(
@@ -72,6 +85,7 @@ struct AppView_Previews: PreviewProvider {
         let sheetRouteCase = sheetRoute?.routeCase.rawValue ?? ""
         
         return AppView(
+            profile: .preview,
             uiComposer: .preview(
                 navigation: .init(
                     route: route,

@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         AppView(
+            profile: .preview,
             uiComposer: .preview(
                 navigation: .init(
 //                     sheetRoute: .addressPicker()
