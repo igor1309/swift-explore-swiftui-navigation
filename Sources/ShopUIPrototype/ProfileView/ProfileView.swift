@@ -8,12 +8,32 @@
 import SwiftUI
 import SwiftUINavigation
 
-public struct ProfileView: View {
+public struct ProfileView<
+    ProfileEditor: View,
+    OrderHistoryView: View,
+    FaqView: View,
+    CardsView: View
+>: View {
     
     @ObservedObject private var viewModel: ProfileViewModel
     
-    public init(viewModel: ProfileViewModel) {
+    private let profileEditor: (Profile) -> ProfileEditor
+    private let orderHistoryView: () -> OrderHistoryView
+    private let faqView: () -> FaqView
+    private let cardsView: () -> CardsView
+    
+    public init(
+        viewModel: ProfileViewModel,
+        profileEditor: @escaping (Profile) -> ProfileEditor,
+        orderHistoryView: @escaping () -> OrderHistoryView,
+        faqView: @escaping () -> FaqView,
+        cardsView: @escaping () -> CardsView
+    ) {
         self.viewModel = viewModel
+        self.profileEditor = profileEditor
+        self.orderHistoryView = orderHistoryView
+        self.faqView = faqView
+        self.cardsView = cardsView
     }
     
     public var body: some View {
@@ -41,16 +61,16 @@ public struct ProfileView: View {
         ) { route in
             switch route.wrappedValue {
             case .editProfile:
-                Text("TBD: Edit profile")
+                profileEditor(viewModel.profile)
                 
             case .orderHistory:
-                Text("TBD: Order History")
+                orderHistoryView()
                 
             case .faq:
-                Text("TBD: FAQ")
+                faqView()
                 
             case .cards:
-                Text("TBD: Your Cards")
+                cardsView()
             }
         }
     }
@@ -70,14 +90,26 @@ public struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     
     private typealias Route = ProfileViewModel.Route
-
+    
     private static func profileView(route: Route? = nil) -> some View {
         NavigationStack {
             ProfileView(
                 viewModel: .init(
                     profile: .preview,
                     route: route
-                )
+                ),
+                profileEditor: { profile in
+                    Text("TBD: Edit profile \(profile.id.rawValue.uuidString)")
+                },
+                orderHistoryView: {
+                    Text("TBD: Order History")
+                },
+                faqView: {
+                    Text("TBD: FAQ")
+                },
+                cardsView: {
+                    Text("TBD: Your Cards")
+                }
             )
         }
     }

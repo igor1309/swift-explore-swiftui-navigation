@@ -187,7 +187,41 @@ extension UIComposer {
     }
     
     public func makeProfileView(viewModel: ProfileViewModel) -> some View {
-        ProfileView(viewModel: viewModel)
+        ProfileView(
+            viewModel: viewModel,
+            profileEditor: makeProfileEditor,
+            orderHistoryView: orderHistoryView,
+            faqView: faqView,
+            cardsView: cardsView
+        )
+    }
+    
+    func makeProfileEditor(profile: Profile) -> some View {
+        ProfileEditor(
+            user: .init(
+                name: profile.name,
+                email: profile.email,
+                phone: profile.phone
+            ),
+            saveProfile: { _ in
+#warning("need to dismiss")
+            },
+            deleteAccount: {
+#warning("finish this")
+            }
+        )
+    }
+    
+    func orderHistoryView() -> some View {
+        Text("TBD: Order History")
+    }
+    
+    func faqView() -> some View {
+        Text("TBD: FAQ")
+    }
+    
+    func cardsView() -> some View {
+        Text("TBD: Your Cards")
     }
     
     @ViewBuilder

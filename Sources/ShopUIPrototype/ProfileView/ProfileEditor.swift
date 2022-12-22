@@ -78,12 +78,6 @@ struct ProfileEditor: View {
         var name: String
         var email: Email
         var phone: Phone
-        
-        typealias Email = Tagged<EmailType, String>
-        enum EmailType {}
-        
-        typealias Phone = Tagged<PhoneType, String>
-        enum PhoneType {}
     }
 }
 
