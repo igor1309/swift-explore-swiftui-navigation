@@ -186,6 +186,7 @@ extension UIComposer {
         PromoView()
     }
     
+    #warning("ProfileView does not update on changes in ProfileEditor!")
     public func makeProfileView(viewModel: ProfileViewModel) -> some View {
         ProfileView(
             viewModel: viewModel,
@@ -203,11 +204,16 @@ extension UIComposer {
                 email: profile.email,
                 phone: profile.phone
             ),
-            saveProfile: { _ in
-#warning("need to dismiss")
+            saveProfile: { [weak self] user in
+                self?.appViewModel.updateProfile(
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone
+                )
+                #warning("need to dismiss")
             },
             deleteAccount: {
-#warning("finish this")
+                #warning("finish this")
             }
         )
     }
