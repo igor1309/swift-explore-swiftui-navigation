@@ -42,11 +42,17 @@ public struct AppView: View {
                 }
             )
             .sheet(
-                unwrapping: $navigation.sheet,
+                unwrapping: .init(
+                    get: { navigation.sheet },
+                    set: { navigation.navigate(to: $0) }
+                ),
                 content: uiComposer.makeSheetDestination(route:)
             )
             .navigationDestination(
-                unwrapping: $navigation.route,
+                unwrapping: .init(
+                    get: { navigation.route },
+                    set: { navigation.navigate(to: $0) }
+                ),
                 destination: uiComposer.makeNavigationDestination(route:)
             )
         }

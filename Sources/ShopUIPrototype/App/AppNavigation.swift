@@ -10,8 +10,8 @@ import Tagged
 
 public final class AppNavigation: ObservableObject {
     
-    @Published var route: Route?
-    @Published var sheet: Sheet?
+    @Published private(set) var route: Route?
+    @Published private(set) var sheet: Sheet?
     
     public init(route: Route? = nil, sheetRoute: Sheet? = nil) {
         self.route = route
@@ -20,6 +20,14 @@ public final class AppNavigation: ObservableObject {
 }
 
 extension AppNavigation {
+    
+    public func navigate(to route: Route?) {
+        self.route = route
+    }
+    
+    public func navigate(to sheet: Sheet?) {
+        self.sheet = sheet
+    }
     
     public func showProfileButtonTapped(profile: Profile) {
         sheet = .profile(.init(profile: profile))

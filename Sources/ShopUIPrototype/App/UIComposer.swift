@@ -42,7 +42,7 @@ extension UIComposer {
         let street = profile.address?.street.rawValue
         
         AddressView(street: street) { [weak self] in
-            self?.navigation.sheet = .addressPicker(route)
+            self?.navigation.navigate(to: .addressPicker(route))
         }
         .padding(.horizontal)
     }
