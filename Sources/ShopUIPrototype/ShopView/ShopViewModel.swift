@@ -9,12 +9,16 @@ import Foundation
 
 public final class ShopViewModel: ObservableObject {
     
-    @Published var route: Route?
-    
+    @Published private(set) var route: Route?
+
     let shop: Shop
     
     public init(shop: Shop, route: Route? = nil) {
         self.shop = shop
+        self.route = route
+    }
+    
+    public func navigate(to route: Route?) {
         self.route = route
     }
     

@@ -45,7 +45,12 @@ where CategoryView: View,
         }
         .searchable(text: .constant(""))
         .navigationTitle(viewModel.shop.title)
-        .navigationDestination(unwrapping: $viewModel.route) { route in
+        .navigationDestination(
+            unwrapping: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            )
+        ) { route in
             switch route.wrappedValue {
             case let .category(category):
                 categoryView(category)
