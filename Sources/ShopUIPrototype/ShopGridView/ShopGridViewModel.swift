@@ -9,8 +9,8 @@ import Foundation
 
 public final class ShopGridViewModel: ObservableObject {
     
-    @Published var route: Route?
-    
+    @Published private(set) var route: Route?
+
     let shops: Shops
     
     public init(shops: Shops, route: Route? = nil) {
@@ -18,8 +18,12 @@ public final class ShopGridViewModel: ObservableObject {
         self.route = route
     }
     
+    public func navigate(to route: Route?) {
+        self.route = route
+    }
+    
     func navigate(to shop: Shop) {
-        route = .shop(shop)
+        navigate(to: .shop(shop))
     }
     
     public enum Route: Hashable, Identifiable {

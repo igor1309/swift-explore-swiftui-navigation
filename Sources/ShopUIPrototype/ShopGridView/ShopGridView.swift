@@ -29,7 +29,12 @@ public struct ShopGridView<ShopView: View>: View {
         LazyVGrid(columns: [.init(), .init()]) {
             ForEach(viewModel.shops, content: shopTileView)
         }
-        .navigationDestination(unwrapping: $viewModel.route) { route in
+        .navigationDestination(
+            unwrapping: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            )
+        ) { route in
             switch route.wrappedValue {
             case let .shop(shop):
                 shopView(shop)
