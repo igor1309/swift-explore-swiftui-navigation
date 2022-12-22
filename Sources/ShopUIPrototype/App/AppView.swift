@@ -11,25 +11,15 @@ import SwiftUINavigation
 public struct AppView: View {
     
     private let uiComposer: UIComposer
-    #warning("move profile/shopTypes to view model")
-    private let profile: Profile
-    private let shopTypes: ShopTypes
-    private let promos: Promos
-    private let shops: Shops
     
     @ObservedObject var navigation: AppNavigation
-    
+    @ObservedObject var viewModel: AppViewModel
+
     public init(
-        profile: Profile,
-        shopTypes: ShopTypes,
-        promos: Promos,
-        shops: Shops,
+        viewModel: AppViewModel,
         uiComposer: UIComposer
     ) {
-        self.profile = profile
-        self.shopTypes = shopTypes
-        self.promos = promos
-        self.shops = shops
+        self.viewModel = viewModel
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -39,29 +29,31 @@ public struct AppView: View {
             MainPage(
                 addressView: {
                     uiComposer.makeAddressView(
-                        street: profile.address?.street,
+                        street: viewModel.profile.address?.street,
                         route: nil
                     )
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 shopTypeStrip: {
                     uiComposer.makeShopTypeStrip(
-                        shopTypes: shopTypes,
-                        shops: shops,
+                        shopTypes: viewModel.shopTypes,
+                        shops: viewModel.shops,
                         route: nil
                     )
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
                 promoStrip: {
-                    uiComposer.makePromoStrip(promos: promos)
+                    uiComposer.makePromoStrip(
+                        promos: viewModel.promos
+                    )
                 },
                 shopGridView: {
                     uiComposer.makeShopGridView(route: nil)
                 },
                 showProfileButton: {
                     uiComposer.makeShowProfileButton(
-                        profile: profile
+                        profile: viewModel.profile
                     )
                 }
             )
@@ -72,7 +64,7 @@ public struct AppView: View {
                 ),
                 content: {
                     uiComposer.makeSheetDestination(
-                        profile: profile,
+                        profile: viewModel.profile,
                         route: $0
                     )
                 }
@@ -101,10 +93,12 @@ struct AppView_Previews: PreviewProvider {
         let sheetRouteCase = sheetRoute?.routeCase.rawValue ?? ""
         
         return AppView(
-            profile: .preview,
-            shopTypes: .preview,
-            promos: .preview,
-            shops: .preview,
+            viewModel: .init(
+                profile: .preview,
+                shopTypes: .preview,
+                promos: .preview,
+                shops: .preview
+            ),
             uiComposer: .preview(
                 navigation: .init(
                     route: route,
