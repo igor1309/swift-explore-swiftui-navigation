@@ -14,7 +14,7 @@ public struct AppView: View {
     
     @ObservedObject var navigation: AppNavigation
     @ObservedObject var viewModel: AppViewModel
-
+    
     public init(
         uiComposer: UIComposer
     ) {
@@ -58,9 +58,10 @@ public struct AppView: View {
             )
             .sheet(
                 unwrapping: .init(
-                    get: { navigation.sheet },
+                    get: { navigation.route },
                     set: { navigation.navigate(to: $0) }
                 ),
+                case: /AppNavigation.Route.sheet,
                 content: {
                     uiComposer.makeSheetDestination(
                         profile: viewModel.profile,
@@ -73,6 +74,7 @@ public struct AppView: View {
                     get: { navigation.route },
                     set: { navigation.navigate(to: $0) }
                 ),
+                case: /AppNavigation.Route.navigation,
                 destination: uiComposer.makeNavigationDestination(route:)
             )
         }
@@ -82,21 +84,15 @@ public struct AppView: View {
 struct AppView_Previews: PreviewProvider {
     
     static let routes: [AppNavigation.Route?] = .routes
-    static let sheets: [AppNavigation.Sheet?] = .routes
     
     static func appView(
-        route: AppNavigation.Route? = nil,
-        sheet: AppNavigation.Sheet? = nil
+        route: AppNavigation.Route? = nil
     ) -> some View {
         let routeCase = route?.routeCase.rawValue ?? ""
-        let sheetCase = sheet?.routeCase.rawValue ?? ""
         
         return AppView(
             uiComposer: .init(
-                navigation: .init(
-                    route: route,
-                    sheet: sheet
-                ),
+                navigation: .init(route: route),
                 appViewModel: .init(
                     profile: .preview,
                     shopTypes: .preview,
@@ -105,16 +101,12 @@ struct AppView_Previews: PreviewProvider {
                 )
             )
         )
-        .previewDisplayName(routeCase + " " + sheetCase)
+        .previewDisplayName(routeCase)
     }
     
     static var previews: some View {
-        ForEach(sheets, id: \.self) { sheet in
-            ForEach(routes, id: \.self) { route in
-                appView(route: route, sheet: sheet)
-            }
-        }
-        .preferredColorScheme(.dark)
+        ForEach(routes, id: \.self, content: appView)
+            .preferredColorScheme(.dark)
     }
 }
 
@@ -123,64 +115,53 @@ private extension Array where Element == AppNavigation.Route? {
     
     static let routes: Self = [
         .none,
-        .shopType(.preview),
-        .featuredShop(.preview),
-        .newFeature(.preview),
-        .promo(.preview),
-        .shop(.preview),
-    ]
-}
-
-private extension Array where Element == AppNavigation.Sheet? {
-    
-    static let routes: Self = [
-        .none,
-        .addressPicker(),
-        .addressPicker(.newAddress),
-        .profile(.preview),
+        .sheet(.addressPicker()),
+        .sheet(.addressPicker(.newAddress)),
+        .sheet(.profile(.preview)),
+        .navigation(.shopType(.preview)),
+        .navigation(.featuredShop(.preview)),
+        .navigation(.newFeature(.preview)),
+        .navigation(.promo(.preview)),
+        .navigation(.shop(.preview)),
     ]
 }
 private extension AppNavigation.Route {
     
     var routeCase: RouteCase {
         switch self {
-        case .shopType:
-            return .shopType
-        case .featuredShop:
-            return .featuredShop
-        case .newFeature:
-            return .newFeature
-        case .promo:
-            return .promo
-        case .shop:
-            return .shop
-        }
-    }
-    
-    enum RouteCase: String {
-        case newAddress
-        case shopType
-        case featuredShop
-        case newFeature
-        case promo
-        case shop
-    }
-}
-
-private extension AppNavigation.Sheet {
-    
-    var routeCase: RouteCase {
-        switch self {
-        case .addressPicker:
-            return .addressPicker
-        case .profile:
-            return .profile
+        case let .sheet(sheet):
+            switch sheet {
+            case .profile:
+                return .profile
+            case .addressPicker:
+                return .addressPicker
+            }
+            
+        case let .navigation(navigation):
+            switch navigation {
+            case .shopType:
+                return .shopType
+            case .featuredShop:
+                return .featuredShop
+            case .newFeature:
+                return .newFeature
+            case .promo:
+                return .promo
+            case .shop:
+                return .shop
+            }
         }
     }
     
     enum RouteCase: String {
         case addressPicker
         case profile
+        case newAddress
+        case shopType
+        case featuredShop
+        case newFeature
+        case promo
+        case shop
     }
 }
 #endif

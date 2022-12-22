@@ -194,7 +194,7 @@ extension UIComposer {
     @ViewBuilder
     public func makeSheetDestination(
         profile: Profile,
-        route: Binding<AppNavigation.Sheet>
+        route: Binding<AppNavigation.Route.Sheet>
     ) -> some View {
         
         switch route.wrappedValue {
@@ -210,7 +210,7 @@ extension UIComposer {
     
     @ViewBuilder
     public func makeNavigationDestination(
-        route: Binding<AppNavigation.Route>
+        route: Binding<AppNavigation.Route.Navigation>
     ) -> some View {
         
         switch route.wrappedValue {

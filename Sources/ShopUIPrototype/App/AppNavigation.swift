@@ -9,13 +9,11 @@ import Foundation
 import Tagged
 
 public final class AppNavigation: ObservableObject {
-    #warning("combine into one property to eliminate impossible states")
+
     @Published private(set) var route: Route?
-    @Published private(set) var sheet: Sheet?
     
-    public init(route: Route? = nil, sheet: Sheet? = nil) {
+    public init(route: Route? = nil) {
         self.route = route
-        self.sheet = sheet
     }
 }
 
@@ -25,35 +23,47 @@ extension AppNavigation {
         self.route = route
     }
     
-    public func navigate(to sheet: Sheet?) {
-        self.sheet = sheet
+    public func navigate(to sheet: Route.Sheet) {
+        navigate(to: .sheet(sheet))
+    }
+    
+    public func navigate(to navigation: Route.Navigation) {
+        navigate(to: .navigation(navigation))
     }
     
     public func showProfileButtonTapped(profile: Profile) {
-        sheet = .profile(.init(profile: profile))
+        navigate(to: .profile(.init(profile: profile)))
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {
-        sheet = .addressPicker(.newAddress)
+        navigate(to: .addressPicker(.newAddress))
     }
 }
 
 extension AppNavigation {
     
-    public enum Sheet: Hashable, Identifiable {
-        case addressPicker(AddressPickerModel.Route? = nil)
-        case profile(ProfileViewModel)
-        
-        public var id: Self { self }
-    }
-    
     public enum Route: Hashable, Identifiable {
-        case shopType(ShopType)
-        case featuredShop(Shop)
-        case newFeature(Feature)
-        case promo(Promo)
-        case shop(ShopViewModel)
+        
+        case navigation(Navigation)
+        case sheet(Sheet)
         
         public var id: Self { self }
+        
+        public enum Sheet: Hashable, Identifiable {
+            case addressPicker(AddressPickerModel.Route? = nil)
+            case profile(ProfileViewModel)
+            
+            public var id: Self { self }
+        }
+        
+        public enum Navigation: Hashable, Identifiable {
+            case shopType(ShopType)
+            case featuredShop(Shop)
+            case newFeature(Feature)
+            case promo(Promo)
+            case shop(ShopViewModel)
+            
+            public var id: Self { self }
+        }
     }
 }
