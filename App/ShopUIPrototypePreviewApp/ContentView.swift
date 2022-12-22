@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private let route: AppNavigation.Route? = nil//Route.product()
+    // private let route: AppNavigation.Route? = nil
+    private let route: AppNavigation.Route? = Route.cards()
     
     var body: some View {
         AppView(
@@ -46,6 +47,15 @@ private enum Route {
     }
     static func editProfile() -> AppNavigation.Route {
         .sheet(.profile(.init(profile: .preview, route: .editProfile)))
+    }
+    static func orderHistory() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: .orderHistory)))
+    }
+    static func faq() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: .faq)))
+    }
+    static func cards() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: .cards)))
     }
     static func shop() -> AppNavigation.Route {
         .navigation(.shop(.preview))
