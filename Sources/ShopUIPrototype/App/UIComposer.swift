@@ -10,7 +10,7 @@ import SwiftUI
 public final class UIComposer {
     
     let navigation: AppNavigation
-
+    
     private let shopTypes: ShopTypes
     private let promos: Promos
     private let shops: Shops
@@ -31,11 +31,11 @@ public final class UIComposer {
 // MARK: - Main Page Components
 
 extension UIComposer {
-    #warning("remove all `...Route? = nil`")
+    
     @ViewBuilder
     public func makeAddressView(
         street: Address.Street?,
-        route: AddressPickerModel.Route? = nil
+        route: AddressPickerModel.Route?
     ) -> some View {
         AddressView(street: street?.rawValue) { [weak self] in
             self?.navigation.navigate(to: .addressPicker(route))
@@ -48,7 +48,7 @@ extension UIComposer {
             .padding(.horizontal)
     }
     
-    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route? = nil
+    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route?
     ) -> some View {
         ShopTypeStrip(
             viewModel: .init(
@@ -108,7 +108,9 @@ extension UIComposer {
             .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
     }
     
-    public func makeShopGridView(route: ShopGridViewModel.Route? = nil) -> some View {
+    public func makeShopGridView(
+        route: ShopGridViewModel.Route?
+    ) -> some View {
         ShopGridView(
             viewModel: .init(
                 shops: .preview,

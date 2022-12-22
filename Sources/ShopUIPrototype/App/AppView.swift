@@ -30,18 +30,19 @@ public struct AppView: View {
             MainPage(
                 addressView: {
                     uiComposer.makeAddressView(
-                        street: profile.address?.street
+                        street: profile.address?.street,
+                        route: nil
                     )
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 shopTypeStrip: {
-                    uiComposer.makeShopTypeStrip()
+                    uiComposer.makeShopTypeStrip(route: nil)
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
                 promoStrip: uiComposer.makePromoStrip,
                 shopGridView: {
-                    uiComposer.makeShopGridView()
+                    uiComposer.makeShopGridView(route: nil)
                 },
                 showProfileButton: {
                     uiComposer.makeShowProfileButton(
