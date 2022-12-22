@@ -10,9 +10,11 @@ import SwiftUI
 public final class UIComposer {
     
     let navigation: AppNavigation
+    let appViewModel: AppViewModel
     
-    public init(navigation: AppNavigation) {
+    public init(navigation: AppNavigation, appViewModel: AppViewModel) {
         self.navigation = navigation
+        self.appViewModel = appViewModel
     }
 }
 

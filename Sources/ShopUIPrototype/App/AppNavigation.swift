@@ -9,13 +9,13 @@ import Foundation
 import Tagged
 
 public final class AppNavigation: ObservableObject {
-    
+    #warning("combine into one property to eliminate impossible states")
     @Published private(set) var route: Route?
     @Published private(set) var sheet: Sheet?
     
-    public init(route: Route? = nil, sheetRoute: Sheet? = nil) {
+    public init(route: Route? = nil, sheet: Sheet? = nil) {
         self.route = route
-        self.sheet = sheetRoute
+        self.sheet = sheet
     }
 }
 

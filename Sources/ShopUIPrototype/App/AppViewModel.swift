@@ -25,4 +25,8 @@ public final class AppViewModel: ObservableObject {
         self.promos = promos
         self.shops = shops
     }
+    
+    func setAddress(to address: Address) {
+        profile.address = address
+    }
 }

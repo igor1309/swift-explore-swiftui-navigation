@@ -16,12 +16,11 @@ public struct AppView: View {
     @ObservedObject var viewModel: AppViewModel
 
     public init(
-        viewModel: AppViewModel,
         uiComposer: UIComposer
     ) {
-        self.viewModel = viewModel
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
+        self.viewModel = uiComposer.appViewModel
     }
     
     public var body: some View {
@@ -83,36 +82,36 @@ public struct AppView: View {
 struct AppView_Previews: PreviewProvider {
     
     static let routes: [AppNavigation.Route?] = .routes
-    static let sheetRoutes: [AppNavigation.Sheet?] = .routes
+    static let sheets: [AppNavigation.Sheet?] = .routes
     
     static func appView(
         route: AppNavigation.Route? = nil,
-        sheetRoute: AppNavigation.Sheet? = nil
+        sheet: AppNavigation.Sheet? = nil
     ) -> some View {
         let routeCase = route?.routeCase.rawValue ?? ""
-        let sheetRouteCase = sheetRoute?.routeCase.rawValue ?? ""
+        let sheetCase = sheet?.routeCase.rawValue ?? ""
         
         return AppView(
-            viewModel: .init(
-                profile: .preview,
-                shopTypes: .preview,
-                promos: .preview,
-                shops: .preview
-            ),
-            uiComposer: .preview(
+            uiComposer: .init(
                 navigation: .init(
                     route: route,
-                    sheetRoute: sheetRoute
+                    sheet: sheet
+                ),
+                appViewModel: .init(
+                    profile: .preview,
+                    shopTypes: .preview,
+                    promos: .preview,
+                    shops: .preview
                 )
             )
         )
-        .previewDisplayName(routeCase + " " + sheetRouteCase)
+        .previewDisplayName(routeCase + " " + sheetCase)
     }
     
     static var previews: some View {
-        ForEach(sheetRoutes, id: \.self) { sheetRoute in
+        ForEach(sheets, id: \.self) { sheet in
             ForEach(routes, id: \.self) { route in
-                appView(route: route, sheetRoute: sheetRoute)
+                appView(route: route, sheet: sheet)
             }
         }
         .preferredColorScheme(.dark)
