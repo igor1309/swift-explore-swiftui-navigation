@@ -11,16 +11,19 @@ import SwiftUINavigation
 public struct AppView: View {
     
     private let uiComposer: UIComposer
-    #warning("move profile to view model")
+    #warning("move profile/shopTypes to view model")
     private let profile: Profile
-    
+    private let shopTypes: ShopTypes
+
     @ObservedObject var navigation: AppNavigation
     
     public init(
         profile: Profile,
+        shopTypes: ShopTypes,
         uiComposer: UIComposer
     ) {
         self.profile = profile
+        self.shopTypes = shopTypes
         self.uiComposer = uiComposer
         self.navigation = uiComposer.navigation
     }
@@ -36,7 +39,10 @@ public struct AppView: View {
                 },
                 deliveryTypePicker: uiComposer.makeDeliveryTypePicker,
                 shopTypeStrip: {
-                    uiComposer.makeShopTypeStrip(route: nil)
+                    uiComposer.makeShopTypeStrip(
+                        shopTypes: shopTypes,
+                        route: nil
+                    )
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
                 newFeatureView: uiComposer.makeNewFeatureView,
@@ -87,6 +93,7 @@ struct AppView_Previews: PreviewProvider {
         
         return AppView(
             profile: .preview,
+            shopTypes: .preview,
             uiComposer: .preview(
                 navigation: .init(
                     route: route,

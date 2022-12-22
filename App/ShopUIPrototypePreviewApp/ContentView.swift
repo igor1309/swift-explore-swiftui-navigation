@@ -12,6 +12,7 @@ struct ContentView: View {
     var body: some View {
         AppView(
             profile: .preview,
+            shopTypes: .preview,
             uiComposer: .preview(
                 navigation: .init(
 //                     sheetRoute: .addressPicker()

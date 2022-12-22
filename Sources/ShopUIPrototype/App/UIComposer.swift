@@ -11,18 +11,15 @@ public final class UIComposer {
     
     let navigation: AppNavigation
     
-    private let shopTypes: ShopTypes
     private let promos: Promos
     private let shops: Shops
     
     public init(
         navigation: AppNavigation,
-        shopTypes: ShopTypes,
         promos: Promos,
         shops: Shops
     ) {
         self.navigation = navigation
-        self.shopTypes = shopTypes
         self.promos = promos
         self.shops = shops
     }
@@ -48,7 +45,9 @@ extension UIComposer {
             .padding(.horizontal)
     }
     
-    public func makeShopTypeStrip(route: ShopTypeStripViewModel.Route?
+    public func makeShopTypeStrip(
+        shopTypes: ShopTypes,
+        route: ShopTypeStripViewModel.Route?
     ) -> some View {
         ShopTypeStrip(
             viewModel: .init(
