@@ -29,4 +29,14 @@ public final class AppViewModel: ObservableObject {
     func setAddress(to address: Address) {
         profile.address = address
     }
+    
+    func updateProfile(
+        name: String,
+        email: Email,
+        phone: Phone
+    ) {
+        profile.name = name
+        profile.email = email
+        profile.phone = phone
+    }
 }
