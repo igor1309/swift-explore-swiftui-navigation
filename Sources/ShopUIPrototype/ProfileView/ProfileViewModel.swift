@@ -9,8 +9,8 @@ import Foundation
 
 public final class ProfileViewModel: ObservableObject {
     
-    @Published var route: Route?
-    
+    @Published private(set) var route: Route?
+
     let profile: Profile
     
     public init(
@@ -21,12 +21,12 @@ public final class ProfileViewModel: ObservableObject {
         self.route = route
     }
     
-    func editProfileButtonTapped() {
-        navigate(to: .editProfile)
+    public func navigate(to route: Route?) {
+        self.route = route
     }
     
-    private func navigate(to route: Route) {
-        self.route = route
+    func editProfileButtonTapped() {
+        navigate(to: .editProfile)
     }
     
     private func resetRoute() {

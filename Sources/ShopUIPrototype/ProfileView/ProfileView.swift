@@ -33,7 +33,12 @@ public struct ProfileView: View {
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: toolbar)
-        .navigationDestination(unwrapping: $viewModel.route) { route in
+        .navigationDestination(
+            unwrapping: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            )
+        ) { route in
             switch route.wrappedValue {
             case .editProfile:
                 Text("TBD: Edit profile")
