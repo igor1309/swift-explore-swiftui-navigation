@@ -10,14 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-//    private let route = AppNavigation.Route.sheet(.addressPicker())
-//    private let route = AppNavigation.Route.sheet(.addressPicker(.newAddress))
-//    private let route = AppNavigation.Route.sheet(.profile(.init(profile: .preview, route: .editProfile)))
-//    private let routeRoute = AppNavigation.Route.sheet(.profile(.init(profile: .preview, route: .a)))
-//    private let route = AppNavigation.Route.shop(.preview)
-    private let route = AppNavigation.Route.navigation(.shop(.init(shop: .preview, route: .category(.preview))))
-//    private let route = AppNavigation.Route.shop(.init(shop: .preview, route: .product(.preview)))
-
+    private let route: AppNavigation.Route? = nil//Route.product()
     
     var body: some View {
         AppView(
@@ -37,5 +30,31 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+// MARK: - Helpers
+
+/// namespace
+private enum Route {
+    
+    static func addressPicker() -> AppNavigation.Route {
+        .sheet(.addressPicker())
+    }
+    static func newAddress() -> AppNavigation.Route {
+        .sheet(.addressPicker(.newAddress))
+    }
+    static func editProfile() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: .editProfile)))
+    }
+    static func shop() -> AppNavigation.Route {
+        .navigation(.shop(.preview))
+    }
+    static func categoryInShop() -> AppNavigation.Route {
+        .navigation(.shop(.init(shop: .preview, route:
+                .category(.preview))))
+    }
+    static func product() -> AppNavigation.Route {
+        .navigation(.shop(.init(shop: .preview, route: .product(.preview))))
     }
 }
