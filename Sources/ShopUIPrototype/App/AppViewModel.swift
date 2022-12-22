@@ -9,10 +9,10 @@ import Foundation
 
 public final class AppViewModel: ObservableObject {
     
-    public let profile: Profile
-    public let shopTypes: ShopTypes
-    public let promos: Promos
-    public let shops: Shops
+    @Published private(set) var profile: Profile
+    @Published private(set) var shopTypes: ShopTypes
+    @Published private(set) var promos: Promos
+    @Published private(set) var shops: Shops
     
     public init(
         profile: Profile,
