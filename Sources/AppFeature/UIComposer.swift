@@ -9,8 +9,8 @@ import AddressPickerFeature
 import AddressViewFeature
 import DeliveryTypePickerFeature
 import Domain
-import FeaturedShops
-import FeatureView
+import FeaturedShopsFeature
+import FeatureViewFeature
 import NewAppFeatureFeature
 import ProfileFeature
 import PromoFeature

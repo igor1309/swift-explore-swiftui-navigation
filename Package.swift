@@ -18,6 +18,7 @@ let package = Package(
         .appFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
+        .featureViewFeature,
         .mainPageFeature,
         .newAppFeatureFeature,
         .profileFeature,
@@ -43,7 +44,7 @@ let package = Package(
         .appFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
-        .featureView,
+        .featureViewFeature,
         .mainPageFeature,
         .newAppFeatureFeature,
         .profileFeature,
@@ -112,9 +113,9 @@ private extension Product {
         name: .featuredShopsFeature,
         targets: [.featuredShopsFeature]
     )
-    static let featureView = library(
-        name: .featureView,
-        targets: [.featureView]
+    static let featureViewFeature = library(
+        name: .featureViewFeature,
+        targets: [.featureViewFeature]
     )
     static let mainPageFeature = library(
         name: .mainPageFeature,
@@ -186,7 +187,7 @@ private extension Target {
             .addressViewFeature,
             .deliveryTypePickerFeature,
             .featuredShopsFeature,
-            .featureView,
+            .featureViewFeature,
             .mainPageFeature,
             .newAppFeatureFeature,
             .profileFeature,
@@ -211,8 +212,8 @@ private extension Target {
             .domain
         ]
     )
-    static let featureView = target(
-        name: .featureView,
+    static let featureViewFeature = target(
+        name: .featureViewFeature,
         dependencies: [
             .domain
         ]
@@ -289,7 +290,7 @@ private extension Target.Dependency {
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
-    static let featureView = byName(name: .featureView)
+    static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileFeature = byName(name: .profileFeature)
@@ -309,7 +310,7 @@ private extension String {
     static let appFeature = "AppFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"
     static let featuredShopsFeature = "FeaturedShopsFeature"
-    static let featureView = "FeatureView"
+    static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileFeature = "ProfileFeature"
