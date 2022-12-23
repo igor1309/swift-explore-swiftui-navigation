@@ -10,13 +10,12 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        // Prototype
-        .shopUIPrototype,
         // Domain
         .domain,
         // Features
         .addressPicker,
         .addressView,
+        .appFeature,
         .deliveryTypePicker,
         .featuredShops,
         .mainPageFeature,
@@ -36,13 +35,12 @@ let package = Package(
         .tagged,
     ],
     targets: [
-        // Prototype
-        .shopUIPrototype,
         // Domain
         .domain,
         // Features
         .addressPicker,
         .addressView,
+        .appFeature,
         .deliveryTypePicker,
         .featuredShops,
         .featureView,
@@ -58,52 +56,6 @@ let package = Package(
         .showProfileButtonFeature,
     ]
 )
-
-// MARK: - Prototype
-
-private extension Product {
-    
-    static let shopUIPrototype = library(
-        name: "ShopUIPrototype",
-        targets: ["ShopUIPrototype"]
-    )
-}
-
-private extension Target {
-    
-    static let shopUIPrototype = target(
-        name: .shopUIPrototype,
-        dependencies: [
-            // Domain
-            .domain,
-            // Packages
-            .identifiedCollections,
-            .swiftUINavigation,
-            .tagged,
-            // Features
-            .addressPicker,
-            .addressView,
-            .deliveryTypePicker,
-            .featuredShops,
-            .featureView,
-            .mainPageFeature,
-            .newAppFeatureFeature,
-            .profileFeature,
-            .promoFeature,
-            .promoStripFeature,
-            .shopFeature,
-            .shopGridFeature,
-            .shopTypeFeature,
-            .shopTypeStripFeature,
-            .showProfileButtonFeature,
-        ]
-    )
-}
-
-private extension String {
-    
-    static let shopUIPrototype = "ShopUIPrototype"
-}
 
 // MARK: - Domain
 
@@ -147,6 +99,10 @@ private extension Product {
     static let addressView = library(
         name: .addressView,
         targets: [.addressView]
+    )
+    static let appFeature = library(
+        name: .appFeature,
+        targets: [.appFeature]
     )
     static let deliveryTypePicker = library(
         name: .deliveryTypePicker,
@@ -214,6 +170,33 @@ private extension Target {
         name: .addressView,
         dependencies: [
             .domain
+        ]
+    )
+    static let appFeature = target(
+        name: .appFeature,
+        dependencies: [
+            // Domain
+            .domain,
+            // Packages
+            .identifiedCollections,
+            .swiftUINavigation,
+            .tagged,
+            // Features
+            .addressPicker,
+            .addressView,
+            .deliveryTypePicker,
+            .featuredShops,
+            .featureView,
+            .mainPageFeature,
+            .newAppFeatureFeature,
+            .profileFeature,
+            .promoFeature,
+            .promoStripFeature,
+            .shopFeature,
+            .shopGridFeature,
+            .shopTypeFeature,
+            .shopTypeStripFeature,
+            .showProfileButtonFeature,
         ]
     )
     static let deliveryTypePicker = target(
@@ -323,6 +306,7 @@ private extension String {
 
     static let addressPicker = "AddressPicker"
     static let addressView = "AddressView"
+    static let appFeature = "AppFeature"
     static let deliveryTypePicker = "DeliveryTypePicker"
     static let featuredShops = "FeaturedShops"
     static let featureView = "FeatureView"

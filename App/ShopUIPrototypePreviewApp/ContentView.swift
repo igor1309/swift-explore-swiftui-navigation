@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
-import ShopUIPrototype
+import AppFeature
 import SwiftUI
 
 struct ContentView: View {
