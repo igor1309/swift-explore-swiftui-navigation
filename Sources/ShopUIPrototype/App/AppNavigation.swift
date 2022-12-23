@@ -9,6 +9,7 @@ import AddressPicker
 import Domain
 import Foundation
 import ProfileFeature
+import ShopFeature
 import Tagged
 
 public final class AppNavigation: ObservableObject {

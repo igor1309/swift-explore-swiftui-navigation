@@ -14,6 +14,7 @@ import FeatureView
 import ProfileFeature
 import PromoFeature
 import PromoStripFeature
+import ShopFeature
 import ShopGridFeature
 import ShopTypeStripFeature
 import SwiftUI
