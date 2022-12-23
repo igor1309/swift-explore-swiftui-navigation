@@ -6,6 +6,7 @@
 //
 
 import Domain
+import MainPageFeature
 import SwiftUI
 import SwiftUINavigation
 

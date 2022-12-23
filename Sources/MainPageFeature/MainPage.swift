@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainPage<
+public struct MainPage<
     AddressView: View,
     DeliveryTypePicker: View,
     ShopTypeStrip: View,
@@ -27,7 +27,27 @@ struct MainPage<
     let shopGridView: () -> ShopGridView
     let showProfileButton: () -> ShowProfileButton
     
-    var body: some View {
+    public init(
+        addressView: @escaping () -> AddressView,
+        deliveryTypePicker: @escaping () -> DeliveryTypePicker,
+        shopTypeStrip: @escaping () -> ShopTypeStrip,
+        featuredShopsView: @escaping () -> FeaturedShopsView,
+        newAppFeatureView: @escaping () -> NewFeatureView,
+        promoStrip: @escaping () -> PromoStrip,
+        shopGridView: @escaping () -> ShopGridView,
+        showProfileButton: @escaping () -> ShowProfileButton
+    ) {
+        self.addressView = addressView
+        self.deliveryTypePicker = deliveryTypePicker
+        self.shopTypeStrip = shopTypeStrip
+        self.featuredShopsView = featuredShopsView
+        self.newAppFeatureView = newAppFeatureView
+        self.promoStrip = promoStrip
+        self.shopGridView = shopGridView
+        self.showProfileButton = showProfileButton
+    }
+    
+    public var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 16) {
                 addressView()
