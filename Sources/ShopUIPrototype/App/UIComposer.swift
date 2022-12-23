@@ -11,6 +11,7 @@ import DeliveryTypePicker
 import Domain
 import FeaturedShops
 import FeatureView
+import NewAppFeatureFeature
 import ProfileFeature
 import PromoFeature
 import PromoStripFeature
