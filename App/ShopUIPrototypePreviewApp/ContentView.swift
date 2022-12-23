@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     // private let route: AppNavigation.Route? = nil
-    private let route: AppNavigation.Route? = Route.editProfile()
+    private let route: AppNavigation.Route? = Route.profile()
     
     var body: some View {
         AppView(
@@ -45,17 +45,20 @@ private enum Route {
     static func newAddress() -> AppNavigation.Route {
         .sheet(.addressPicker(.newAddress))
     }
+    static func profile() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: nil)))
+    }
     static func editProfile() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .editProfile)))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.editProfile))))
     }
     static func orderHistory() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .orderHistory)))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.orderHistory))))
     }
     static func faq() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .faq)))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.faq))))
     }
     static func cards() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .cards)))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.cards))))
     }
     static func shop() -> AppNavigation.Route {
         .navigation(.shop(.preview))
