@@ -5,7 +5,9 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import SwiftUI
+import SwiftUINavigation
 
 public struct ShopTypeStrip<ShopTypeView, ShopTypeDestination>: View
 where ShopTypeView: View,
@@ -56,7 +58,7 @@ where ShopTypeView: View,
 }
 
 struct ShopTypeStrip_Previews: PreviewProvider {
-    
+
     private static func shopTypeStrip(
         route: ShopTypeStripViewModel.Route? = nil
     ) -> some View {
@@ -67,27 +69,27 @@ struct ShopTypeStrip_Previews: PreviewProvider {
                             shopTypeView: shopTypeImageView,
                     shopTypeDestination: shopTypeDestination
                 )
-                
+
                 Spacer()
             }
         }
     }
-    
+
     private static func shopTypeImageView(shopType: ShopType) -> some View {
         VStack {
             Color.pink
                 .frame(width: 80, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-            
+
             Text(shopType.title)
                 .font(.caption)
         }
     }
-    
+
     private static func shopTypeDestination(shopType: ShopType) -> some View {
         Text("TBD: shops in shopType \"\(shopType.title)\"")
     }
-    
+
     static var previews: some View {
         Group {
             shopTypeStrip()

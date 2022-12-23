@@ -6,9 +6,11 @@ let package = Package(
     name: "swift-explore-swiftui-navigation",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16)
+        .iOS(.v16),
+        .macOS(.v13)
     ],
     products: [
+        .domain,
         .shopUIPrototype,
     ],
     dependencies: [
@@ -17,33 +19,55 @@ let package = Package(
         .tagged,
     ],
     targets: [
+        .domain,
         .shopUIPrototype,
     ]
 )
 
-extension Product {
+private extension Product {
     
     static let shopUIPrototype = library(
         name: "ShopUIPrototype",
         targets: ["ShopUIPrototype"]
     )
+    
+    static let domain = library(
+        name: .domain,
+        targets: [.domain]
+    )
 }
 
-extension Target {
+private extension Target {
     
     static let shopUIPrototype = target(
         name: .shopUIPrototype,
         dependencies: [
+            .domain,
             .identifiedCollections,
             .swiftUINavigation,
             .tagged,
         ]
     )
+    
+    static let domain = target(
+        name: .domain,
+        dependencies: [
+            .identifiedCollections,
+            .tagged,
+        ]
+    )
 }
 
-extension String {
+private extension Target.Dependency {
+    
+    static let domain = byName(name: .domain)
+}
+
+private extension String {
     
     static let shopUIPrototype = "ShopUIPrototype"
+    
+    static let domain = "Domain"
 }
 
 // MARK: - Point-Free

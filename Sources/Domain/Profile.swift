@@ -14,9 +14,9 @@ public struct Profile: Hashable, Identifiable {
     
     public let id: ID
     
-    var name: String
-    var email: Email
-    var phone: Phone
+    public var name: String
+    public var email: Email
+    public var phone: Phone
     
     public var address: Address?
     public var addresses: Addresses

@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import SwiftUI
 import SwiftUINavigation
 
@@ -14,12 +15,12 @@ where CategoryView: View,
     
     @ObservedObject private var viewModel: ShopViewModel
     
-    private let categoryView: (Category) -> CategoryView
+    private let categoryView: (Domain.Category) -> CategoryView
     private let productView: (Product) -> ProductView
     
     public init(
         viewModel: ShopViewModel,
-        categoryView: @escaping (Category) -> CategoryView,
+        categoryView: @escaping (Domain.Category) -> CategoryView,
         productView: @escaping (Product) -> ProductView
     ) {
         self.viewModel = viewModel

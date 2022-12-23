@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import SwiftUI
 
 public final class UIComposer {
@@ -170,7 +171,7 @@ extension UIComposer {
         )
     }
     
-    private func makeCategoryView(category: Category) -> some View {
+    private func makeCategoryView(category: Domain.Category) -> some View {
         Text("TBD: \"\(category.title)\" category view")
     }
     

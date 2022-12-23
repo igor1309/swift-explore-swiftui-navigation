@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import Foundation
 
 public final class ShopViewModel: ObservableObject {
@@ -23,7 +24,7 @@ public final class ShopViewModel: ObservableObject {
     }
     
     public enum Route: Hashable, Identifiable {
-        case category(Category)
+        case category(Domain.Category)
         case product(Product)
         
         public var id: Self { self }

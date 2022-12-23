@@ -5,11 +5,10 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import IdentifiedCollections
 import SwiftUI
 import SwiftUINavigation
-
-public typealias Shops = IdentifiedArrayOf<Shop>
 
 public struct ShopGridView<ShopView: View>: View {
     
@@ -72,7 +71,7 @@ struct ShopGridView_Previews: PreviewProvider {
                                 Text("Shop View for shop with ID \(shop.id.rawValue.uuidString)")
                                     .foregroundColor(.secondary)
                                     .font(.footnote)
-                                
+
                                 Spacer()
                             }
                             .navigationTitle("Shop Name")

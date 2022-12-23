@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import SwiftUI
 
 public struct AddressPicker<NewAddressView: View>: View {
