@@ -7,8 +7,11 @@
 
 import SwiftUI
 
-struct PromoView: View {
-    var body: some View {
+public struct PromoView: View {
+    
+    public init() {}
+    
+    public var body: some View {
         Text("Promo View")
     }
 }

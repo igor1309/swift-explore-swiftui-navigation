@@ -12,6 +12,7 @@ import Domain
 import FeaturedShops
 import FeatureView
 import ProfileFeature
+import PromoFeature
 import PromoStrip
 import SwiftUI
 

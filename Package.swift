@@ -20,6 +20,7 @@ let package = Package(
         .deliveryTypePicker,
         .featuredShops,
         .profileFeature,
+        .promoFeature,
         .promoStrip,
     ],
     dependencies: [
@@ -39,6 +40,7 @@ let package = Package(
         .featuredShops,
         .featureView,
         .profileFeature,
+        .promoFeature,
         .promoStrip,
     ]
 )
@@ -71,6 +73,7 @@ private extension Target {
             .featuredShops,
             .featureView,
             .profileFeature,
+            .promoFeature,
             .promoStrip,
         ]
     )
@@ -140,6 +143,10 @@ private extension Product {
         name: .profileFeature,
         targets: [.profileFeature]
     )
+    static let promoFeature = library(
+        name: .promoFeature,
+        targets: [.promoFeature]
+    )
     static let promoStrip = library(
         name: .promoStrip,
         targets: [.promoStrip]
@@ -185,11 +192,16 @@ private extension Target {
             .swiftUINavigation
         ]
     )
+    static let promoFeature = target(
+        name: .promoFeature,
+        dependencies: [
+            .domain,
+        ]
+    )
     static let promoStrip = target(
         name: .promoStrip,
         dependencies: [
             .domain,
-            .swiftUINavigation
         ]
     )
 }
@@ -202,6 +214,7 @@ private extension Target.Dependency {
     static let featuredShops = byName(name: .featuredShops)
     static let featureView = byName(name: .featureView)
     static let profileFeature = byName(name: .profileFeature)
+    static let promoFeature = byName(name: .promoFeature)
     static let promoStrip = byName(name: .promoStrip)
 }
 
@@ -213,8 +226,8 @@ private extension String {
     static let featuredShops = "FeaturedShops"
     static let featureView = "FeatureView"
     static let profileFeature = "ProfileFeature"
+    static let promoFeature = "PromoFeature"
     static let promoStrip = "PromoStrip"
-    static let promoView = "PromoView"
     static let shopGrid = "ShopGrid"
     static let shopTypeStrip = "ShopTypeStrip"
     static let shopView = "ShopView"
