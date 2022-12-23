@@ -6,7 +6,11 @@
 //
 
 import AddressPicker
+import AddressView
+import DeliveryTypePicker
 import Domain
+import FeaturedShops
+import FeatureView
 import SwiftUI
 
 public final class UIComposer {

@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-struct FeatureView: View {
-    var body: some View {
+public struct FeatureView: View {
+    
+    public init() {
+        
+    }
+    
+    public var body: some View {
         Text("Feature View")
     }
 }

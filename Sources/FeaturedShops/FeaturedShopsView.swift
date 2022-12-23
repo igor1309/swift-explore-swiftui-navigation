@@ -7,8 +7,11 @@
 
 import SwiftUI
 
-struct FeaturedShopsView: View {
-    var body: some View {
+public struct FeaturedShopsView: View {
+    
+    public init() {}
+    
+    public var body: some View {
         TBD("Featured Shops View: small grid of 2")
     }
 }

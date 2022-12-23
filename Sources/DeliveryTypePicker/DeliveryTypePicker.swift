@@ -5,13 +5,18 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import Domain
 import SwiftUI
 
-struct DeliveryTypePicker: View {
+public struct DeliveryTypePicker: View {
     
-    @Binding var deliveryType: DeliveryType
+    @Binding private var deliveryType: DeliveryType
     
-    var body: some View {
+    public init(deliveryType: Binding<DeliveryType>) {
+        self._deliveryType = deliveryType
+    }
+    
+    public var body: some View {
         Picker("Delivery Type", selection: $deliveryType) {
             ForEach(DeliveryType.allCases, content: deliveryView)
         }
@@ -23,12 +28,6 @@ struct DeliveryTypePicker: View {
     }
 }
 
-enum DeliveryType: String, CaseIterable, Identifiable {
-    case all, fast, `self`
-    
-    var id: Self { self }
-}
-
 struct DeliveryTypePicker_Previews: PreviewProvider {
     
     struct Demo: View {
@@ -38,8 +37,10 @@ struct DeliveryTypePicker_Previews: PreviewProvider {
             DeliveryTypePicker(deliveryType: $deliveryType)
         }
     }
+    
     static var previews: some View {
         Demo()
             .previewLayout(.sizeThatFits)
+            .preferredColorScheme(.dark)
     }
 }

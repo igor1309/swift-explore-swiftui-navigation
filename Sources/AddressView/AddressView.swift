@@ -8,12 +8,17 @@
 import Domain
 import SwiftUI
 
-struct AddressView: View {
+public struct AddressView: View {
     
-    let street: String?
-    let selectAddressAction: () -> Void
+    public let street: String?
+    public let selectAddressAction: () -> Void
     
-    var body: some View {
+    public init(street: String?, selectAddressAction: @escaping () -> Void) {
+        self.street = street
+        self.selectAddressAction = selectAddressAction
+    }
+    
+    public var body: some View {
         Group {
             switch street {
             case .none:

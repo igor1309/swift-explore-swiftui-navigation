@@ -16,6 +16,9 @@ let package = Package(
         .domain,
         // Features
         .addressPicker,
+        .addressView,
+        .deliveryTypePicker,
+        .featuredShops,
     ],
     dependencies: [
         .identifiedCollections,
@@ -29,6 +32,10 @@ let package = Package(
         .domain,
         // Features
         .addressPicker,
+        .addressView,
+        .deliveryTypePicker,
+        .featuredShops,
+        .featureView,
     ]
 )
 
@@ -55,6 +62,10 @@ private extension Target {
             .tagged,
             // Features
             .addressPicker,
+            .addressView,
+            .deliveryTypePicker,
+            .featuredShops,
+            .featureView,
         ]
     )
 }
@@ -103,6 +114,22 @@ private extension Product {
         name: .addressPicker,
         targets: [.addressPicker]
     )
+    static let addressView = library(
+        name: .addressView,
+        targets: [.addressView]
+    )
+    static let deliveryTypePicker = library(
+        name: .deliveryTypePicker,
+        targets: [.deliveryTypePicker]
+    )
+    static let featuredShops = library(
+        name: .featuredShops,
+        targets: [.featuredShops]
+    )
+    static let featureView = library(
+        name: .featureView,
+        targets: [.featureView]
+    )
 }
 
 private extension Target {
@@ -113,16 +140,48 @@ private extension Target {
             .domain
         ]
     )
+    static let addressView = target(
+        name: .addressView,
+        dependencies: [
+            .domain
+        ]
+    )
+    static let deliveryTypePicker = target(
+        name: .deliveryTypePicker,
+        dependencies: [
+            .domain
+        ]
+    )
+    static let featuredShops = target(
+        name: .featuredShops,
+        dependencies: [
+            .domain
+        ]
+    )
+    static let featureView = target(
+        name: .featureView,
+        dependencies: [
+            .domain
+        ]
+    )
 }
 
 private extension Target.Dependency {
 
     static let addressPicker = byName(name: .addressPicker)
+    static let addressView = byName(name: .addressView)
+    static let deliveryTypePicker = byName(name: .deliveryTypePicker)
+    static let featuredShops = byName(name: .featuredShops)
+    static let featureView = byName(name: .featureView)
 }
 
 private extension String {
 
     static let addressPicker = "AddressPicker"
+    static let addressView = "AddressView"
+    static let deliveryTypePicker = "DeliveryTypePicker"
+    static let featuredShops = "FeaturedShops"
+    static let featureView = "FeatureView"
 }
 
 // MARK: - Point-Free
