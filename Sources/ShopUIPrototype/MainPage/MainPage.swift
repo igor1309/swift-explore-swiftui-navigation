@@ -22,7 +22,7 @@ struct MainPage<
     let deliveryTypePicker: () -> DeliveryTypePicker
     let shopTypeStrip: () -> ShopTypeStrip
     let featuredShopsView: () -> FeaturedShopsView
-    let newFeatureView: () -> NewFeatureView
+    let newAppFeatureView: () -> NewFeatureView
     let promoStrip: () -> PromoStrip
     let shopGridView: () -> ShopGridView
     let showProfileButton: () -> ShowProfileButton
@@ -34,7 +34,7 @@ struct MainPage<
                 deliveryTypePicker()
                 shopTypeStrip()
                 featuredShopsView()
-                newFeatureView()
+                newAppFeatureView()
                 promoStrip()
                 shopGridView()
             }
@@ -65,7 +65,7 @@ struct MainPage_Previews: PreviewProvider {
                 TBD("ShopType Strip: horizontal scroll")
             } featuredShopsView: {
                 TBD("Featured Shops View: small grid of 2")
-            } newFeatureView: {
+            } newAppFeatureView: {
                 TBD("New Feature View: promo")
             } promoStrip: {
                 TBD("Promo Strip")

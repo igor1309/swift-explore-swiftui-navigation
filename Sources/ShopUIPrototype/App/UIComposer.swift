@@ -104,8 +104,8 @@ extension UIComposer {
         FeaturedShopsView()
     }
     
-    public func makeNewFeatureView() -> some View {
-        NewFeatureView()
+    public func makeNewAppFeatureView() -> some View {
+        NewAppFeatureView()
     }
     
     public func makePromoStrip(promos: Promos) -> some View {

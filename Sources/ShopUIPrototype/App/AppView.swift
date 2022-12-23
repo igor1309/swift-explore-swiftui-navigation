@@ -42,7 +42,7 @@ public struct AppView: View {
                     )
                 },
                 featuredShopsView: uiComposer.makeFeaturedShopsView,
-                newFeatureView: uiComposer.makeNewFeatureView,
+                newAppFeatureView: uiComposer.makeNewAppFeatureView,
                 promoStrip: {
                     uiComposer.makePromoStrip(
                         promos: viewModel.promos
