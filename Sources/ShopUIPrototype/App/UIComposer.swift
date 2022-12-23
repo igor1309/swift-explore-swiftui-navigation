@@ -13,7 +13,8 @@ import FeaturedShops
 import FeatureView
 import ProfileFeature
 import PromoFeature
-import PromoStrip
+import PromoStripFeature
+import ShopGridFeature
 import SwiftUI
 
 public final class UIComposer {

@@ -21,7 +21,8 @@ let package = Package(
         .featuredShops,
         .profileFeature,
         .promoFeature,
-        .promoStrip,
+        .promoStripFeature,
+        .shopGridFeature,
     ],
     dependencies: [
         .identifiedCollections,
@@ -41,7 +42,8 @@ let package = Package(
         .featureView,
         .profileFeature,
         .promoFeature,
-        .promoStrip,
+        .promoStripFeature,
+        .shopGridFeature,
     ]
 )
 
@@ -74,7 +76,8 @@ private extension Target {
             .featureView,
             .profileFeature,
             .promoFeature,
-            .promoStrip,
+            .promoStripFeature,
+            .shopGridFeature,
         ]
     )
 }
@@ -147,9 +150,13 @@ private extension Product {
         name: .promoFeature,
         targets: [.promoFeature]
     )
-    static let promoStrip = library(
-        name: .promoStrip,
-        targets: [.promoStrip]
+    static let promoStripFeature = library(
+        name: .promoStripFeature,
+        targets: [.promoStripFeature]
+    )
+    static let shopGridFeature = library(
+        name: .shopGridFeature,
+        targets: [.shopGridFeature]
     )
 }
 
@@ -198,10 +205,17 @@ private extension Target {
             .domain,
         ]
     )
-    static let promoStrip = target(
-        name: .promoStrip,
+    static let promoStripFeature = target(
+        name: .promoStripFeature,
         dependencies: [
             .domain,
+        ]
+    )
+    static let shopGridFeature = target(
+        name: .shopGridFeature,
+        dependencies: [
+            .domain,
+            .swiftUINavigation
         ]
     )
 }
@@ -215,7 +229,8 @@ private extension Target.Dependency {
     static let featureView = byName(name: .featureView)
     static let profileFeature = byName(name: .profileFeature)
     static let promoFeature = byName(name: .promoFeature)
-    static let promoStrip = byName(name: .promoStrip)
+    static let promoStripFeature = byName(name: .promoStripFeature)
+    static let shopGridFeature = byName(name: .promoStripFeature)
 }
 
 private extension String {
@@ -227,8 +242,8 @@ private extension String {
     static let featureView = "FeatureView"
     static let profileFeature = "ProfileFeature"
     static let promoFeature = "PromoFeature"
-    static let promoStrip = "PromoStrip"
-    static let shopGrid = "ShopGrid"
+    static let promoStripFeature = "PromoStripFeature"
+    static let shopGridFeature = "ShopGridFeature"
     static let shopTypeStrip = "ShopTypeStrip"
     static let shopView = "ShopView"
     static let showProfileButton = "ShowProfileButton"

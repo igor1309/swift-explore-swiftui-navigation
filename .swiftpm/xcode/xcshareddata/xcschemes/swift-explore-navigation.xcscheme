@@ -84,9 +84,65 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FeaturedShopsView"
-               BuildableName = "FeaturedShopsView"
-               BlueprintName = "FeaturedShopsView"
+               BlueprintIdentifier = "ProfileFeature"
+               BuildableName = "ProfileFeature"
+               BlueprintName = "ProfileFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeaturedShops"
+               BuildableName = "FeaturedShops"
+               BlueprintName = "FeaturedShops"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PromoFeature"
+               BuildableName = "PromoFeature"
+               BlueprintName = "PromoFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ShopGridFeature"
+               BuildableName = "ShopGridFeature"
+               BlueprintName = "ShopGridFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PromoStripFeature"
+               BuildableName = "PromoStripFeature"
+               BlueprintName = "PromoStripFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
