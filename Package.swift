@@ -252,6 +252,7 @@ private extension Target {
     static let shopFeature = target(
         name: .shopFeature,
         dependencies: [
+            .deliveryTypePickerFeature,
             .domain,
             .swiftUINavigation
         ]
