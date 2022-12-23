@@ -11,7 +11,7 @@ import Foundation
 public final class ProfileViewModel: ObservableObject {
     
     @Published private(set) var route: Route?
-
+    
     let profile: Profile
     
     public init(
@@ -34,11 +34,41 @@ public final class ProfileViewModel: ObservableObject {
         route = nil
     }
     
+    func orderHistoryButtonTapped() {
+        navigate(to: .orderHistory)
+    }
+    
+    func cardsButtonTapped() {
+        navigate(to: .cards)
+    }
+    
+    func faqButtonTapped() {
+        navigate(to: .faq)
+    }
+    
+    func aboutButtonTapped() {
+        navigate(to: .cards)
+    }
+    
+    func chatButtonTapped() {
+        navigate(to: .chat)
+    }
+    
+    func callUsButtonTapped() {
+        navigate(to: .callUs)
+    }
+    
+    func logoutButtonTapped() {
+        #warning("???")
+    }
+    
     public enum Route: Hashable, Identifiable {
         case editProfile
         case orderHistory
         case faq
         case cards
+        case chat
+        case callUs
         
         public var id: Self { self }
     }

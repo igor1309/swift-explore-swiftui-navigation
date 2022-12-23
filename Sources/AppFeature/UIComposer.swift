@@ -201,14 +201,16 @@ extension UIComposer {
         PromoView()
     }
     
-    #warning("ProfileView does not update on changes in ProfileEditor!")
+#warning("ProfileView does not update on changes in ProfileEditor!")
     public func makeProfileView(viewModel: ProfileViewModel) -> some View {
         ProfileView(
             viewModel: viewModel,
             profileEditor: makeProfileEditor,
             orderHistoryView: orderHistoryView,
             faqView: faqView,
-            cardsView: cardsView
+            cardsView: cardsView,
+            chatView: chatView,
+            callUsView: callUsView
         )
     }
     
@@ -225,10 +227,10 @@ extension UIComposer {
                     email: user.email,
                     phone: user.phone
                 )
-                #warning("need to dismiss")
+#warning("need to dismiss")
             },
             deleteAccount: {
-                #warning("finish this")
+#warning("finish this")
             }
         )
     }
@@ -243,6 +245,14 @@ extension UIComposer {
     
     func cardsView() -> some View {
         Text("TBD: Your Cards")
+    }
+    
+    func chatView() -> some View {
+        Text("TBD: Chat")
+    }
+    
+    func callUsView() -> some View {
+        Text("TBD: Call Us")
     }
     
     @ViewBuilder

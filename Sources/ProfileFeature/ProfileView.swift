@@ -13,7 +13,10 @@ public struct ProfileView<
     ProfileEditor: View,
     OrderHistoryView: View,
     FaqView: View,
-    CardsView: View
+    CardsView: View,
+    ChatView: View,
+    CallUsView: View
+        
 >: View {
     
     @ObservedObject private var viewModel: ProfileViewModel
@@ -22,19 +25,25 @@ public struct ProfileView<
     private let orderHistoryView: () -> OrderHistoryView
     private let faqView: () -> FaqView
     private let cardsView: () -> CardsView
+    private let chatView: () -> ChatView
+    private let callUsView: () -> CallUsView
     
     public init(
         viewModel: ProfileViewModel,
         profileEditor: @escaping (Profile) -> ProfileEditor,
         orderHistoryView: @escaping () -> OrderHistoryView,
         faqView: @escaping () -> FaqView,
-        cardsView: @escaping () -> CardsView
+        cardsView: @escaping () -> CardsView,
+        chatView: @escaping () -> ChatView,
+        callUsView: @escaping () -> CallUsView
     ) {
         self.viewModel = viewModel
         self.profileEditor = profileEditor
         self.orderHistoryView = orderHistoryView
         self.faqView = faqView
         self.cardsView = cardsView
+        self.chatView = chatView
+        self.callUsView = callUsView
     }
     
     public var body: some View {
@@ -54,14 +63,8 @@ public struct ProfileView<
                 
                 Divider()
                 
-                Text("Profile View for \(String(describing: viewModel.profile))")
-                    .foregroundColor(.secondary)
-                    .font(.caption)
-                
-                TBD("Order History")
-                TBD("FAQ")
-                TBD("About")
-                TBD("Chat | Call us")
+                buttons()
+                    .padding(.top)
             }
             .padding()
         }
@@ -86,6 +89,108 @@ public struct ProfileView<
                 
             case .cards:
                 cardsView()
+                
+            case .chat:
+                chatView()
+                
+            case .callUs:
+                callUsView()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func buttons() -> some View {
+        VStack(spacing: 32) {
+            Group {
+                orderHistoryButton()
+                cardsButton()
+                faqButton()
+                aboutButton()
+                
+                HStack(alignment: .firstTextBaseline) {
+                    chatButton()
+                        .frame(maxWidth: .infinity)
+                    
+                    callUsButton()
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonBorderShape(.capsule)
+            }
+            .buttonStyle(.bordered)
+            
+            logoutButton()
+                .buttonStyle(.borderless)
+                .controlSize(.mini)
+                .padding(.top)
+        }
+    }
+    
+    private func orderHistoryButton() -> some View {
+        Button(action: viewModel.orderHistoryButtonTapped) {
+            Label {
+                Text("ORDER_HISTORY_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "list.dash")
+            }
+        }
+        
+    }
+    private func cardsButton() -> some View {
+        Button(action: viewModel.cardsButtonTapped) {
+            Label {
+                Text("CARDS_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "creditcard")
+            }
+        }
+        
+    }
+    private func faqButton() -> some View {
+        Button(action: viewModel.faqButtonTapped) {
+            Label {
+                Text("FAQ_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "questionmark.diamond")
+            }
+        }
+        
+    }
+    private func aboutButton() -> some View {
+        Button(action: viewModel.aboutButtonTapped) {
+            Label {
+                Text("ABOUT_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "rectangle.and.text.magnifyingglass")
+            }
+        }
+        
+    }
+    private func chatButton() -> some View {
+        Button(action: viewModel.chatButtonTapped) {
+            Label {
+                Text("CHAT_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "bubble.left.and.bubble.right")
+            }
+        }
+        
+    }
+    private func callUsButton() -> some View {
+        Button(action: viewModel.callUsButtonTapped) {
+            Label {
+                Text("CALL_US_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "phone")
+            }
+        }
+    }
+    private func logoutButton() -> some View {
+        Button(role: .destructive, action: viewModel.logoutButtonTapped) {
+            Label {
+                Text("LOGOUT_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "figure.run.circle")
             }
         }
     }
@@ -124,6 +229,12 @@ struct ProfileView_Previews: PreviewProvider {
                 },
                 cardsView: {
                     Text("TBD: Your Cards")
+                },
+                chatView: {
+                    Text("TBD: Chat")
+                },
+                callUsView: {
+                    Text("TBD: Call Us")
                 }
             )
         }

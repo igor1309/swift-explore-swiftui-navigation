@@ -2,3 +2,11 @@
 "EDIT_PROFILE_NAVIGATION_TITLE" = "Edit Profile";
 "DELETE_ACCOUNT_BUTTON_TITLE" = "Delete account";
 "SAVE_PROFILE_CHANGES" = "Save profile";
+
+"ORDER_HISTORY_BUTTON_TITLE" = "Order History";
+"CARDS_BUTTON_TITLE" = "Your Cards";
+"FAQ_BUTTON_TITLE" = "FAQ";
+"ABOUT_BUTTON_TITLE" = "About us";
+"CHAT_BUTTON_TITLE" = "Chat";
+"CALL_US_BUTTON_TITLE" = "Call us";
+"LOGOUT_BUTTON_TITLE" = "Logout";
