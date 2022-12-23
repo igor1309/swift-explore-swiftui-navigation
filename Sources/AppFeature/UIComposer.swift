@@ -6,7 +6,7 @@
 //
 
 import AddressPickerFeature
-import AddressView
+import AddressViewFeature
 import DeliveryTypePicker
 import Domain
 import FeaturedShops
