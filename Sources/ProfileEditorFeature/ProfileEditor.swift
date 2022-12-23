@@ -7,38 +7,30 @@
 
 import Domain
 import SwiftUI
+import SwiftUINavigation
 import Tagged
 
 public struct ProfileEditor: View {
     
-    @State private var user: User
+    @ObservedObject private var viewModel: ProfileEditorViewModel
     
-    private let saveProfile: (User) -> Void
-    private let deleteAccount: () -> Void
-    
-    public init(
-        user: User,
-        saveProfile: @escaping (User) -> Void,
-        deleteAccount: @escaping () -> Void
-    ) {
-        self._user = State(initialValue: user)
-        self.saveProfile = saveProfile
-        self.deleteAccount = deleteAccount
+    public init(viewModel: ProfileEditorViewModel) {
+        self.viewModel = viewModel
     }
     
     public var body: some View {
         VStack {
             List {
                 Section("NAME") {
-                    TextField("NAME", text: $user.name)
+                    TextField("NAME", text: $viewModel.user.name)
                 }
                 
                 Section("Email") {
-                    TextField("Email", text: $user.email.rawValue)
+                    TextField("Email", text: $viewModel.user.email.rawValue)
                 }
                 
                 Section {
-                    TextField("PHONE", text: $user.phone.rawValue)
+                    TextField("PHONE", text: $viewModel.user.phone.rawValue)
                 } header: {
                     Text("PHONE")
                 } footer: {
@@ -57,26 +49,18 @@ public struct ProfileEditor: View {
         }
         .navigationTitle(Text("EDIT_PROFILE_NAVIGATION_TITLE", bundle: .module))
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    public struct User {
-        public var name: String
-        public var email: Email
-        public var phone: Phone
-        
-        public init(
-            name: String,
-            email: Email,
-            phone: Phone
-        ) {
-            self.name = name
-            self.email = email
-            self.phone = phone
-        }
+        .alert(
+            unwrapping: $viewModel.route,
+            case: /ProfileEditorViewModel.Route.alert,
+            action: viewModel.alertButtonTapped
+        )
     }
     
     private func deleteAccountButton() -> some View {
-        Button(role: .destructive, action: deleteAccount) {
+        Button(
+            role: .destructive,
+            action: viewModel.deleteAccountButtonTapped
+        ) {
             Label {
                 Text("DELETE_ACCOUNT_BUTTON_TITLE", bundle: .module)
             } icon: {
@@ -85,14 +69,8 @@ public struct ProfileEditor: View {
         }
     }
     
-    private func deleteAccountButtonTapped() {
-        deleteAccountButton()
-    }
-    
     private func saveProfileButton() -> some View {
-        Button {
-            saveProfile(user)
-        } label: {
+        Button(action: viewModel.saveProfileButtonTapped) {
             Label {
                 Text("SAVE_PROFILE_CHANGES", bundle: .module)
                     .padding(.vertical, 3)
@@ -106,17 +84,32 @@ public struct ProfileEditor: View {
 
 struct ProfileEditor_Previews: PreviewProvider {
     
-    private typealias User = ProfileEditor.User
-    
-    @State static private var user = User(name: "", email: "", phone: "")
+    struct Demo: View {
+        
+        var route: ProfileEditorViewModel.Route? = nil
+        
+        private typealias User = ProfileEditorViewModel.User
+        
+        @State private var user = User(name: "", email: "", phone: "")
+        
+        var body: some View {
+            NavigationStack {
+                ProfileEditor(
+                    viewModel: .init(
+                        user: user,
+                        saveProfile: { _ in },
+                        deleteAccount: {}
+                    )
+                )
+            }
+            .preferredColorScheme(.dark)
+        }
+    }
     
     static var previews: some View {
-        NavigationStack {
-            ProfileEditor(
-                user: user,
-                saveProfile: { _ in },
-                deleteAccount: {}
-            )
+        Group {
+            Demo()
+            Demo(route: .alert(.confirmDelete))
         }
         .preferredColorScheme(.dark)
     }

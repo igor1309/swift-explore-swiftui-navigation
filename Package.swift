@@ -240,7 +240,8 @@ private extension Target {
     static let profileEditorFeature = target(
         name: .profileEditorFeature,
         dependencies: [
-            .domain
+            .domain,
+            .swiftUINavigation,
         ]
     )
     static let profileFeature = target(
