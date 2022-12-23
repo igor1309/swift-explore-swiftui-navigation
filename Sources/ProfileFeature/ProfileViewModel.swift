@@ -105,7 +105,7 @@ public final class ProfileViewModel: ObservableObject {
 
 extension AlertState<ProfileViewModel.AlertAction> {
     
-    static let logout: Self = .init {
+    public static let logout: Self = .init {
         TextState("CONFIRM_LOGOUT_TITLE", bundle: .module)
     } actions: {
         ButtonState(

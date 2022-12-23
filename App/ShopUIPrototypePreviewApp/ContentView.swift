@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     // private let route: AppNavigation.Route? = nil
-    private let route: AppNavigation.Route? = Route.profile()
+    private let route: AppNavigation.Route? = Route.logout()
     
     var body: some View {
         AppView(
@@ -47,6 +47,9 @@ private enum Route {
     }
     static func profile() -> AppNavigation.Route {
         .sheet(.profile(.init(profile: .preview, route: nil, logout: { fatalError("unimplemented")} )))
+    }
+    static func logout() -> AppNavigation.Route {
+        .sheet(.profile(.init(profile: .preview, route: .alert(.logout), logout: { fatalError("unimplemented")} )))
     }
     static func editProfile() -> AppNavigation.Route {
         .sheet(.profile(.init(profile: .preview, route: .navigation(.editProfile), logout: { fatalError("unimplemented")} )))
