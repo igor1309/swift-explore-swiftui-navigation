@@ -9,14 +9,14 @@ import Domain
 import SwiftUI
 import Tagged
 
-struct ProfileEditor: View {
+public struct ProfileEditor: View {
     
     @State private var user: User
     
     private let saveProfile: (User) -> Void
     private let deleteAccount: () -> Void
     
-    init(
+    public init(
         user: User,
         saveProfile: @escaping (User) -> Void,
         deleteAccount: @escaping () -> Void
@@ -26,7 +26,7 @@ struct ProfileEditor: View {
         self.deleteAccount = deleteAccount
     }
     
-    var body: some View {
+    public var body: some View {
         VStack {
             List {
                 Section("NAME") {
@@ -75,10 +75,20 @@ struct ProfileEditor: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    struct User {
-        var name: String
-        var email: Email
-        var phone: Phone
+    public struct User {
+        public var name: String
+        public var email: Email
+        public var phone: Phone
+        
+        public init(
+            name: String,
+            email: Email,
+            phone: Phone
+        ) {
+            self.name = name
+            self.email = email
+            self.phone = phone
+        }
     }
 }
 

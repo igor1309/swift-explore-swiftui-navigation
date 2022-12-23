@@ -19,6 +19,7 @@ let package = Package(
         .addressView,
         .deliveryTypePicker,
         .featuredShops,
+        .profileFeature,
     ],
     dependencies: [
         .identifiedCollections,
@@ -36,6 +37,7 @@ let package = Package(
         .deliveryTypePicker,
         .featuredShops,
         .featureView,
+        .profileFeature,
     ]
 )
 
@@ -66,6 +68,7 @@ private extension Target {
             .deliveryTypePicker,
             .featuredShops,
             .featureView,
+            .profileFeature,
         ]
     )
 }
@@ -130,6 +133,10 @@ private extension Product {
         name: .featureView,
         targets: [.featureView]
     )
+    static let profileFeature = library(
+        name: .profileFeature,
+        targets: [.profileFeature]
+    )
 }
 
 private extension Target {
@@ -164,6 +171,13 @@ private extension Target {
             .domain
         ]
     )
+    static let profileFeature = target(
+        name: .profileFeature,
+        dependencies: [
+            .domain,
+            .swiftUINavigation
+        ]
+    )
 }
 
 private extension Target.Dependency {
@@ -173,6 +187,7 @@ private extension Target.Dependency {
     static let deliveryTypePicker = byName(name: .deliveryTypePicker)
     static let featuredShops = byName(name: .featuredShops)
     static let featureView = byName(name: .featureView)
+    static let profileFeature = byName(name: .profileFeature)
 }
 
 private extension String {
@@ -182,6 +197,13 @@ private extension String {
     static let deliveryTypePicker = "DeliveryTypePicker"
     static let featuredShops = "FeaturedShops"
     static let featureView = "FeatureView"
+    static let profileFeature = "ProfileFeature"
+    static let promoStrip = "PromoStrip"
+    static let promoView = "PromoView"
+    static let shopGrid = "ShopGrid"
+    static let shopTypeStrip = "ShopTypeStrip"
+    static let shopView = "ShopView"
+    static let showProfileButton = "ShowProfileButton"
 }
 
 // MARK: - Point-Free
