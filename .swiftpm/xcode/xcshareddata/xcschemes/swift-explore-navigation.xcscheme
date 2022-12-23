@@ -14,6 +14,76 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ShopFeature"
+               BuildableName = "ShopFeature"
+               BlueprintName = "ShopFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PromoStripFeature"
+               BuildableName = "PromoStripFeature"
+               BlueprintName = "PromoStripFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ShopTypeStripFeature"
+               BuildableName = "ShopTypeStripFeature"
+               BlueprintName = "ShopTypeStripFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ShowProfileButtonFeature"
+               BuildableName = "ShowProfileButtonFeature"
+               BlueprintName = "ShowProfileButtonFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddressView"
+               BuildableName = "AddressView"
+               BlueprintName = "AddressView"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "DeliveryTypePicker"
                BuildableName = "DeliveryTypePicker"
                BlueprintName = "DeliveryTypePicker"
@@ -42,20 +112,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PromoFeature"
-               BuildableName = "PromoFeature"
-               BlueprintName = "PromoFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "FeaturedShops"
                BuildableName = "FeaturedShops"
                BlueprintName = "FeaturedShops"
@@ -70,107 +126,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MainPageFeature"
-               BuildableName = "MainPageFeature"
-               BlueprintName = "MainPageFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ShopTypeFeature"
-               BuildableName = "ShopTypeFeature"
-               BlueprintName = "ShopTypeFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AddressView"
-               BuildableName = "AddressView"
-               BlueprintName = "AddressView"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ShopFeature"
-               BuildableName = "ShopFeature"
-               BlueprintName = "ShopFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AddressPicker"
-               BuildableName = "AddressPicker"
-               BlueprintName = "AddressPicker"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Domain"
-               BuildableName = "Domain"
-               BlueprintName = "Domain"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PromoStripFeature"
-               BuildableName = "PromoStripFeature"
-               BlueprintName = "PromoStripFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ProfileFeature"
-               BuildableName = "ProfileFeature"
-               BlueprintName = "ProfileFeature"
+               BlueprintIdentifier = "AddressPickerFeature"
+               BuildableName = "AddressPickerFeature"
+               BlueprintName = "AddressPickerFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -196,9 +154,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ShopUIPrototype"
-               BuildableName = "ShopUIPrototype"
-               BlueprintName = "ShopUIPrototype"
+               BlueprintIdentifier = "ProfileFeature"
+               BuildableName = "ProfileFeature"
+               BlueprintName = "ProfileFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -210,9 +168,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ShowProfileButtonFeature"
-               BuildableName = "ShowProfileButtonFeature"
-               BlueprintName = "ShowProfileButtonFeature"
+               BlueprintIdentifier = "ShopTypeFeature"
+               BuildableName = "ShopTypeFeature"
+               BlueprintName = "ShopTypeFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -224,9 +182,51 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ShopTypeStripFeature"
-               BuildableName = "ShopTypeStripFeature"
-               BlueprintName = "ShopTypeStripFeature"
+               BlueprintIdentifier = "MainPageFeature"
+               BuildableName = "MainPageFeature"
+               BlueprintName = "MainPageFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Domain"
+               BuildableName = "Domain"
+               BlueprintName = "Domain"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AppFeature"
+               BuildableName = "AppFeature"
+               BlueprintName = "AppFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PromoFeature"
+               BuildableName = "PromoFeature"
+               BlueprintName = "PromoFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -260,9 +260,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DeliveryTypePicker"
-            BuildableName = "DeliveryTypePicker"
-            BlueprintName = "DeliveryTypePicker"
+            BlueprintIdentifier = "ShopFeature"
+            BuildableName = "ShopFeature"
+            BlueprintName = "ShopFeature"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

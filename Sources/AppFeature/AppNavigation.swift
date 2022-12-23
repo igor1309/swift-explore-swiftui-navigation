@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
-import AddressPicker
+import AddressPickerFeature
 import Domain
 import Foundation
 import ProfileFeature
