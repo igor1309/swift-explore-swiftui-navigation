@@ -7,6 +7,9 @@
 
 #if DEBUG
 public extension ProfileViewModel {
-    static let preview = ProfileViewModel(profile: .preview)
+    static let preview = ProfileViewModel(
+        profile: .preview,
+        logout: { print("logging out...") }
+    )
 }
 #endif

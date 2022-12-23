@@ -75,7 +75,8 @@ public struct ProfileView<
             unwrapping: .init(
                 get: { viewModel.route },
                 set: { viewModel.navigate(to: $0) }
-            )
+            ),
+            case: /ProfileViewModel.Route.navigation
         ) { route in
             switch route.wrappedValue {
             case .editProfile:
@@ -97,6 +98,14 @@ public struct ProfileView<
                 callUsView()
             }
         }
+        .alert(
+            unwrapping: .init(
+                get: { viewModel.route },
+                set: { viewModel.navigate(to: $0) }
+            ),
+            case: /ProfileViewModel.Route.alert,
+            action: viewModel.alertButtonTapped
+        )
     }
     
     @ViewBuilder
@@ -216,7 +225,8 @@ struct ProfileView_Previews: PreviewProvider {
             ProfileView(
                 viewModel: .init(
                     profile: .preview,
-                    route: route
+                    route: route,
+                    logout: {}
                 ),
                 profileEditor: { profile in
                     Text("TBD: Edit profile \(profile.id.rawValue.uuidString)")
@@ -243,10 +253,10 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             profileView()
-            profileView(route: .editProfile)
-            profileView(route: .orderHistory)
-            profileView(route: .faq)
-            profileView(route: .cards)
+            profileView(route: .navigation(.editProfile))
+            profileView(route: .navigation(.orderHistory))
+            profileView(route: .navigation(.faq))
+//            profileView(route: .alert(.logout))
         }
         .preferredColorScheme(.dark)
     }

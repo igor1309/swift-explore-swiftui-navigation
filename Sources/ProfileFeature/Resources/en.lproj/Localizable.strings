@@ -10,3 +10,5 @@
 "CHAT_BUTTON_TITLE" = "Chat";
 "CALL_US_BUTTON_TITLE" = "Call us";
 "LOGOUT_BUTTON_TITLE" = "Logout";
+"CONFIRM_LOGOUT_TITLE" = "Logout?";
+"CONFIRM_LOGOUT" = "Yes, logout!";

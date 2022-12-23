@@ -36,7 +36,14 @@ extension AppNavigation {
     }
     
     public func showProfileButtonTapped(profile: Profile) {
-        navigate(to: .profile(.init(profile: profile)))
+        navigate(
+            to: .profile(
+                .init(
+                    profile: profile,
+                    logout: { fatalError("logging out...") }
+                )
+            )
+        )
     }
     
     public func addNewAddressButtonTapped(profile: Profile) {

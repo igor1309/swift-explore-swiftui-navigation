@@ -46,19 +46,19 @@ private enum Route {
         .sheet(.addressPicker(.newAddress))
     }
     static func profile() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: nil)))
+        .sheet(.profile(.init(profile: .preview, route: nil, logout: { fatalError("unimplemented")} )))
     }
     static func editProfile() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .navigation(.editProfile))))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.editProfile), logout: { fatalError("unimplemented")} )))
     }
     static func orderHistory() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .navigation(.orderHistory))))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.orderHistory), logout: { fatalError("unimplemented")} )))
     }
     static func faq() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .navigation(.faq))))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.faq), logout: { fatalError("unimplemented")} )))
     }
     static func cards() -> AppNavigation.Route {
-        .sheet(.profile(.init(profile: .preview, route: .navigation(.cards))))
+        .sheet(.profile(.init(profile: .preview, route: .navigation(.cards), logout: { fatalError("unimplemented")} )))
     }
     static func shop() -> AppNavigation.Route {
         .navigation(.shop(.preview))

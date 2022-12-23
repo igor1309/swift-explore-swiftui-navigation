@@ -7,6 +7,7 @@
 
 import Domain
 import Foundation
+import SwiftUINavigation
 
 public final class ProfileViewModel: ObservableObject {
     
@@ -14,24 +15,32 @@ public final class ProfileViewModel: ObservableObject {
     
     let profile: Profile
     
+    private let logout: () -> Void
+    
     public init(
         profile: Profile,
-        route: Route? = nil
+        route: Route? = nil,
+        logout: @escaping () -> Void
     ) {
         self.profile = profile
         self.route = route
+        self.logout = logout
     }
     
     public func navigate(to route: Route?) {
         self.route = route
     }
     
-    func editProfileButtonTapped() {
-        navigate(to: .editProfile)
+    public func navigate(to navigation: Route.Navigation) {
+        self.route = .navigation(navigation)
     }
     
-    private func resetRoute() {
-        route = nil
+    public func navigate(to alert: AlertState<AlertAction>) {
+        self.route = .alert(alert)
+    }
+    
+    func editProfileButtonTapped() {
+        navigate(to: .editProfile)
     }
     
     func orderHistoryButtonTapped() {
@@ -59,18 +68,60 @@ public final class ProfileViewModel: ObservableObject {
     }
     
     func logoutButtonTapped() {
-        #warning("???")
+        navigate(to: .logout)
+    }
+    
+    func alertButtonTapped(_ action: AlertAction) {
+        switch action {
+        case .confirmLogoutButtonTapped:
+            confirmLogoutButtonTapped()
+        }
+    }
+    
+    func confirmLogoutButtonTapped() {
+        logout()
     }
     
     public enum Route: Hashable, Identifiable {
-        case editProfile
-        case orderHistory
-        case faq
-        case cards
-        case chat
-        case callUs
+        case navigation(Navigation)
+        case alert(AlertState<AlertAction>)
         
+        public enum Navigation: Hashable, Identifiable {
+            case editProfile
+            case orderHistory
+            case faq
+            case cards
+            case chat
+            case callUs
+            
+            public var id: Self { self }
+        }
+        
+        public enum Alert: Hashable, Identifiable {
+            case logout
+            
+            public var id: Self { self }
+        }
+
         public var id: Self { self }
+    }
+    
+    public enum AlertAction: Hashable {
+        case confirmLogoutButtonTapped
+    }
+}
+
+extension AlertState<ProfileViewModel.AlertAction> {
+    
+    static let logout: Self = .init {
+        TextState("CONFIRM_LOGOUT_TITLE", bundle: .module)
+    } actions: {
+        ButtonState(
+            role: .destructive,
+            action: .confirmLogoutButtonTapped
+        ) {
+            TextState("CONFIRM_LOGOUT", bundle: .module)
+        }
     }
 }
 
@@ -84,4 +135,3 @@ extension ProfileViewModel: Hashable {
         hasher.combine(ObjectIdentifier(self))
     }
 }
-
