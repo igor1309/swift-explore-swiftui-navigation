@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 21.12.2022.
 //
 
+import AddressPicker
 import Domain
 import SwiftUI
 

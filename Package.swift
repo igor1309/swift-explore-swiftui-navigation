@@ -10,8 +10,12 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .domain,
+        // Prototype
         .shopUIPrototype,
+        // Domain
+        .domain,
+        // Features
+        .addressPicker,
     ],
     dependencies: [
         .identifiedCollections,
@@ -19,21 +23,22 @@ let package = Package(
         .tagged,
     ],
     targets: [
-        .domain,
+        // Prototype
         .shopUIPrototype,
+        // Domain
+        .domain,
+        // Features
+        .addressPicker,
     ]
 )
+
+// MARK: - Prototype
 
 private extension Product {
     
     static let shopUIPrototype = library(
         name: "ShopUIPrototype",
         targets: ["ShopUIPrototype"]
-    )
-    
-    static let domain = library(
-        name: .domain,
-        targets: [.domain]
     )
 }
 
@@ -42,12 +47,34 @@ private extension Target {
     static let shopUIPrototype = target(
         name: .shopUIPrototype,
         dependencies: [
+            // Domain
             .domain,
+            // Packages
             .identifiedCollections,
             .swiftUINavigation,
             .tagged,
+            // Features
+            .addressPicker,
         ]
     )
+}
+
+private extension String {
+    
+    static let shopUIPrototype = "ShopUIPrototype"
+}
+
+// MARK: - Domain
+
+private extension Product {
+    
+    static let domain = library(
+        name: .domain,
+        targets: [.domain]
+    )
+}
+
+private extension Target {
     
     static let domain = target(
         name: .domain,
@@ -65,9 +92,37 @@ private extension Target.Dependency {
 
 private extension String {
     
-    static let shopUIPrototype = "ShopUIPrototype"
-    
     static let domain = "Domain"
+}
+
+// MARK: - Features
+
+private extension Product {
+    
+    static let addressPicker = library(
+        name: .addressPicker,
+        targets: [.addressPicker]
+    )
+}
+
+private extension Target {
+    
+    static let addressPicker = target(
+        name: .addressPicker,
+        dependencies: [
+            .domain
+        ]
+    )
+}
+
+private extension Target.Dependency {
+
+    static let addressPicker = byName(name: .addressPicker)
+}
+
+private extension String {
+
+    static let addressPicker = "AddressPicker"
 }
 
 // MARK: - Point-Free
