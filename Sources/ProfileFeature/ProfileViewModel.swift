@@ -86,23 +86,15 @@ public final class ProfileViewModel: ObservableObject {
         case navigation(Navigation)
         case alert(AlertState<AlertAction>)
         
-        public enum Navigation: Hashable, Identifiable {
+        public enum Navigation: Hashable {
             case editProfile
             case orderHistory
             case faq
             case cards
             case chat
             case callUs
-            
-            public var id: Self { self }
         }
         
-        public enum Alert: Hashable, Identifiable {
-            case logout
-            
-            public var id: Self { self }
-        }
-
         public var id: Self { self }
     }
     
