@@ -23,6 +23,7 @@ let package = Package(
         .promoFeature,
         .promoStripFeature,
         .shopGridFeature,
+        .shopTypeStripFeature,
     ],
     dependencies: [
         .identifiedCollections,
@@ -44,6 +45,7 @@ let package = Package(
         .promoFeature,
         .promoStripFeature,
         .shopGridFeature,
+        .shopTypeStripFeature,
     ]
 )
 
@@ -78,6 +80,7 @@ private extension Target {
             .promoFeature,
             .promoStripFeature,
             .shopGridFeature,
+            .shopTypeStripFeature,
         ]
     )
 }
@@ -158,6 +161,10 @@ private extension Product {
         name: .shopGridFeature,
         targets: [.shopGridFeature]
     )
+    static let shopTypeStripFeature = library(
+        name: .shopTypeStripFeature,
+        targets: [.shopTypeStripFeature]
+    )
 }
 
 private extension Target {
@@ -218,6 +225,13 @@ private extension Target {
             .swiftUINavigation
         ]
     )
+    static let shopTypeStripFeature = target(
+        name: .shopTypeStripFeature,
+        dependencies: [
+            .domain,
+            .swiftUINavigation
+        ]
+    )
 }
 
 private extension Target.Dependency {
@@ -230,7 +244,8 @@ private extension Target.Dependency {
     static let profileFeature = byName(name: .profileFeature)
     static let promoFeature = byName(name: .promoFeature)
     static let promoStripFeature = byName(name: .promoStripFeature)
-    static let shopGridFeature = byName(name: .promoStripFeature)
+    static let shopGridFeature = byName(name: .shopGridFeature)
+    static let shopTypeStripFeature = byName(name: .shopTypeStripFeature)
 }
 
 private extension String {
@@ -244,7 +259,7 @@ private extension String {
     static let promoFeature = "PromoFeature"
     static let promoStripFeature = "PromoStripFeature"
     static let shopGridFeature = "ShopGridFeature"
-    static let shopTypeStrip = "ShopTypeStrip"
+    static let shopTypeStripFeature = "ShopTypeStripFeature"
     static let shopView = "ShopView"
     static let showProfileButton = "ShowProfileButton"
 }
