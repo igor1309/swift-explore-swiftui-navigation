@@ -13,6 +13,7 @@ let package = Package(
         // Domain
         .domain,
         // Features
+        .addNewAddressFeature,
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
@@ -40,6 +41,7 @@ let package = Package(
         // Domain
         .domain,
         // Features
+        .addNewAddressFeature,
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
@@ -95,6 +97,10 @@ private extension String {
 
 private extension Product {
     
+    static let addNewAddressFeature = library(
+        name: .addNewAddressFeature,
+        targets: [.addNewAddressFeature]
+    )
     static let addressPickerFeature = library(
         name: .addressPickerFeature,
         targets: [.addressPickerFeature]
@@ -167,6 +173,12 @@ private extension Product {
 
 private extension Target {
     
+    static let addNewAddressFeature = target(
+        name: .addNewAddressFeature,
+        dependencies: [
+            .domain
+        ]
+    )
     static let addressPickerFeature = target(
         name: .addressPickerFeature,
         dependencies: [
@@ -301,6 +313,7 @@ private extension Target {
 
 private extension Target.Dependency {
 
+    static let addNewAddressFeature = byName(name: .addNewAddressFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
@@ -321,6 +334,7 @@ private extension Target.Dependency {
 
 private extension String {
 
+    static let addNewAddressFeature = "AddNewAddressFeature"
     static let addressPickerFeature = "AddressPickerFeature"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"

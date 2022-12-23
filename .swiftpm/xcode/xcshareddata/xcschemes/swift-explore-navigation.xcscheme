@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddNewAddressFeature"
+               BuildableName = "AddNewAddressFeature"
+               BlueprintName = "AddNewAddressFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "DeliveryTypePickerFeature"
                BuildableName = "DeliveryTypePickerFeature"
                BlueprintName = "DeliveryTypePickerFeature"
