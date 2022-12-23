@@ -20,6 +20,7 @@ let package = Package(
         .deliveryTypePicker,
         .featuredShops,
         .profileFeature,
+        .promoStrip,
     ],
     dependencies: [
         .identifiedCollections,
@@ -38,6 +39,7 @@ let package = Package(
         .featuredShops,
         .featureView,
         .profileFeature,
+        .promoStrip,
     ]
 )
 
@@ -69,6 +71,7 @@ private extension Target {
             .featuredShops,
             .featureView,
             .profileFeature,
+            .promoStrip,
         ]
     )
 }
@@ -137,6 +140,10 @@ private extension Product {
         name: .profileFeature,
         targets: [.profileFeature]
     )
+    static let promoStrip = library(
+        name: .promoStrip,
+        targets: [.promoStrip]
+    )
 }
 
 private extension Target {
@@ -178,6 +185,13 @@ private extension Target {
             .swiftUINavigation
         ]
     )
+    static let promoStrip = target(
+        name: .promoStrip,
+        dependencies: [
+            .domain,
+            .swiftUINavigation
+        ]
+    )
 }
 
 private extension Target.Dependency {
@@ -188,6 +202,7 @@ private extension Target.Dependency {
     static let featuredShops = byName(name: .featuredShops)
     static let featureView = byName(name: .featureView)
     static let profileFeature = byName(name: .profileFeature)
+    static let promoStrip = byName(name: .promoStrip)
 }
 
 private extension String {

@@ -8,12 +8,20 @@
 import Domain
 import SwiftUI
 
-struct PromoStrip<PromoView: View>: View {
+public struct PromoStrip<PromoView: View>: View {
     
-    let promos: Promos
-    let promoView: (Promo) -> PromoView
+    private let promos: Promos
+    private let promoView: (Promo) -> PromoView
     
-    var body: some View {
+    public init(
+        promos: Promos,
+        promoView: @escaping (Promo) -> PromoView
+    ) {
+        self.promos = promos
+        self.promoView = promoView
+    }
+    
+    public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(promos, content: promoView)
