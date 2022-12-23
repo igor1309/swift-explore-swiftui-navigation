@@ -24,6 +24,7 @@ let package = Package(
         .promoStripFeature,
         .shopFeature,
         .shopGridFeature,
+        .shopTypeFeature,
         .shopTypeStripFeature,
         .showProfileButtonFeature,
     ],
@@ -48,6 +49,7 @@ let package = Package(
         .promoStripFeature,
         .shopFeature,
         .shopGridFeature,
+        .shopTypeFeature,
         .shopTypeStripFeature,
         .showProfileButtonFeature,
     ]
@@ -85,6 +87,7 @@ private extension Target {
             .promoStripFeature,
             .shopFeature,
             .shopGridFeature,
+            .shopTypeFeature,
             .shopTypeStripFeature,
             .showProfileButtonFeature,
         ]
@@ -171,6 +174,10 @@ private extension Product {
         name: .shopGridFeature,
         targets: [.shopGridFeature]
     )
+    static let shopTypeFeature = library(
+        name: .shopTypeFeature,
+        targets: [.shopTypeFeature]
+    )
     static let shopTypeStripFeature = library(
         name: .shopTypeStripFeature,
         targets: [.shopTypeStripFeature]
@@ -246,6 +253,12 @@ private extension Target {
             .swiftUINavigation
         ]
     )
+    static let shopTypeFeature = target(
+        name: .shopTypeFeature,
+        dependencies: [
+            .domain,
+        ]
+    )
     static let shopTypeStripFeature = target(
         name: .shopTypeStripFeature,
         dependencies: [
@@ -273,6 +286,7 @@ private extension Target.Dependency {
     static let promoStripFeature = byName(name: .promoStripFeature)
     static let shopFeature = byName(name: .shopFeature)
     static let shopGridFeature = byName(name: .shopGridFeature)
+    static let shopTypeFeature = byName(name: .shopTypeFeature)
     static let shopTypeStripFeature = byName(name: .shopTypeStripFeature)
     static let showProfileButtonFeature = byName(name: .showProfileButtonFeature)
 }
@@ -289,6 +303,7 @@ private extension String {
     static let promoStripFeature = "PromoStripFeature"
     static let shopFeature = "ShopFeature"
     static let shopGridFeature = "ShopGridFeature"
+    static let shopTypeFeature = "ShopTypeFeature"
     static let shopTypeStripFeature = "ShopTypeStripFeature"
     static let showProfileButtonFeature = "ShowProfileButtonFeature"
 }

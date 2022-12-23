@@ -7,8 +7,11 @@
 
 import SwiftUI
 
-struct ShopTypeView: View {
-    var body: some View {
+public struct ShopTypeView: View {
+
+    public init() {}
+
+    public var body: some View {
         Text("ShopType View")
     }
 }
