@@ -7,7 +7,7 @@
 
 import AddressPickerFeature
 import AddressViewFeature
-import DeliveryTypePicker
+import DeliveryTypePickerFeature
 import Domain
 import FeaturedShops
 import FeatureView
