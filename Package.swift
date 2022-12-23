@@ -21,6 +21,7 @@ let package = Package(
         .featureViewFeature,
         .mainPageFeature,
         .newAppFeatureFeature,
+        .profileEditorFeature,
         .profileFeature,
         .promoFeature,
         .promoStripFeature,
@@ -47,6 +48,7 @@ let package = Package(
         .featureViewFeature,
         .mainPageFeature,
         .newAppFeatureFeature,
+        .profileEditorFeature,
         .profileFeature,
         .promoFeature,
         .promoStripFeature,
@@ -125,6 +127,10 @@ private extension Product {
         name: .newAppFeatureFeature,
         targets: [.newAppFeatureFeature]
     )
+    static let profileEditorFeature = library(
+        name: .profileEditorFeature,
+        targets: [.profileEditorFeature]
+    )
     static let profileFeature = library(
         name: .profileFeature,
         targets: [.profileFeature]
@@ -190,6 +196,7 @@ private extension Target {
             .featureViewFeature,
             .mainPageFeature,
             .newAppFeatureFeature,
+            .profileEditorFeature,
             .profileFeature,
             .promoFeature,
             .promoStripFeature,
@@ -226,6 +233,12 @@ private extension Target {
     )
     static let newAppFeatureFeature = target(
         name: .newAppFeatureFeature,
+        dependencies: [
+            .domain
+        ]
+    )
+    static let profileEditorFeature = target(
+        name: .profileEditorFeature,
         dependencies: [
             .domain
         ]
@@ -294,6 +307,7 @@ private extension Target.Dependency {
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
+    static let profileEditorFeature = byName(name: .profileEditorFeature)
     static let profileFeature = byName(name: .profileFeature)
     static let promoFeature = byName(name: .promoFeature)
     static let promoStripFeature = byName(name: .promoStripFeature)
@@ -314,6 +328,7 @@ private extension String {
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
+    static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"
     static let promoFeature = "PromoFeature"
     static let promoStripFeature = "PromoStripFeature"

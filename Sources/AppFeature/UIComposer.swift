@@ -12,6 +12,7 @@ import Domain
 import FeaturedShopsFeature
 import FeatureViewFeature
 import NewAppFeatureFeature
+import ProfileEditorFeature
 import ProfileFeature
 import PromoFeature
 import PromoStripFeature

@@ -42,34 +42,18 @@ public struct ProfileEditor: View {
                 } header: {
                     Text("PHONE")
                 } footer: {
-                    Button(role: .destructive, action: deleteAccount) {
-                        Label {
-                            Text("DELETE_ACCOUNT_BUTTON_TITLE", bundle: .module)
-                        } icon: {
-                            Image(systemName: "trash")
-                        }
-                    }
-                    .font(.caption)
-                    .padding(.top)
-                    .frame(maxWidth: .infinity)
+                    deleteAccountButton()
+                        .controlSize(.mini)
+                        .padding(.top)
+                        .frame(maxWidth: .infinity)
                 }
             }
             
             Spacer(minLength: 100)
             
-            Button {
-                saveProfile(user)
-            } label: {
-                Label {
-                    Text("SAVE_PROFILE_CHANGES", bundle: .module)
-                        .padding(.vertical, 3)
-                } icon: {
-                    Image(systemName: "square.and.arrow.down")
-                }
-                .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .padding([.bottom, .horizontal])
+            saveProfileButton()
+                .buttonStyle(.borderedProminent)
+                .padding([.bottom, .horizontal])
         }
         .navigationTitle(Text("EDIT_PROFILE_NAVIGATION_TITLE", bundle: .module))
         .navigationBarTitleDisplayMode(.inline)
@@ -88,6 +72,34 @@ public struct ProfileEditor: View {
             self.name = name
             self.email = email
             self.phone = phone
+        }
+    }
+    
+    private func deleteAccountButton() -> some View {
+        Button(role: .destructive, action: deleteAccount) {
+            Label {
+                Text("DELETE_ACCOUNT_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "trash")
+            }
+        }
+    }
+    
+    private func deleteAccountButtonTapped() {
+        deleteAccountButton()
+    }
+    
+    private func saveProfileButton() -> some View {
+        Button {
+            saveProfile(user)
+        } label: {
+            Label {
+                Text("SAVE_PROFILE_CHANGES", bundle: .module)
+                    .padding(.vertical, 3)
+            } icon: {
+                Image(systemName: "square.and.arrow.down")
+            }
+            .frame(maxWidth: .infinity)
         }
     }
 }
