@@ -17,6 +17,7 @@ import PromoStripFeature
 import ShopFeature
 import ShopGridFeature
 import ShopTypeStripFeature
+import ShowProfileButtonFeature
 import SwiftUI
 
 public final class UIComposer {

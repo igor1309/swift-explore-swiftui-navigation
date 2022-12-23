@@ -25,6 +25,7 @@ let package = Package(
         .shopFeature,
         .shopGridFeature,
         .shopTypeStripFeature,
+        .showProfileButtonFeature,
     ],
     dependencies: [
         .identifiedCollections,
@@ -48,6 +49,7 @@ let package = Package(
         .shopFeature,
         .shopGridFeature,
         .shopTypeStripFeature,
+        .showProfileButtonFeature,
     ]
 )
 
@@ -84,6 +86,7 @@ private extension Target {
             .shopFeature,
             .shopGridFeature,
             .shopTypeStripFeature,
+            .showProfileButtonFeature,
         ]
     )
 }
@@ -172,6 +175,10 @@ private extension Product {
         name: .shopTypeStripFeature,
         targets: [.shopTypeStripFeature]
     )
+    static let showProfileButtonFeature = library(
+        name: .showProfileButtonFeature,
+        targets: [.showProfileButtonFeature]
+    )
 }
 
 private extension Target {
@@ -246,6 +253,12 @@ private extension Target {
             .swiftUINavigation
         ]
     )
+    static let showProfileButtonFeature = target(
+        name: .showProfileButtonFeature,
+        dependencies: [
+            .domain,
+        ]
+    )
 }
 
 private extension Target.Dependency {
@@ -261,6 +274,7 @@ private extension Target.Dependency {
     static let shopFeature = byName(name: .shopFeature)
     static let shopGridFeature = byName(name: .shopGridFeature)
     static let shopTypeStripFeature = byName(name: .shopTypeStripFeature)
+    static let showProfileButtonFeature = byName(name: .showProfileButtonFeature)
 }
 
 private extension String {
@@ -276,7 +290,7 @@ private extension String {
     static let shopFeature = "ShopFeature"
     static let shopGridFeature = "ShopGridFeature"
     static let shopTypeStripFeature = "ShopTypeStripFeature"
-    static let showProfileButton = "ShowProfileButton"
+    static let showProfileButtonFeature = "ShowProfileButtonFeature"
 }
 
 // MARK: - Point-Free

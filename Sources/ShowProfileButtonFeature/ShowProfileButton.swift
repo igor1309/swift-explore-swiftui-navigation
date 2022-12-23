@@ -8,12 +8,20 @@
 import Domain
 import SwiftUI
 
-struct ShowProfileButton: View {
+public struct ShowProfileButton: View {
     
     let profile: Profile
     let action: () -> Void
     
-    var body: some View {
+    public init(
+        profile: Profile,
+        action: @escaping () -> Void
+    ) {
+        self.profile = profile
+        self.action = action
+    }
+    
+    public var body: some View {
         Button(action: action) {
             Label("Shop Grid View", systemImage: "person.circle")
         }
