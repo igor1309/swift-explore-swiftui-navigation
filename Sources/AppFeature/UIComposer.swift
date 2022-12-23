@@ -217,22 +217,24 @@ extension UIComposer {
     
     func makeProfileEditor(profile: Profile) -> some View {
         ProfileEditor(
-            user: .init(
-                name: profile.name,
-                email: profile.email,
-                phone: profile.phone
-            ),
-            saveProfile: { [weak self] user in
-                self?.appViewModel.updateProfile(
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone
-                )
-#warning("need to dismiss")
-            },
-            deleteAccount: {
-#warning("finish this")
-            }
+            viewModel: .init(
+                user: .init(
+                    name: profile.name,
+                    email: profile.email,
+                    phone: profile.phone
+                ),
+                saveProfile: { [weak self] user in
+                    self?.appViewModel.updateProfile(
+                        name: user.name,
+                        email: user.email,
+                        phone: user.phone
+                    )
+    #warning("need to dismiss")
+                },
+                deleteAccount: {
+    #warning("finish this")
+                }
+            )
         )
     }
     
