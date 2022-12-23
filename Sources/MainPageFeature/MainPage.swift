@@ -59,7 +59,6 @@ public struct MainPage<
                 shopGridView()
             }
         }
-        // .searchable(text: .constant(""), prompt: "MAIN_PAGE_SEARCH_PROMPT")
         .searchable(text: .constant("")) {
             Text("MAIN_PAGE_SEARCH_PROMPT", bundle: .module)
         }
@@ -86,7 +85,7 @@ struct MainPage_Previews: PreviewProvider {
             } featuredShopsView: {
                 TBD("Featured Shops View: small grid of 2")
             } newAppFeatureView: {
-                TBD("New Feature View: promo")
+                TBD("New App Feature View: promo")
             } promoStrip: {
                 TBD("Promo Strip")
             } shopGridView: {
