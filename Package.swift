@@ -176,7 +176,7 @@ private extension Target {
     static let addNewAddressFeature = target(
         name: .addNewAddressFeature,
         dependencies: [
-            .domain
+            .tagged
         ]
     )
     static let addressPickerFeature = target(

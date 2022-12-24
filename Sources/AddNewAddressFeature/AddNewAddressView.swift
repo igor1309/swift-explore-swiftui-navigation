@@ -34,6 +34,7 @@ public struct AddNewAddressView<MapView: View>: View {
                 ),
                 prompt: Text("SEARCH_FIELD", bundle: .module)
             )
+            .searchSuggestions(searchSuggestions)
     }
     
     private var navigationTitle: Text {
@@ -54,9 +55,45 @@ public struct AddNewAddressView<MapView: View>: View {
             }
         }
     }
+    
+    private func searchSuggestions() -> some View {
+        ForEach(viewModel.suggestions, content: suggestionView)
+    }
+    
+    private func suggestionView(suggestion: Suggestion) -> some View {
+        Button {
+            viewModel.select(suggestion)
+        } label: {
+            Label(
+                suggestion.address.street.rawValue,
+                systemImage: "building.2.crop.circle"
+            )
+        }
+    }
 }
 
 #if DEBUG
+private extension Array where Element == Address {
+    
+    static let prevSearches: Self = [
+        .init(street: .init("5th Ave, 123")),
+    ]
+    static let preview: Self = [
+        .init(street: .init("Black Street, 123")),
+        .init(street: .init("White Avenue, 456"))
+    ]
+}
+
+private extension Array where Element == Suggestion {
+    
+    static let prevSearches: Self = [Address].prevSearches.map {
+        .init(address: $0)
+    }
+    static let preview: Self = [Address].preview.map {
+        .init(address: $0)
+    }
+}
+
 import MapKit
 
 struct AddNewAddressView_Previews: PreviewProvider {
@@ -64,15 +101,32 @@ struct AddNewAddressView_Previews: PreviewProvider {
     struct Demo<MapView: View>: View {
         let mapView: () -> MapView
         
+        @StateObject private var viewModel: AddNewAddressViewModel = .init(
+            getAddress: {},
+            addAddress: { _ in },
+            getSuggestions: { text in
+                if text.isEmpty {
+                    return .prevSearches
+                } else {
+                    return .preview
+                }
+            }
+        )
+        
         var body: some View {
             NavigationStack {
                 AddNewAddressView(
-                    viewModel: .init(
-                        getAddress: {},
-                        addAddress: { _ in }
-                    ),
+                    viewModel: viewModel,
                     mapView: mapView
                 )
+            }
+            .overlay(alignment: .bottom) {
+                if let street = viewModel.address?.street.rawValue {
+                    Text(street)
+                } else {
+                    Text("address not avail")
+                        .foregroundColor(.red)
+                }
             }
         }
     }
