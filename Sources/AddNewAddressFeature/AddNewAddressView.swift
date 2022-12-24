@@ -21,15 +21,14 @@ public struct AddNewAddressView<MapView: View>: View {
         self.viewModel = viewModel
         self.mapView = mapView
     }
+    
     public var body: some View {
         mapView()
-            .overlay {
-                DismissSearchView(dismiss: viewModel.dismiss)
-            }
             .ignoresSafeArea()
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: toolbar)
+            .overlay(content: dismissSearchView)
             .searchable(
                 text: .init(
                     get: { viewModel.searchText },
@@ -40,22 +39,10 @@ public struct AddNewAddressView<MapView: View>: View {
             .searchSuggestions(searchSuggestions)
     }
     
-    private struct DismissSearchView: View {
-        @Environment(\.dismissSearch) private var dismissSearch
-        
-        let dismiss: PassthroughSubject<Void, Never>
-        
-        var body: some View {
-            EmptyView()
-                .onReceive(dismiss) { _ in dismissSearch() }
-        }
-    }
-    
     private var navigationTitle: Text {
-        Text( "ADD_NEW_ADDRESS_NAVIGATION_TITLE", bundle: .module)
+        Text("ADD_NEW_ADDRESS_NAVIGATION_TITLE", bundle: .module)
     }
     
-    @ToolbarContentBuilder
     private func toolbar() -> some ToolbarContent {
         ToolbarItem(placement: .primaryAction, content: addAddressButton)
     }
@@ -69,6 +56,21 @@ public struct AddNewAddressView<MapView: View>: View {
             }
         }
         .disabled(viewModel.address == nil)
+    }
+    
+    private func dismissSearchView() -> some View {
+        DismissSearchView(dismiss: viewModel.dismiss)
+    }
+    
+    private struct DismissSearchView: View {
+        @Environment(\.dismissSearch) private var dismissSearch
+        
+        let dismiss: PassthroughSubject<Void, Never>
+        
+        var body: some View {
+            EmptyView()
+                .onReceive(dismiss) { _ in dismissSearch() }
+        }
     }
     
     private func searchSuggestions() -> some View {
