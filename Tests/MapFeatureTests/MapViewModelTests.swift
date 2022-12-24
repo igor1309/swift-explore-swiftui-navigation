@@ -27,20 +27,19 @@ final class MapViewModelTests: XCTestCase {
     
     func test__() {
         let scheduler = DispatchQueue.test
-        let (sut, locationSpy, streetSpy) = makeSUT(
+        let (sut, _, streetSpy) = makeSUT(
             stub: "Blue Stret, 123",
             scheduler: scheduler.eraseToAnyScheduler()
         )
         
         XCTAssertEqual(streetSpy.values, [nil])
         
-        scheduler.advance()
+//        scheduler.advance()
         scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [nil])
         
         sut.update(region: .moscowStreet)
         scheduler.advance()
-        scheduler.advance(by: .seconds(1))
 //        scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [nil, "Blue Stret, 123"])
         
@@ -67,6 +66,7 @@ final class MapViewModelTests: XCTestCase {
         let sut = MapViewModel(
             initialRegion: initialRegion,
             getStreetFrom: locationSpy.getStreetFrom,
+            //getStreetFrom: { _ in Just(stub).eraseToAnyPublisher() },
             scheduler: scheduler
         )
         let streetSpy = ValueSpy(sut.$street)
@@ -79,7 +79,7 @@ final class MapViewModelTests: XCTestCase {
     }
     
     private final class LocationSpy {
-        let stub: String?
+        private let stub: String?
         
         init(stub: String?) {
             self.stub = stub

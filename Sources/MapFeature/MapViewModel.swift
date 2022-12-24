@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import Combine
 import CombineSchedulers
 import Foundation
 import MapKit
@@ -31,11 +32,13 @@ public final class MapViewModel: ObservableObject {
             .receive(on: scheduler)
             .assign(to: &$street)
     }
-
+    
     private var task: Task<Void, Never>?
     
     func update(region: MKCoordinateRegion) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
             self.street = nil
             self.region = region
         }
