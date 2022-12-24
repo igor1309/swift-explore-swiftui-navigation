@@ -19,16 +19,25 @@ public struct MapView: View {
     public var body: some View {
         Map(coordinateRegion: $viewModel.region)
             .overlay(content: circle)
+            .overlay(content: street)
     }
     
     private func circle() -> some View {
         Circle()
-            .stroke(.blue, lineWidth: 3)
+            .stroke(.blue, lineWidth: 4)
             .overlay {
                 Circle()
                     .stroke(.white, lineWidth: 1)
             }
             .frame(width: 32, height: 32)
+    }
+    
+    private func street() -> some View {
+        viewModel.street.map {
+            Text($0)
+                .font(.subheadline.bold())
+                .offset(x: 50, y: -28)
+        }
     }
 }
 

@@ -38,10 +38,10 @@ public extension MapViewModel {
                     else {
                         return nil
                     }
-//                    return CNPostalAddressFormatter.string(
-//                        from: address,
-//                        style: .mailingAddress
-//                    )
+                    // return CNPostalAddressFormatter.string(
+                    //     from: address,
+                    //     style: .mailingAddress
+                    // )
                     return address.street
                     
                 } catch {
@@ -49,7 +49,6 @@ public extension MapViewModel {
                 }
             }
         )
-        
     }
 }
 #endif
