@@ -11,15 +11,15 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     @Published private(set) var searchText: String = ""
     
+    private let getAddress: () -> Void
     private let addAddress: (String) -> Void
-    private let getCurrentLocation: () -> Void
     
     public init(
-        getCurrentLocation: @escaping () -> Void,
+        getAddress: @escaping () -> Void,
         addAddress: @escaping (String) -> Void
     ) {
         self.addAddress = addAddress
-        self.getCurrentLocation = getCurrentLocation
+        self.getAddress = getAddress
     }
     
     func setSearchText(to text: String) {
@@ -28,9 +28,5 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     func addAddressButtonTapped() {
         addAddress(searchText)
-    }
-    
-    func getCurrentLocationButtonTapped() {
-        getCurrentLocation()
     }
 }
