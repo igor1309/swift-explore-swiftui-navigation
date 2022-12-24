@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import CombineSchedulers
 import Foundation
 import MapKit
 
@@ -17,29 +18,30 @@ public final class MapViewModel: ObservableObject {
     @Published private(set) var street: String?
     
     private let getStreetFrom: GetStreetFrom
+    private let scheduler: AnySchedulerOf<DispatchQueue>
     
     public init(
         initialRegion: MKCoordinateRegion,
-        getStreetFrom: @escaping GetStreetFrom
+        getStreetFrom: @escaping GetStreetFrom,
+        scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.region = initialRegion
         self.center = initialRegion.center
         self.getStreetFrom = getStreetFrom
+        self.scheduler = scheduler
         
-        #warning("use schedulers")
         $region
             .map(\.center)
             .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
-            .debounce(for: 0.5, scheduler: DispatchQueue.main)
-            .receive(on: DispatchQueue.main)
+            .debounce(for: 0.5, scheduler: scheduler)
+            .receive(on: scheduler)
             .assign(to: &$center)
         
-        #warning("use schedulers")
         $region
             .map(\.center)
-            .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .debounce(for: 0.5, scheduler: scheduler)
             .asyncMap(getStreet)
-            .receive(on: DispatchQueue.main)
+            .receive(on: scheduler)
             .assign(to: &$street)
     }
 
