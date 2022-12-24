@@ -31,15 +31,18 @@ public extension MapViewModel {
                 )
                 let clGeocoder = CLGeocoder()
                 do {
-                    guard let placemark = try await clGeocoder.reverseGeocodeLocation(clLocation).first,
+                    let placemarks = try await clGeocoder.reverseGeocodeLocation(clLocation)
+                    
+                    guard let placemark = placemarks.first,
                           let address = placemark.postalAddress
                     else {
                         return nil
                     }
-                    return CNPostalAddressFormatter.string(
-                        from: address,
-                        style: .mailingAddress
-                    )
+//                    return CNPostalAddressFormatter.string(
+//                        from: address,
+//                        style: .mailingAddress
+//                    )
+                    return address.street
                     
                 } catch {
                     return nil
