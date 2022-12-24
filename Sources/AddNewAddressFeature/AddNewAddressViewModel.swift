@@ -17,6 +17,8 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var suggestions: [Suggestion] = []
     @Published private(set) var address: Address?
     
+    let dismiss = PassthroughSubject<Void, Never>()
+    
     private let getAddress: () -> Void
     private let addAddress: (String) -> Void
     private let getSuggestions: GetSuggestions
@@ -33,6 +35,7 @@ public final class AddNewAddressViewModel: ObservableObject {
         $searchText
             .removeDuplicates()
         //.debounce(for: T##SchedulerTimeIntervalConvertible & Comparable & SignedNumeric, scheduler: T##Scheduler)
+        //.receive(on: <#T##Scheduler#>)
             .flatMap(getSuggestions)
             .assign(to: &$suggestions)
     }
@@ -47,6 +50,6 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     func select(_ suggestion: Suggestion) {
         self.address = suggestion.address
-        #warning("dismiss search")
+        self.dismiss.send(())
     }
 }

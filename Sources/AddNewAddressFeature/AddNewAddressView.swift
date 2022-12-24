@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import Combine
 import SwiftUI
 
 public struct AddNewAddressView<MapView: View>: View {
@@ -20,9 +21,11 @@ public struct AddNewAddressView<MapView: View>: View {
         self.viewModel = viewModel
         self.mapView = mapView
     }
-    
     public var body: some View {
         mapView()
+            .overlay {
+                DismissSearchView(dismiss: viewModel.dismiss)
+            }
             .ignoresSafeArea()
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
@@ -35,6 +38,17 @@ public struct AddNewAddressView<MapView: View>: View {
                 prompt: Text("SEARCH_FIELD", bundle: .module)
             )
             .searchSuggestions(searchSuggestions)
+    }
+    
+    private struct DismissSearchView: View {
+        @Environment(\.dismissSearch) private var dismissSearch
+        
+        let dismiss: PassthroughSubject<Void, Never>
+        
+        var body: some View {
+            EmptyView()
+                .onReceive(dismiss) { _ in dismissSearch() }
+        }
     }
     
     private var navigationTitle: Text {
@@ -54,6 +68,7 @@ public struct AddNewAddressView<MapView: View>: View {
                 Image(systemName: "text.badge.plus")
             }
         }
+        .disabled(viewModel.address == nil)
     }
     
     private func searchSuggestions() -> some View {
