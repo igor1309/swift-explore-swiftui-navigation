@@ -45,7 +45,7 @@ public struct MapView: View {
 
 struct Map_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(viewModel: .init(region: .londonStreet))
+        MapView(viewModel: .init(initialRegion: .londonStreet))
             .ignoresSafeArea()
     }
 }

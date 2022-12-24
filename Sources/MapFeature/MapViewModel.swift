@@ -14,9 +14,11 @@ public final class MapViewModel: ObservableObject {
     
     @Published private(set) var center: CLLocationCoordinate2D
     
-    public init(region: MKCoordinateRegion) {
-        self.region = region
-        self.center = region.center
+    public init(
+        initialRegion: MKCoordinateRegion
+    ) {
+        self.region = initialRegion
+        self.center = initialRegion.center
         
         #warning("use schedulers")
         $region
