@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2A0D62A929559B5D00D1B884 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A0D62A829559B5D00D1B884 /* AppFeature */; };
+		2A1AC7182956F6210075134A /* AddNewAddressPreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1AC7172956F6210075134A /* AddNewAddressPreviewAppApp.swift */; };
+		2A1AC71A2956F6210075134A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1AC7192956F6210075134A /* ContentView.swift */; };
+		2A1AC71C2956F6220075134A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A1AC71B2956F6220075134A /* Assets.xcassets */; };
+		2A1AC71F2956F6220075134A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A1AC71E2956F6220075134A /* Preview Assets.xcassets */; };
+		2A1AC7242956F63F0075134A /* AddNewAddressFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A1AC7232956F63F0075134A /* AddNewAddressFeature */; };
 		2A390C9F2955EA9100779C18 /* SwiftUINavigationAlertApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A390C9E2955EA9100779C18 /* SwiftUINavigationAlertApp.swift */; };
 		2A390CA12955EA9100779C18 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A390CA02955EA9100779C18 /* ContentView.swift */; };
 		2A390CA32955EA9200779C18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A390CA22955EA9200779C18 /* Assets.xcassets */; };
@@ -20,6 +25,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A1AC7152956F6210075134A /* AddNewAddressPreviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddNewAddressPreviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A1AC7172956F6210075134A /* AddNewAddressPreviewAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressPreviewAppApp.swift; sourceTree = "<group>"; };
+		2A1AC7192956F6210075134A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2A1AC71B2956F6220075134A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2A1AC71E2956F6220075134A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2A390C9C2955EA9100779C18 /* SwiftUINavigationAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUINavigationAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A390C9E2955EA9100779C18 /* SwiftUINavigationAlertApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUINavigationAlertApp.swift; sourceTree = "<group>"; };
 		2A390CA02955EA9100779C18 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +44,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2A1AC7122956F6210075134A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A1AC7242956F63F0075134A /* AddNewAddressFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2A390C992955EA9100779C18 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -53,6 +71,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A1AC7162956F6210075134A /* AddNewAddressPreviewApp */ = {
+			isa = PBXGroup;
+			children = (
+				2A1AC7172956F6210075134A /* AddNewAddressPreviewAppApp.swift */,
+				2A1AC7192956F6210075134A /* ContentView.swift */,
+				2A1AC71B2956F6220075134A /* Assets.xcassets */,
+				2A1AC71D2956F6220075134A /* Preview Content */,
+			);
+			path = AddNewAddressPreviewApp;
+			sourceTree = "<group>";
+		};
+		2A1AC71D2956F6220075134A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2A1AC71E2956F6220075134A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		2A390C9D2955EA9100779C18 /* SwiftUINavigationAlert */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +115,7 @@
 				2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */,
 				2AFF10462952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
 				2A390C9D2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2A1AC7162956F6210075134A /* AddNewAddressPreviewApp */,
 				2AFF10192952F953003E11E5 /* Products */,
 				2AFF102A2952FAEE003E11E5 /* Frameworks */,
 			);
@@ -88,6 +126,7 @@
 			children = (
 				2AFF10452952FBA2003E11E5 /* ShopUIPrototypePreviewApp.app */,
 				2A390C9C2955EA9100779C18 /* SwiftUINavigationAlert.app */,
+				2A1AC7152956F6210075134A /* AddNewAddressPreviewApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +160,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2A1AC7142956F6210075134A /* AddNewAddressPreviewApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A1AC7222956F6220075134A /* Build configuration list for PBXNativeTarget "AddNewAddressPreviewApp" */;
+			buildPhases = (
+				2A1AC7112956F6210075134A /* Sources */,
+				2A1AC7122956F6210075134A /* Frameworks */,
+				2A1AC7132956F6210075134A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AddNewAddressPreviewApp;
+			packageProductDependencies = (
+				2A1AC7232956F63F0075134A /* AddNewAddressFeature */,
+			);
+			productName = AddNewAddressPreviewApp;
+			productReference = 2A1AC7152956F6210075134A /* AddNewAddressPreviewApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		2A390C9B2955EA9100779C18 /* SwiftUINavigationAlert */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A390CA92955EA9200779C18 /* Build configuration list for PBXNativeTarget "SwiftUINavigationAlert" */;
@@ -171,6 +230,9 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					2A1AC7142956F6210075134A = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					2A390C9B2955EA9100779C18 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -197,11 +259,21 @@
 			targets = (
 				2AFF10442952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
 				2A390C9B2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2A1AC7142956F6210075134A /* AddNewAddressPreviewApp */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2A1AC7132956F6210075134A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A1AC71F2956F6220075134A /* Preview Assets.xcassets in Resources */,
+				2A1AC71C2956F6220075134A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2A390C9A2955EA9100779C18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,6 +295,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2A1AC7112956F6210075134A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A1AC71A2956F6210075134A /* ContentView.swift in Sources */,
+				2A1AC7182956F6210075134A /* AddNewAddressPreviewAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2A390C982955EA9100779C18 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -244,6 +325,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		2A1AC7202956F6220075134A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddNewAddressPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddNewAddressPreviewApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A1AC7212956F6220075134A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddNewAddressPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddNewAddressPreviewApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		2A390CA72955EA9200779C18 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -477,6 +616,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2A1AC7222956F6220075134A /* Build configuration list for PBXNativeTarget "AddNewAddressPreviewApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A1AC7202956F6220075134A /* Debug */,
+				2A1AC7212956F6220075134A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2A390CA92955EA9200779C18 /* Build configuration list for PBXNativeTarget "SwiftUINavigationAlert" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -521,6 +669,10 @@
 		2A0D62A829559B5D00D1B884 /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFeature;
+		};
+		2A1AC7232956F63F0075134A /* AddNewAddressFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddNewAddressFeature;
 		};
 		2A390CAB2955EAE700779C18 /* SwiftUINavigation */ = {
 			isa = XCSwiftPackageProductDependency;
