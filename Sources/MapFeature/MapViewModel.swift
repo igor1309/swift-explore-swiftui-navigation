@@ -36,6 +36,7 @@ public final class MapViewModel: ObservableObject {
     
     func update(region: MKCoordinateRegion) {
         DispatchQueue.main.async {
+            self.street = nil
             self.region = region
         }
     }
