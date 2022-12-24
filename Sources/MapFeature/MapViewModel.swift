@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import MapKit
 
 public final class MapViewModel: ObservableObject {
     
+    @Published var region: MKCoordinateRegion
     
+    public init(region: MKCoordinateRegion) {
+        self.region = region
+    }
 }
