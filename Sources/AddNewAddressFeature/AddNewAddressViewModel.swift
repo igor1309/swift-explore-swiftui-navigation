@@ -10,6 +10,8 @@ import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
     
+    public typealias AddressPublisher = AnyPublisher<Address?, Never>
+    public typealias GetAddress = () -> AddressPublisher
     public typealias SuggestionsPublisher = AnyPublisher<[Suggestion], Never>
     public typealias GetSuggestions = (String) -> SuggestionsPublisher
     
@@ -17,20 +19,22 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var suggestions: [Suggestion] = []
     @Published private(set) var address: Address?
     
+    private let getAddress: GetAddress
+    private let getSuggestions: GetSuggestions
+    private let addAddress: (String) -> Void
+    
     let dismiss = PassthroughSubject<Void, Never>()
     
-    private let getAddress: () -> Void
-    private let addAddress: (String) -> Void
-    private let getSuggestions: GetSuggestions
+    private let selectAddress = PassthroughSubject<Address?, Never>()
     
     public init(
-        getAddress: @escaping () -> Void,
-        addAddress: @escaping (String) -> Void,
-        getSuggestions: @escaping GetSuggestions
+        getAddress: @escaping GetAddress,
+        getSuggestions: @escaping GetSuggestions,
+        addAddress: @escaping (String) -> Void
     ) {
         self.addAddress = addAddress
-        self.getAddress = getAddress
         self.getSuggestions = getSuggestions
+        self.getAddress = getAddress
         
         $searchText
             .removeDuplicates()
@@ -38,6 +42,11 @@ public final class AddNewAddressViewModel: ObservableObject {
         //.receive(on: <#T##Scheduler#>)
             .flatMap(getSuggestions)
             .assign(to: &$suggestions)
+        
+        getAddress()
+            .merge(with: selectAddress)
+            //.receive(on: <#T##Scheduler#>)
+            .assign(to: &$address)
     }
     
     func setSearchText(to text: String) {
@@ -49,7 +58,7 @@ public final class AddNewAddressViewModel: ObservableObject {
     }
     
     func select(_ suggestion: Suggestion) {
-        self.address = suggestion.address
+        selectAddress.send(suggestion.address)
         self.dismiss.send(())
     }
 }

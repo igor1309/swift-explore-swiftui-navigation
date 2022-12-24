@@ -11,15 +11,15 @@ import SwiftUI
 public struct AddNewAddressViewDemo<MapView: View>: View {
     
     @StateObject private var viewModel: AddNewAddressViewModel = .init(
-        getAddress: {},
-        addAddress: { _ in },
+        getAddress: { .preview },
         getSuggestions: { text in
             if text.isEmpty {
                 return .prevSearches
             } else {
                 return .preview
             }
-        }
+        },
+        addAddress: { _ in }
     )
     
     private let mapView: () -> MapView
@@ -73,7 +73,7 @@ public extension AddNewAddressViewDemo where MapView == FakeMap {
 struct AddNewAddressViewDemo_Previews: PreviewProvider {
     static var previews: some View {
         AddNewAddressViewDemo()
-        .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }
 #endif
