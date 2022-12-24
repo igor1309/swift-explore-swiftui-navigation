@@ -94,6 +94,14 @@ private extension Array where Element == Suggestion {
     }
 }
 
+import Combine
+
+private extension AnyPublisher where Output == [Suggestion], Failure == Never {
+    
+    static let prevSearches: Self = Just(.prevSearches).eraseToAnyPublisher()
+    static let preview: Self = Just(.preview).eraseToAnyPublisher()
+}
+
 import MapKit
 
 struct AddNewAddressView_Previews: PreviewProvider {

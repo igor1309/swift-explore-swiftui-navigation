@@ -5,11 +5,13 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import Combine
 import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
     
-    public typealias GetSuggestions = (String) -> [Suggestion]
+    public typealias SuggestionsPublisher = AnyPublisher<[Suggestion], Never>
+    public typealias GetSuggestions = (String) -> SuggestionsPublisher
     
     @Published private(set) var searchText: String = ""
     @Published private(set) var suggestions: [Suggestion] = []
@@ -30,8 +32,8 @@ public final class AddNewAddressViewModel: ObservableObject {
         
         $searchText
             .removeDuplicates()
-        //.debounce(for: <#T##SchedulerTimeIntervalConvertible & Comparable & SignedNumeric#>, scheduler: <#T##Scheduler#>)
-            .map(getSuggestions)
+        //.debounce(for: T##SchedulerTimeIntervalConvertible & Comparable & SignedNumeric, scheduler: T##Scheduler)
+            .flatMap(getSuggestions)
             .assign(to: &$suggestions)
     }
     
