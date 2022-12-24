@@ -16,13 +16,81 @@ public struct AddNewAddressView: View {
     }
     
     public var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            searchField()
+                .padding(.horizontal)
+            
+            map()
+                .ignoresSafeArea(edges: .bottom)
+                .overlay(alignment: .bottomTrailing, content: getCurrentLocationButton)
+        }
+        .navigationTitle(Text("ADD_NEW_ADDRESS_NAVIGATION_TITLE", bundle: .module))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: toolbar)
+    }
+    
+    private func searchField() -> some View {
+        TextField(
+            text: .init(
+                get: { viewModel.searchText },
+                set: viewModel.setSearchText
+            )
+        ) {
+            Text("SEARCH_FIELD", bundle: .module)
+        }
+    }
+    
+    private func map() -> some View {
+        Rectangle()
+            .fill(.ultraThinMaterial)
+            .overlay {
+                Text("TBD: Map + search + current location button")
+                    .foregroundColor(.mint)
+            }
+    }
+    
+    private func addAddressButton() -> some View {
+        Button(action: viewModel.addAddressButtonTapped) {
+            Label {
+                Text("ADD_ADDRESS_BUTTON_TITLE", bundle: .module)
+            } icon: {
+                Image(systemName: "text.badge.plus")
+            }
+        }
+    }
+    
+    private func getCurrentLocationButton() -> some View {
+        Button(action: viewModel.getCurrentLocationButtonTapped) {
+            Label(
+                "CURRENT_LOCATION_BUTTON_TITLE",
+                systemImage: "location.fill"
+            )
+            .labelStyle(.iconOnly)
+            .imageScale(.large)
+            .foregroundColor(.indigo)
+            .padding(12)
+            .background(.mint)
+            .clipShape(Circle())
+            .padding()
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private func toolbar() -> some ToolbarContent {
+        ToolbarItem(placement: .primaryAction, content: addAddressButton)
     }
 }
 
 struct AddNewAddressView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewAddressView(viewModel: .init())
-            .preferredColorScheme(.dark)
+        NavigationStack {
+            AddNewAddressView(
+                viewModel: .init(
+                    getCurrentLocation: {},
+                    addAddress: { _ in }
+                )
+            )
+        }
+        .preferredColorScheme(.dark)
     }
 }

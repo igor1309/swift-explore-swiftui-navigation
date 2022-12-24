@@ -9,5 +9,28 @@ import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
     
-    public init() {}
+    @Published private(set) var searchText: String = ""
+    
+    private let addAddress: (String) -> Void
+    private let getCurrentLocation: () -> Void
+    
+    public init(
+        getCurrentLocation: @escaping () -> Void,
+        addAddress: @escaping (String) -> Void
+    ) {
+        self.addAddress = addAddress
+        self.getCurrentLocation = getCurrentLocation
+    }
+    
+    func setSearchText(to text: String) {
+        self.searchText = text
+    }
+    
+    func addAddressButtonTapped() {
+        addAddress(searchText)
+    }
+    
+    func getCurrentLocationButtonTapped() {
+        getCurrentLocation()
+    }
 }
