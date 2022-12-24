@@ -23,8 +23,8 @@ public struct MapView: View {
                 set: viewModel.update(region:)
             )
         )
-            .overlay(content: circle)
-            .overlay(content: street)
+        .overlay(content: circle)
+        .overlay(content: street)
     }
     
     private func circle() -> some View {

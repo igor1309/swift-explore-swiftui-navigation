@@ -14,6 +14,10 @@ public extension MKCoordinateRegion {
         center: .barcelona,
         span: .neighborhood
     )
+    static let barcelonaStreet: Self = .init(
+        center: .barcelona,
+        span: .street
+    )
     static let londonCity: Self = .init(
         center: .london,
         span: .city

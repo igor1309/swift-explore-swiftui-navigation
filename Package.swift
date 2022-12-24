@@ -256,6 +256,7 @@ private extension Target {
         name: .mapFeature,
         dependencies: [
             .combineSchedulers,
+            .tagged,
         ]
     )
     static let mapFeatureTests = testTarget(

@@ -14,11 +14,7 @@ public final class MapViewModel: ObservableObject {
     public typealias GetStreetFrom = (CLLocationCoordinate2D) async -> String?
     
     @Published private(set) var region: MKCoordinateRegion
-    @Published private(set) var center: CLLocationCoordinate2D
     @Published private(set) var street: String?
-    
-    private let getStreetFrom: GetStreetFrom
-    private let scheduler: AnySchedulerOf<DispatchQueue>
     
     public init(
         initialRegion: MKCoordinateRegion,
@@ -26,40 +22,22 @@ public final class MapViewModel: ObservableObject {
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.region = initialRegion
-        self.center = initialRegion.center
-        self.getStreetFrom = getStreetFrom
-        self.scheduler = scheduler
         
         $region
             .map(\.center)
             .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
             .debounce(for: 0.5, scheduler: scheduler)
-            .receive(on: scheduler)
-            .assign(to: &$center)
-        
-        $region
-            .map(\.center)
-            .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
-            .debounce(for: 0.5, scheduler: scheduler)
-            .asyncMap(getStreet)
+            .asyncMap(getStreetFrom)
             .receive(on: scheduler)
             .assign(to: &$street)
     }
 
-    private var task: Task<String?, Never>?
+    private var task: Task<Void, Never>?
     
     func update(region: MKCoordinateRegion) {
         DispatchQueue.main.async {
             self.region = region
         }
-    }
-    
-    func getStreet(coordinate: CLLocationCoordinate2D) async -> String? {
-        task = .init {
-            await getStreetFrom(coordinate)
-        }
-        
-        return await task?.value
     }
 }
 
