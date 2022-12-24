@@ -13,7 +13,7 @@ public final class MapViewModel: ObservableObject {
     
     public typealias GetStreetFrom = (CLLocationCoordinate2D) async -> String?
     
-    @Published var region: MKCoordinateRegion
+    @Published private(set) var region: MKCoordinateRegion
     @Published private(set) var center: CLLocationCoordinate2D
     @Published private(set) var street: String?
     
@@ -39,6 +39,7 @@ public final class MapViewModel: ObservableObject {
         
         $region
             .map(\.center)
+            .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
             .debounce(for: 0.5, scheduler: scheduler)
             .asyncMap(getStreet)
             .receive(on: scheduler)
@@ -46,6 +47,12 @@ public final class MapViewModel: ObservableObject {
     }
 
     private var task: Task<String?, Never>?
+    
+    func update(region: MKCoordinateRegion) {
+        DispatchQueue.main.async {
+            self.region = region
+        }
+    }
     
     func getStreet(coordinate: CLLocationCoordinate2D) async -> String? {
         task = .init {

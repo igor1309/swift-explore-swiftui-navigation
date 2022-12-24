@@ -17,7 +17,12 @@ public struct MapView: View {
     }
     
     public var body: some View {
-        Map(coordinateRegion: $viewModel.region)
+        Map(
+            coordinateRegion: .init(
+                get: { viewModel.region },
+                set: viewModel.update(region:)
+            )
+        )
             .overlay(content: circle)
             .overlay(content: street)
     }
