@@ -8,7 +8,7 @@
 import MapKit
 
 #if DEBUG
-extension MKCoordinateRegion {
+public extension MKCoordinateRegion {
     
     static let barcelonaNeighborhood: Self = .init(
         center: .barcelona,
@@ -28,6 +28,10 @@ extension MKCoordinateRegion {
     )
     static let londonStreet: Self = .init(
         center: .london,
+        span: .street
+    )
+    static let moscowStreet: Self = .init(
+        center: .moscow,
         span: .street
     )
 }

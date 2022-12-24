@@ -10,22 +10,47 @@ import MapKit
 
 public final class MapViewModel: ObservableObject {
     
-    @Published var region: MKCoordinateRegion
+    public typealias GetStreetFrom = (CLLocationCoordinate2D) async -> String?
     
+    @Published var region: MKCoordinateRegion
     @Published private(set) var center: CLLocationCoordinate2D
+    @Published private(set) var street: String?
+    
+    private let getStreetFrom: GetStreetFrom
     
     public init(
-        initialRegion: MKCoordinateRegion
+        initialRegion: MKCoordinateRegion,
+        getStreetFrom: @escaping GetStreetFrom
     ) {
         self.region = initialRegion
         self.center = initialRegion.center
+        self.getStreetFrom = getStreetFrom
         
         #warning("use schedulers")
         $region
             .map(\.center)
             .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
             .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$center)
+        
+        #warning("use schedulers")
+        $region
+            .map(\.center)
+            .debounce(for: 0.5, scheduler: DispatchQueue.main)
+            .asyncMap(getStreet)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$street)
+    }
+
+    private var task: Task<String?, Never>?
+    
+    func getStreet(coordinate: CLLocationCoordinate2D) async -> String? {
+        task = .init {
+            await getStreetFrom(coordinate)
+        }
+        
+        return await task?.value
     }
 }
 

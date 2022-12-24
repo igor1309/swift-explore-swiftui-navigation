@@ -19,7 +19,6 @@ public struct MapView: View {
     public var body: some View {
         Map(coordinateRegion: $viewModel.region)
             .overlay(content: circle)
-            .safeAreaInset(edge: .bottom, content: center)
     }
     
     private func circle() -> some View {
@@ -31,21 +30,16 @@ public struct MapView: View {
             }
             .frame(width: 32, height: 32)
     }
-    
-    private func center() -> some View {
-        VStack {
-            Text(viewModel.center.latitude.formatted(.number))
-            Text(viewModel.center.longitude.formatted(.number))
-        }
-        .font(.caption)
-        .padding(.vertical)
-        .monospaced()
-    }
 }
 
 struct Map_Previews: PreviewProvider {
+    
     static var previews: some View {
-        MapView(viewModel: .init(initialRegion: .londonStreet))
-            .ignoresSafeArea()
+        Group {
+            MapViewDemo(viewModel: .preview)
+            MapViewDemo(viewModel: .failing)
+            MapViewDemo(viewModel: .live())
+        }
+        .ignoresSafeArea()
     }
 }
