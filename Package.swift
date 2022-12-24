@@ -21,6 +21,7 @@ let package = Package(
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
+        .mapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -49,6 +50,7 @@ let package = Package(
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
+        .mapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -129,6 +131,10 @@ private extension Product {
         name: .mainPageFeature,
         targets: [.mainPageFeature]
     )
+    static let mapFeature = library(
+        name: .mapFeature,
+        targets: [.mapFeature]
+    )
     static let newAppFeatureFeature = library(
         name: .newAppFeatureFeature,
         targets: [.newAppFeatureFeature]
@@ -207,6 +213,7 @@ private extension Target {
             .featuredShopsFeature,
             .featureViewFeature,
             .mainPageFeature,
+            .mapFeature,
             .newAppFeatureFeature,
             .profileEditorFeature,
             .profileFeature,
@@ -241,6 +248,11 @@ private extension Target {
         name: .mainPageFeature,
         dependencies: [
             .domain
+        ]
+    )
+    static let mapFeature = target(
+        name: .mapFeature,
+        dependencies: [
         ]
     )
     static let newAppFeatureFeature = target(
@@ -320,6 +332,7 @@ private extension Target.Dependency {
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
+    static let mapFeature = byName(name: .mapFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileEditorFeature = byName(name: .profileEditorFeature)
     static let profileFeature = byName(name: .profileFeature)
@@ -342,6 +355,7 @@ private extension String {
     static let featuredShopsFeature = "FeaturedShopsFeature"
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
+    static let mapFeature = "MapFeature"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"
