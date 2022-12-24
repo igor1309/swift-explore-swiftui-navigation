@@ -52,6 +52,7 @@ let package = Package(
         .featureViewFeature,
         .mainPageFeature,
         .mapFeature,
+        .mapFeatureTests,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -257,6 +258,13 @@ private extension Target {
             .combineSchedulers,
         ]
     )
+    static let mapFeatureTests = testTarget(
+        name: .mapFeatureTests,
+        dependencies: [
+            .combineSchedulers,
+            .mapFeature,
+        ]
+    )
     static let newAppFeatureFeature = target(
         name: .newAppFeatureFeature,
         dependencies: [
@@ -358,6 +366,7 @@ private extension String {
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
     static let mapFeature = "MapFeature"
+    static let mapFeatureTests = "MapFeatureTests"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"
