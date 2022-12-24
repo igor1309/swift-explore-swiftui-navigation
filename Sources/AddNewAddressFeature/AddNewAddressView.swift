@@ -72,115 +72,13 @@ public struct AddNewAddressView<MapView: View>: View {
     }
 }
 
-#if DEBUG
-private extension Array where Element == Address {
-    
-    static let prevSearches: Self = [
-        .init(street: .init("5th Ave, 123")),
-    ]
-    static let preview: Self = [
-        .init(street: .init("Black Street, 123")),
-        .init(street: .init("White Avenue, 456"))
-    ]
-}
-
-private extension Array where Element == Suggestion {
-    
-    static let prevSearches: Self = [Address].prevSearches.map {
-        .init(address: $0)
-    }
-    static let preview: Self = [Address].preview.map {
-        .init(address: $0)
-    }
-}
-
-import Combine
-
-private extension AnyPublisher where Output == [Suggestion], Failure == Never {
-    
-    static let prevSearches: Self = Just(.prevSearches).eraseToAnyPublisher()
-    static let preview: Self = Just(.preview).eraseToAnyPublisher()
-}
-
-import MapKit
-
 struct AddNewAddressView_Previews: PreviewProvider {
-    
-    struct Demo<MapView: View>: View {
-        let mapView: () -> MapView
-        
-        @StateObject private var viewModel: AddNewAddressViewModel = .init(
-            getAddress: {},
-            addAddress: { _ in },
-            getSuggestions: { text in
-                if text.isEmpty {
-                    return .prevSearches
-                } else {
-                    return .preview
-                }
-            }
-        )
-        
-        var body: some View {
-            NavigationStack {
-                AddNewAddressView(
-                    viewModel: viewModel,
-                    mapView: mapView
-                )
-            }
-            .overlay(alignment: .bottom) {
-                if let street = viewModel.address?.street.rawValue {
-                    Text(street)
-                } else {
-                    Text("address not avail")
-                        .foregroundColor(.red)
-                }
-            }
-        }
-    }
-    
-    struct MapView: View {
-        @State private var mapRect = MKMapRect.world
-        
-        var body: some View {
-            Map(mapRect: $mapRect)
-                .overlay(alignment: .bottomTrailing, content: getCurrentLocationButton)
-        }
-        
-        private func getCurrentLocationButton() -> some View {
-            Button(action: {  /* ?????????? */ }) {
-                Label(
-                    "CURRENT_LOCATION_BUTTON_TITLE",
-                    systemImage: "location.fill"
-                )
-                .labelStyle(.iconOnly)
-                .imageScale(.large)
-                .foregroundColor(.indigo)
-                .padding(12)
-                .background(.mint)
-                .clipShape(Circle())
-                .padding()
-                .padding(.bottom)
-                .padding(.bottom)
-                .padding(.bottom)
-            }
-        }
-    }
     
     static var previews: some View {
         Group {
-            Demo() {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        Text("TBD: Map + search + current location button")
-                            .foregroundColor(.mint)
-                    }
-            }
-            
-            Demo(mapView: MapView.init)
+            AddNewAddressViewDemo()
+            AddNewAddressViewDemo(mapView: MapView.init)
         }
         .preferredColorScheme(.dark)
     }
 }
-#endif
