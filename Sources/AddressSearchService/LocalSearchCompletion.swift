@@ -23,7 +23,8 @@ public struct LocalSearchCompletion: Equatable {
     
     public let rawValue: MKLocalSearchCompletion?
     
-    public init(
+    /// For tests only
+    internal init(
         title: String,
         subtitle: String,
         titleHighlightRanges: [NSRange],

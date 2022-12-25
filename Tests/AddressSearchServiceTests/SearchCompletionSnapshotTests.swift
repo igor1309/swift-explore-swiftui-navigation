@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 25.12.2022.
 //
 
-import AddressSearchService
+@testable import AddressSearchService
 import SnapshotTesting
 import XCTest
 
