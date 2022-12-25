@@ -15,6 +15,7 @@ let package = Package(
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
+        .addressSearchService,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
@@ -46,6 +47,8 @@ let package = Package(
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
+        .addressSearchService,
+        .addressSearchServiceTests,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
@@ -109,6 +112,10 @@ private extension Product {
     static let addressPickerFeature = library(
         name: .addressPickerFeature,
         targets: [.addressPickerFeature]
+    )
+    static let addressSearchService = library(
+        name: .addressSearchService,
+        targets: [.addressSearchService]
     )
     static let addressViewFeature = library(
         name: .addressViewFeature,
@@ -195,6 +202,17 @@ private extension Target {
             .domain
         ]
     )
+    static let addressSearchService = target(
+        name: .addressSearchService,
+        dependencies: [
+        ]
+    )
+    static let addressSearchServiceTests = testTarget(
+        name: .addressSearchServiceTests,
+        dependencies: [
+            .addressSearchService
+        ]
+    )
     static let addressViewFeature = target(
         name: .addressViewFeature,
         dependencies: [
@@ -212,6 +230,7 @@ private extension Target {
             .tagged,
             // Features
             .addressPickerFeature,
+            .addressSearchService,
             .addressViewFeature,
             .deliveryTypePickerFeature,
             .featuredShopsFeature,
@@ -341,6 +360,7 @@ private extension Target.Dependency {
 
     static let addNewAddressFeature = byName(name: .addNewAddressFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
+    static let addressSearchService = byName(name: .addressSearchService)
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
@@ -363,6 +383,8 @@ private extension String {
 
     static let addNewAddressFeature = "AddNewAddressFeature"
     static let addressPickerFeature = "AddressPickerFeature"
+    static let addressSearchService = "AddressSearchService"
+    static let addressSearchServiceTests = "AddressSearchServiceTests"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"

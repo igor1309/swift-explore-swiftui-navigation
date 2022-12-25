@@ -286,6 +286,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddressSearchService"
+               BuildableName = "AddressSearchService"
+               BlueprintName = "AddressSearchService"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -303,6 +317,17 @@
                BlueprintIdentifier = "MapFeatureTests"
                BuildableName = "MapFeatureTests"
                BlueprintName = "MapFeatureTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddressSearchServiceTests"
+               BuildableName = "AddressSearchServiceTests"
+               BlueprintName = "AddressSearchServiceTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
