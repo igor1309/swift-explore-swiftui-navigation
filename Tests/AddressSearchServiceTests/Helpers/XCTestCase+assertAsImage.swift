@@ -10,6 +10,8 @@ import SwiftUI
 import XCTest
 
 /// [Episode #41: A Tour of Snapshot Testing](https://www.pointfree.co/collections/tours/snapshot-testing/ep41-a-tour-of-snapshot-testing)
+/// [Episode #86: SwiftUI Snapshot Testing](https://www.pointfree.co/episodes/ep86-swiftui-snapshot-testing)
+/// [Snapshot Testing Tutorial for SwiftUI: Getting Started | Kodeco, the new raywenderlich.com](https://www.kodeco.com/24426963-snapshot-testing-tutorial-for-swiftui-getting-started)
 extension XCTestCase {
     
     func assertAsImage(
