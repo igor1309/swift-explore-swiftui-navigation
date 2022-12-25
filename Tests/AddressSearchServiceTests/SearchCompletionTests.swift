@@ -6,7 +6,6 @@
 //
 
 import SnapshotTesting
-import SwiftUI
 import XCTest
 
 struct SearchCompletion {
@@ -103,54 +102,12 @@ extension AttributeContainer {
     }()
 }
 
-/// [Episode #41: A Tour of Snapshot Testing](https://www.pointfree.co/collections/tours/snapshot-testing/ep41-a-tour-of-snapshot-testing)
 final class SearchCompletionTests: XCTestCase {
     
     func test_snapshot() throws {
         let searchCompletion: SearchCompletion = .test
-        let titleText = Text(searchCompletion.highlightedTitle(.test))
-        let subtitleText = Text(searchCompletion.highlightedSubtitle(.test))
-        let titleView = try XCTUnwrap(UIHostingController(rootView: titleText).view)
-        let subtitleView = try XCTUnwrap(UIHostingController(rootView: subtitleText).view)
-        
-        assertSnapshot(matching: titleView, as: .image(size: titleView.intrinsicContentSize))
-        assertSnapshot(matching: subtitleView, as: .image(size: subtitleView.intrinsicContentSize))
-    }
-}
 
-
-extension Snapshotting where Value == AttributedString, Format == UIImage {
-//
-//    /// [Episode #41: A Tour of Snapshot Testing](https://www.pointfree.co/collections/tours/snapshot-testing/ep41-a-tour-of-snapshot-testing)
-//    static let image: Snapshotting = Snapshotting<UIView, UIImage>.image.pullback { string in
-//        let label = UILabel()
-//        label.attributedText = NSAttributedString(string)
-//        label.numberOfLines = 0
-//        label.backgroundColor = .white
-//        label.frame.size = label.systemLayoutSizeFitting(
-//            CGSize(width: 300, height: 0),
-//            withHorizontalFittingPriority: .defaultHigh,
-//            verticalFittingPriority: .defaultLow
-//        )
-//
-//        return label
-//    }
-}
-
-extension Snapshotting where Value == NSAttributedString, Format == UIImage {
-
-    /// [Episode #41: A Tour of Snapshot Testing](https://www.pointfree.co/collections/tours/snapshot-testing/ep41-a-tour-of-snapshot-testing)
-    static let image: Snapshotting = Snapshotting<UIView, UIImage>.image.pullback { string in
-        let label = UILabel()
-        label.attributedText = string
-        label.numberOfLines = 0
-        label.backgroundColor = .white
-        label.frame.size = label.systemLayoutSizeFitting(
-            CGSize(width: 300, height: 0),
-            withHorizontalFittingPriority: .defaultHigh,
-            verticalFittingPriority: .defaultLow
-        )
-        
-        return label
+        try assertAsImage(searchCompletion.highlightedTitle(.test))
+        try assertAsImage(searchCompletion.highlightedSubtitle(.test))
     }
 }
