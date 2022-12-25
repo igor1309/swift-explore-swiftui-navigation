@@ -12,14 +12,14 @@ import XCTest
 final class SearchCompletionSnapshotTests: XCTestCase {
     
     func test_snapshot() throws {
-        let searchCompletion: SearchCompletion = .test
+        let searchCompletion: LocalSearchCompletion = .test
 
         try assertAsImage(searchCompletion.highlightedTitle(.test))
         try assertAsImage(searchCompletion.highlightedSubtitle(.test))
     }
 }
 
-extension SearchCompletion {
+extension LocalSearchCompletion {
     
     static let test: Self = {
         let title = "TestTitle"
