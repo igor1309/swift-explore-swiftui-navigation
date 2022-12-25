@@ -10,20 +10,25 @@ import MapKit
 extension CoordinateSpan {
     
     public static let zero: Self = .init(latitudeDelta: 0, longitudeDelta: 0)
-    
+}
+
+extension CoordinateSpan: RawRepresentable {
+
     /// A bridge to `MKCoordinateSpan`
-    public var mkCoordinateSpan: MKCoordinateSpan {
+    public var rawValue: MKCoordinateSpan {
         get {
             .init(
                 latitudeDelta: latitudeDelta,
                 longitudeDelta: longitudeDelta
             )
         }
-        set {
-            self = .init(
-                latitudeDelta: newValue.latitudeDelta,
-                longitudeDelta: newValue.longitudeDelta
-            )
-        }
+        set { self = .init(rawValue: newValue) }
+    }
+    
+    public init(rawValue: MKCoordinateSpan) {
+        self.init(
+            latitudeDelta: rawValue.latitudeDelta,
+            longitudeDelta: rawValue.longitudeDelta
+        )
     }
 }

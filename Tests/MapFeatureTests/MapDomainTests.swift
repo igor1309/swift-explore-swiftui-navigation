@@ -67,7 +67,7 @@ final class MapDomainTests: XCTestCase {
             latitude: latitude,
             longitude: longitude
         )
-        let clLocationCoordinate2D = coordinate.clLocationCoordinate2D
+        let clLocationCoordinate2D = coordinate.rawValue
         
         XCTAssertEqual(clLocationCoordinate2D.latitude, latitude)
         XCTAssertEqual(clLocationCoordinate2D.longitude, longitude)
@@ -85,7 +85,7 @@ final class MapDomainTests: XCTestCase {
             longitude: longitude
         )
         
-        coordinate.clLocationCoordinate2D = clLocationCoordinate2D
+        coordinate.rawValue = clLocationCoordinate2D
         
         XCTAssertEqual(coordinate.latitude, latitude)
         XCTAssertEqual(coordinate.longitude, longitude)
@@ -99,7 +99,7 @@ final class MapDomainTests: XCTestCase {
             longitudeDelta: longitudeDelta
         )
         
-        let mkCoordinateSpan = span.mkCoordinateSpan
+        let mkCoordinateSpan = span.rawValue
         
         XCTAssertEqual(mkCoordinateSpan.latitudeDelta, latitudeDelta)
         XCTAssertEqual(mkCoordinateSpan.longitudeDelta, longitudeDelta)
@@ -117,7 +117,7 @@ final class MapDomainTests: XCTestCase {
             longitudeDelta: longitudeDelta
         )
         
-        span.mkCoordinateSpan = mkCoordinateSpan
+        span.rawValue = mkCoordinateSpan
         
         XCTAssertEqual(span.latitudeDelta, latitudeDelta)
         XCTAssertEqual(span.longitudeDelta, longitudeDelta)
@@ -143,7 +143,7 @@ final class MapDomainTests: XCTestCase {
             span: span
         )
         
-        let mkCoordinateRegion = region.mkCoordinateRegion
+        let mkCoordinateRegion = region.rawValue
         
         XCTAssertEqual(mkCoordinateRegion.center.latitude, latitude)
         XCTAssertEqual(mkCoordinateRegion.center.longitude, longitude)
@@ -175,7 +175,7 @@ final class MapDomainTests: XCTestCase {
             span: span
         )
         
-        region.mkCoordinateRegion = mkCoordinateRegion
+        region.rawValue = mkCoordinateRegion
         
         XCTAssertEqual(region.center.latitude, latitude)
         XCTAssertEqual(region.center.longitude, longitude)

@@ -10,15 +10,17 @@ import MapKit
 extension LocationCoordinate2D {
     
     public static let zero: Self = .init(latitude: 0, longitude: 0)
+}
+
+extension LocationCoordinate2D: RawRepresentable {
     
     /// A bridge to `CLLocationCoordinate2D`
-    public var clLocationCoordinate2D: CLLocationCoordinate2D {
+    public var rawValue: CLLocationCoordinate2D {
         get { .init(latitude: latitude, longitude: longitude) }
-        set {
-            self = .init(
-                latitude: newValue.latitude,
-                longitude: newValue.longitude
-            )
-        }
+        set { self = .init(rawValue: newValue) }
+    }
+    
+    public init(rawValue: CLLocationCoordinate2D) {
+        self.init(latitude: rawValue.latitude, longitude: rawValue.longitude)
     }
 }

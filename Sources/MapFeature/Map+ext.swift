@@ -16,7 +16,7 @@ extension Map {
 //        annotationContent: <#T##(Identifiable) -> MapAnnotationProtocol#>
     )  where Content == _DefaultMapContent {
         self.init(
-            coordinateRegion: region.mkCoordinateRegion//,
+            coordinateRegion: region.rawValue//,
 //            annotationItems: <#T##RandomAccessCollection#>,
 //            annotationContent: <#T##(Identifiable) -> MapAnnotationProtocol#>
         )
