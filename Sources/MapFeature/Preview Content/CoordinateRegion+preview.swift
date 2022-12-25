@@ -1,5 +1,5 @@
 //
-//  MKCoordinateRegion+ext.swift
+//  CoordinateRegion+preview.swift
 //  
 //
 //  Created by Igor Malyarov on 24.12.2022.
@@ -8,7 +8,7 @@
 import MapKit
 
 #if DEBUG
-public extension MKCoordinateRegion {
+public extension CoordinateRegion {
     
     static let barcelonaNeighborhood: Self = .init(
         center: .barcelona,

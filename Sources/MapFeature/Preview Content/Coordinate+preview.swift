@@ -1,5 +1,5 @@
 //
-//  CLLocationCoordinate2D+ext.swift
+//  Coordinate+preview.swift
 //  
 //
 //  Created by Igor Malyarov on 24.12.2022.
@@ -8,7 +8,7 @@
 import MapKit
 
 #if DEBUG
-extension CLLocationCoordinate2D {
+extension Coordinate {
     
     static let barcelona:    Self = .init(41.390205, 2.154007)
     static let london:       Self = .init(51.507222, -0.1275)

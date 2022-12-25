@@ -12,13 +12,13 @@ import MapKit
 
 public final class MapViewModel: ObservableObject {
     
-    public typealias GetStreetFrom = (CLLocationCoordinate2D) async -> String?
+    public typealias GetStreetFrom = (Coordinate) async -> String?
     
-    @Published private(set) var region: MKCoordinateRegion
+    @Published private(set) var region: CoordinateRegion
     @Published private(set) var streetState: StreetState
     
     public init(
-        initialRegion: MKCoordinateRegion,
+        initialRegion: CoordinateRegion,
         getStreetFrom: @escaping GetStreetFrom,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
@@ -42,7 +42,7 @@ public final class MapViewModel: ObservableObject {
             guard let self else { return }
             
             self.streetState = .searching
-            self.region = region
+            self.region.mkCoordinateRegion = region
         }
     }
     
@@ -72,6 +72,14 @@ func isClose(
     _ lhs: CLLocationCoordinate2D,
     to rhs: CLLocationCoordinate2D,
     withAccuracy accuracy: CLLocationDegrees = 0.0001
+) -> Bool {
+    abs(lhs.latitude.distance(to: rhs.latitude)) < accuracy
+    && abs(lhs.longitude.distance(to: rhs.longitude)) < accuracy
+}
+func isClose(
+    _ lhs: Coordinate,
+    to rhs: Coordinate,
+    withAccuracy accuracy: LocationDegrees = 0.0001
 ) -> Bool {
     abs(lhs.latitude.distance(to: rhs.latitude)) < accuracy
     && abs(lhs.longitude.distance(to: rhs.longitude)) < accuracy

@@ -21,7 +21,7 @@ public extension MapViewModel {
         getStreetFrom: { coordinate in nil }
     )
     
-    static func live(region: MKCoordinateRegion = .londonStreet) -> MapViewModel {
+    static func live(region: CoordinateRegion = .londonStreet) -> MapViewModel {
         .init(
             initialRegion: region,
             getStreetFrom: { coordinate in

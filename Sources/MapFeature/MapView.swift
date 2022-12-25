@@ -19,7 +19,7 @@ public struct MapView: View {
     public var body: some View {
         Map(
             coordinateRegion: .init(
-                get: { viewModel.region },
+                get: { viewModel.region.mkCoordinateRegion },
                 set: viewModel.update(region:)
             )
         )

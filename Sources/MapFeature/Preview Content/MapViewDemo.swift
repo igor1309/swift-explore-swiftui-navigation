@@ -38,7 +38,7 @@ public struct MapViewDemo: View {
                 Menu("Places") {
                     ForEach([Place].preview) { place in
                         Button(place.title) {
-                            viewModel.update(region: place.region)
+                            viewModel.update(region: place.region.mkCoordinateRegion)
                         }
                     }
                 }
@@ -52,9 +52,9 @@ struct Place: Identifiable {
     
     let id: ID
     let title: String
-    let region: MKCoordinateRegion
+    let region: CoordinateRegion
     
-    init(id: ID = .init(.init()), title: String, region: MKCoordinateRegion) {
+    init(id: ID = .init(.init()), title: String, region: CoordinateRegion) {
         self.id = id
         self.title = title
         self.region = region
