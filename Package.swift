@@ -38,6 +38,7 @@ let package = Package(
         .casePaths,
         .combineSchedulers,
         .identifiedCollections,
+        .snapshotTesting,
         .swiftUINavigation,
         .tagged,
     ],
@@ -210,7 +211,8 @@ private extension Target {
     static let addressSearchServiceTests = testTarget(
         name: .addressSearchServiceTests,
         dependencies: [
-            .addressSearchService
+            .addressSearchService,
+            .snapshotTesting,
         ]
     )
     static let addressViewFeature = target(
