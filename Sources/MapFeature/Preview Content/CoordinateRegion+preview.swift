@@ -38,5 +38,9 @@ public extension CoordinateRegion {
         center: .moscow,
         span: .street
     )
+    static let moscowNeighborhood: Self = .init(
+        center: .moscow,
+        span: .neighborhood
+    )
 }
 #endif

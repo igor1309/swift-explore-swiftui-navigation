@@ -34,8 +34,6 @@ public final class MapViewModel: ObservableObject {
             .assign(to: &$streetState)
     }
     
-    private var task: Task<Void, Never>?
-    
     func update(region: CoordinateRegion) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
