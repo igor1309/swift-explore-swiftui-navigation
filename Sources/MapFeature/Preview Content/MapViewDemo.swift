@@ -6,7 +6,6 @@
 //
 
 import CasePaths
-import MapKit
 import SwiftUI
 import Tagged
 
@@ -38,7 +37,7 @@ public struct MapViewDemo: View {
                 Menu("Places") {
                     ForEach([Place].preview) { place in
                         Button(place.title) {
-                            viewModel.update(region: place.region.mkCoordinateRegion)
+                            viewModel.update(region: place.region)
                         }
                     }
                 }

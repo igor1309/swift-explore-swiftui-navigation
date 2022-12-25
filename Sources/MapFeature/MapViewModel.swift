@@ -8,7 +8,6 @@
 import Combine
 import CombineSchedulers
 import Foundation
-import MapKit
 
 public final class MapViewModel: ObservableObject {
     
@@ -37,12 +36,12 @@ public final class MapViewModel: ObservableObject {
     
     private var task: Task<Void, Never>?
     
-    func update(region: MKCoordinateRegion) {
+    func update(region: CoordinateRegion) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             
             self.streetState = .searching
-            self.region.mkCoordinateRegion = region
+            self.region = region
         }
     }
     
@@ -59,28 +58,4 @@ public final class MapViewModel: ObservableObject {
             return .street(street)
         }
     }
-}
-
-/// - Warning: super simplified approach just to move on
-/// see [Precision of coordinates - OpenStreetMap Wiki](https://wiki.openstreetmap.org/wiki/Precision_of_coordinates)
-/// https://stackoverflow.com/a/39540339/11793043
-/// [Universal Transverse Mercator coordinate system - Wikipedia](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)
-/// [Haversine formula - Wikipedia](https://en.wikipedia.org/wiki/Haversine_formula)
-/// https://en.wikipedia.org/wiki/Geographic_coordinate_system#Latitude_and_longitude
-///
-func isClose(
-    _ lhs: CLLocationCoordinate2D,
-    to rhs: CLLocationCoordinate2D,
-    withAccuracy accuracy: CLLocationDegrees = 0.0001
-) -> Bool {
-    abs(lhs.latitude.distance(to: rhs.latitude)) < accuracy
-    && abs(lhs.longitude.distance(to: rhs.longitude)) < accuracy
-}
-func isClose(
-    _ lhs: Coordinate,
-    to rhs: Coordinate,
-    withAccuracy accuracy: LocationDegrees = 0.0001
-) -> Bool {
-    abs(lhs.latitude.distance(to: rhs.latitude)) < accuracy
-    && abs(lhs.longitude.distance(to: rhs.longitude)) < accuracy
 }
