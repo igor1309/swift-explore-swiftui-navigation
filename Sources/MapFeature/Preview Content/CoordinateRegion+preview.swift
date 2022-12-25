@@ -16,6 +16,7 @@ public extension CoordinateRegion {
     static let londonTown:            Self = .town(center: .london)
     static let londonNeighborhood:    Self = .neighborhood(center: .london)
     static let londonStreet:          Self = .street(center: .london)
+    static let moscowCity:            Self = .city(center: .moscow)
     static let moscowStreet:          Self = .street(center: .moscow)
     static let moscowNeighborhood:    Self = .neighborhood(center: .moscow)
     
