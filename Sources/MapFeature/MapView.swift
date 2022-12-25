@@ -37,11 +37,19 @@ public struct MapView: View {
             .frame(width: 32, height: 32)
     }
     
+    @ViewBuilder
     private func street() -> some View {
-        viewModel.street.map {
-            Text($0)
+        switch viewModel.streetState {
+        case .searching:
+            ProgressView()
+            
+        case .none:
+            Text("...")
+            
+        case let .street(street):
+            Text(street)
                 .font(.subheadline.bold())
-                .offset(x: 50, y: -28)
+                .offset(x: 50, y: -32)
         }
     }
 }

@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import CasePaths
 import MapKit
 import SwiftUI
 import Tagged
@@ -23,7 +24,7 @@ public struct MapViewDemo: View {
     
     private func watch() -> some View {
         VStack {
-            Text(viewModel.street ?? "street n/a")
+            Text((/MapViewModel.StreetState.street).extract(from: viewModel.streetState) ?? "street n/a")
                 .padding(2)
             
             Text(viewModel.region.center.latitude.formatted(.number))

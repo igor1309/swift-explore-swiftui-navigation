@@ -20,7 +20,7 @@ final class MapViewModelTests: XCTestCase {
             scheduler: scheduler.eraseToAnyScheduler()
         )
         
-        XCTAssertEqual(streetSpy.values, [nil])
+        XCTAssertEqual(streetSpy.values, [.none])
         XCTAssertNotNil(sut)
         XCTAssertNotNil(locationSpy)
     }
@@ -32,21 +32,21 @@ final class MapViewModelTests: XCTestCase {
             scheduler: scheduler.eraseToAnyScheduler()
         )
         
-        XCTAssertEqual(streetSpy.values, [nil])
+        XCTAssertEqual(streetSpy.values, [.none])
         
 //        scheduler.advance()
         scheduler.advance(by: .seconds(1))
-        XCTAssertEqual(streetSpy.values, [nil])
+        XCTAssertEqual(streetSpy.values, [.none])
         
         sut.update(region: .moscowStreet)
         scheduler.advance()
 //        scheduler.advance(by: .seconds(1))
-        XCTAssertEqual(streetSpy.values, [nil, "Blue Stret, 123"])
+        XCTAssertEqual(streetSpy.values, [.none, .street("Blue Stret, 123")])
         
         sut.update(region: .moscowStreet)
 
         scheduler.advance(by: .seconds(1))
-        XCTAssertEqual(streetSpy.values, [nil, "Blue Stret, 123"])
+        XCTAssertEqual(streetSpy.values, [.none, .street("Blue Stret, 123")])
     }
     
     // MARK: - Helpers
@@ -59,7 +59,7 @@ final class MapViewModelTests: XCTestCase {
     ) -> (
         sut: MapViewModel,
         locationSpy: LocationSpy,
-        streetSpy: ValueSpy<String?>
+        streetSpy: ValueSpy<MapViewModel.StreetState>
     ) {
         let initialRegion: MKCoordinateRegion = .londonStreet
         let locationSpy = LocationSpy(stub: stub)
@@ -69,7 +69,7 @@ final class MapViewModelTests: XCTestCase {
             //getStreetFrom: { _ in Just(stub).eraseToAnyPublisher() },
             scheduler: scheduler
         )
-        let streetSpy = ValueSpy(sut.$street)
+        let streetSpy = ValueSpy(sut.$streetState)
         
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(locationSpy, file: file, line: line)

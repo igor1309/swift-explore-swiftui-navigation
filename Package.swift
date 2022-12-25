@@ -34,6 +34,7 @@ let package = Package(
         .showProfileButtonFeature,
     ],
     dependencies: [
+        .casePaths,
         .combineSchedulers,
         .identifiedCollections,
         .swiftUINavigation,
@@ -255,6 +256,7 @@ private extension Target {
     static let mapFeature = target(
         name: .mapFeature,
         dependencies: [
+            .casePaths,
             .combineSchedulers,
             .tagged,
         ]

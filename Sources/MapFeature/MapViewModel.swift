@@ -15,7 +15,7 @@ public final class MapViewModel: ObservableObject {
     public typealias GetStreetFrom = (CLLocationCoordinate2D) async -> String?
     
     @Published private(set) var region: MKCoordinateRegion
-    @Published private(set) var street: String?
+    @Published private(set) var streetState: StreetState
     
     public init(
         initialRegion: MKCoordinateRegion,
@@ -23,14 +23,16 @@ public final class MapViewModel: ObservableObject {
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.region = initialRegion
+        self.streetState = .none
         
         $region
             .map(\.center)
             .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
             .debounce(for: 0.5, scheduler: scheduler)
             .asyncMap(getStreetFrom)
+            .map(StreetState.make(street:))
             .receive(on: scheduler)
-            .assign(to: &$street)
+            .assign(to: &$streetState)
     }
     
     private var task: Task<Void, Never>?
@@ -39,8 +41,22 @@ public final class MapViewModel: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             
-            self.street = nil
+            self.streetState = .searching
             self.region = region
+        }
+    }
+    
+    enum StreetState: Equatable {
+        case searching
+        case none
+        case street(String)
+        
+        static func make(street: String?) -> Self {
+            guard let street else {
+                return .none
+            }
+            
+            return .street(street)
         }
     }
 }
