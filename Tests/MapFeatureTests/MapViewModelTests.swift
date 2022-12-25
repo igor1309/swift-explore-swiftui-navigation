@@ -61,7 +61,7 @@ final class MapViewModelTests: XCTestCase {
         locationSpy: LocationSpy,
         streetSpy: ValueSpy<MapViewModel.StreetState>
     ) {
-        let initialRegion: MKCoordinateRegion = .londonStreet
+        let initialRegion: CoordinateRegion = .londonStreet
         let locationSpy = LocationSpy(stub: stub)
         let sut = MapViewModel(
             initialRegion: initialRegion,
@@ -85,7 +85,7 @@ final class MapViewModelTests: XCTestCase {
             self.stub = stub
         }
         
-        func getStreetFrom(coordinate: CLLocationCoordinate2D) async -> String? {
+        func getStreetFrom(coordinate: LocationCoordinate2D) async -> String? {
             return stub
         }
     }
