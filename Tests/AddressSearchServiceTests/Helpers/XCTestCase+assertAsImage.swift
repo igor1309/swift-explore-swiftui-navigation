@@ -21,9 +21,17 @@ extension XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) throws {
-        let text = Text(attributedString)
-        let view = try XCTUnwrap(UIHostingController(rootView: text).view, file: file, line: line)
+        try assertAsImage(Text(attributedString), record: recording, file: file, testName: testName, line: line)
+    }
+    
+    func assertAsImage<V: View>(
+        _ view: V,
+        record recording: Bool = false,
+        file: StaticString = #file,
+        testName: String = #function,
+        line: UInt = #line
+    ) throws {
+        let view = try XCTUnwrap(UIHostingController(rootView: view).view, file: file, line: line)
         assertSnapshot(matching: view, as: .image(size: view.intrinsicContentSize), record: recording, file: file, testName: testName, line: line)
-
     }
 }
