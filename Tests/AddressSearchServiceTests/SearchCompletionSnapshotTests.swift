@@ -1,5 +1,5 @@
 //
-//  SearchCompletionTests.swift
+//  SearchCompletionSnapshotTests.swift
 //  
 //
 //  Created by Igor Malyarov on 25.12.2022.
@@ -102,7 +102,7 @@ extension AttributeContainer {
     }()
 }
 
-final class SearchCompletionTests: XCTestCase {
+final class SearchCompletionSnapshotTests: XCTestCase {
     
     func test_snapshot() throws {
         let searchCompletion: SearchCompletion = .test
