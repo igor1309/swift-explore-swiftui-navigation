@@ -8,7 +8,7 @@
 import MapKit
 
 #if DEBUG
-extension Coordinate {
+extension LocationCoordinate2D {
     
     static let barcelona:    Self = .init(41.390205, 2.154007)
     static let london:       Self = .init(51.507222, -0.1275)

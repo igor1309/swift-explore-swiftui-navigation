@@ -6,8 +6,8 @@
 //
 
 func isClose(
-    _ lhs: Coordinate,
-    to rhs: Coordinate,
+    _ lhs: LocationCoordinate2D,
+    to rhs: LocationCoordinate2D,
     withAccuracy accuracy: LocationDegrees = 0.0001
 ) -> Bool {
     abs(lhs.latitude.distance(to: rhs.latitude)) < accuracy

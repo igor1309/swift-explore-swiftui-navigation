@@ -11,7 +11,7 @@ import Foundation
 
 public final class MapViewModel: ObservableObject {
     
-    public typealias GetStreetFrom = (Coordinate) async -> String?
+    public typealias GetStreetFrom = (LocationCoordinate2D) async -> String?
     
     @Published private(set) var region: CoordinateRegion
     @Published private(set) var streetState: StreetState

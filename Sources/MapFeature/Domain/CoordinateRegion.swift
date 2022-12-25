@@ -8,12 +8,12 @@
 public struct CoordinateRegion: Equatable {
 
     /// The center point of the region.
-    public var center: Coordinate
+    public var center: LocationCoordinate2D
 
     /// The horizontal and vertical span representing the amount of map to display.
     public var span: CoordinateSpan
     
-    public init(center: Coordinate, span: CoordinateSpan) {
+    public init(center: LocationCoordinate2D, span: CoordinateSpan) {
         self.center = center
         self.span = span
     }

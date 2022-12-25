@@ -12,10 +12,10 @@ import XCTest
 
 final class MapDomainTests: XCTestCase {
     
-    func test_initCoordinate_shouldSetProperties() {
+    func test_initLocationCoordinate2D_shouldSetProperties() {
         let latitude = 52.2
         let longitude = 12.3
-        let coordinate = Coordinate(
+        let coordinate = LocationCoordinate2D(
             latitude: latitude,
             longitude: longitude
         )
@@ -39,7 +39,7 @@ final class MapDomainTests: XCTestCase {
     func test_initCoordinateRegion_shouldSetProperties() {
         let latitude = 52.2
         let longitude = 12.3
-        let center = Coordinate(
+        let center = LocationCoordinate2D(
             latitude: latitude,
             longitude: longitude
         )
@@ -60,10 +60,10 @@ final class MapDomainTests: XCTestCase {
         XCTAssertEqual(region.span, span)
     }
     
-    func test_coordinate_shouldBridgeToCLLocationCoordinate2D() {
+    func test_locationCoordinate2D_shouldBridgeToCLLocationCoordinate2D() {
         let latitude = 52.2
         let longitude = 12.3
-        let coordinate = Coordinate(
+        let coordinate = LocationCoordinate2D(
             latitude: latitude,
             longitude: longitude
         )
@@ -73,8 +73,8 @@ final class MapDomainTests: XCTestCase {
         XCTAssertEqual(clLocationCoordinate2D.longitude, longitude)
     }
     
-    func test_coordinate_shouldBridgeFromCLLocationCoordinate2D() {
-        var coordinate = Coordinate.zero
+    func test_locationCoordinate2D_shouldBridgeFromCLLocationCoordinate2D() {
+        var coordinate = LocationCoordinate2D.zero
         XCTAssertEqual(coordinate.latitude, 0)
         XCTAssertEqual(coordinate.longitude, 0)
 
@@ -126,7 +126,7 @@ final class MapDomainTests: XCTestCase {
     func test_coordinateRegion_shouldBridgeToMKCoordinateRegion() {
         let latitude = 52.2
         let longitude = 12.3
-        let center = Coordinate(
+        let center = LocationCoordinate2D(
             latitude: latitude,
             longitude: longitude
         )

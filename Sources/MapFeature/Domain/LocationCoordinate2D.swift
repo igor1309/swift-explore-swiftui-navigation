@@ -1,11 +1,11 @@
 //
-//  Coordinate.swift
+//  LocationCoordinate2D.swift
 //  
 //
 //  Created by Igor Malyarov on 25.12.2022.
 //
 
-public struct Coordinate: Equatable {
+public struct LocationCoordinate2D: Equatable {
 
     /// The latitude in degrees.
     public var latitude: LocationDegrees
