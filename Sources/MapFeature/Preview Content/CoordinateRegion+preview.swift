@@ -10,37 +10,26 @@ import MapKit
 #if DEBUG
 public extension CoordinateRegion {
     
-    static let barcelonaNeighborhood: Self = .init(
-        center: .barcelona,
-        span: .neighborhood
-    )
-    static let barcelonaStreet: Self = .init(
-        center: .barcelona,
-        span: .street
-    )
-    static let londonCity: Self = .init(
-        center: .london,
-        span: .city
-    )
-    static let londonTown: Self = .init(
-        center: .london,
-        span: .town
-    )
-    static let londonNeighborhood: Self = .init(
-        center: .london,
-        span: .neighborhood
-    )
-    static let londonStreet: Self = .init(
-        center: .london,
-        span: .street
-    )
-    static let moscowStreet: Self = .init(
-        center: .moscow,
-        span: .street
-    )
-    static let moscowNeighborhood: Self = .init(
-        center: .moscow,
-        span: .neighborhood
-    )
+    static let barcelonaNeighborhood: Self = .neighborhood(center: .barcelona)
+    static let barcelonaStreet:       Self = .street(center: .barcelona)
+    static let londonCity:            Self = .city(center: .london)
+    static let londonTown:            Self = .town(center: .london)
+    static let londonNeighborhood:    Self = .neighborhood(center: .london)
+    static let londonStreet:          Self = .street(center: .london)
+    static let moscowStreet:          Self = .street(center: .moscow)
+    static let moscowNeighborhood:    Self = .neighborhood(center: .moscow)
+    
+    static func city(center: LocationCoordinate2D) -> Self {
+        .init(center: center, span: .city)
+    }
+    static func town(center: LocationCoordinate2D) -> Self {
+        .init(center: center, span: .town)
+    }
+    static func neighborhood(center: LocationCoordinate2D) -> Self {
+        .init(center: center, span: .neighborhood)
+    }
+    static func street(center: LocationCoordinate2D) -> Self {
+        .init(center: center, span: .street)
+    }
 }
 #endif
