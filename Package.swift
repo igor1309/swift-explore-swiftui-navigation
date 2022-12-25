@@ -185,6 +185,7 @@ private extension Target {
     static let addNewAddressFeature = target(
         name: .addNewAddressFeature,
         dependencies: [
+            .combineSchedulers,
             .tagged
         ]
     )

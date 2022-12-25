@@ -6,6 +6,7 @@
 //
 
 import Combine
+import CombineSchedulers
 import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
@@ -20,32 +21,36 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var address: Address?
     
     private let getAddress: GetAddress
-    private let getSuggestions: GetSuggestions
     private let addAddress: (String) -> Void
     
     let dismiss = PassthroughSubject<Void, Never>()
     
     private let selectAddress = PassthroughSubject<Address?, Never>()
     
+    /// - Parameters:
+    ///   - getAddress: A closure connected to map interactions.
+    ///   - getSuggestions: Search completions.
+    ///   - addAddress: Injected closure to handle selected/created address.
+    ///   - scheduler: DispatchQueue Scheduler.
     public init(
         getAddress: @escaping GetAddress,
         getSuggestions: @escaping GetSuggestions,
-        addAddress: @escaping (String) -> Void
+        addAddress: @escaping (String) -> Void,
+        scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.addAddress = addAddress
-        self.getSuggestions = getSuggestions
         self.getAddress = getAddress
         
         $searchText
             .removeDuplicates()
-        //.debounce(for: T##SchedulerTimeIntervalConvertible & Comparable & SignedNumeric, scheduler: T##Scheduler)
-        //.receive(on: <#T##Scheduler#>)
+            .debounce(for: 0.5, scheduler: scheduler)
             .flatMap(getSuggestions)
+            .receive(on: scheduler)
             .assign(to: &$suggestions)
         
         getAddress()
             .merge(with: selectAddress)
-            //.receive(on: <#T##Scheduler#>)
+            .receive(on: scheduler)
             .assign(to: &$address)
     }
     
