@@ -13,10 +13,10 @@ public struct MapItem: Equatable {
     public let coordinate: LocationCoordinate2D
     
     /// The postal address.
-    public let postalAddress: PostalAddress
+    public let address: Address
     
-    public init(coordinate: LocationCoordinate2D, postalAddress: PostalAddress) {
+    public init(coordinate: LocationCoordinate2D, address: Address) {
         self.coordinate = coordinate
-        self.postalAddress = postalAddress
+        self.address = address
     }
 }

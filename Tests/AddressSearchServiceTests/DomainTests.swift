@@ -21,20 +21,12 @@ final class DomainTests: XCTestCase {
     func test_initMapItem_shouldSetProperties() {
         let mapItem = MapItem(
             coordinate: .test,
-            postalAddress: .test
+            address: .test
         )
         
         XCTAssertEqual(mapItem.coordinate, .test)
-        XCTAssertEqual(mapItem.postalAddress, .test)
+        XCTAssertEqual(mapItem.address, .test)
     }
-    
-    func test_initPostalAddress_shouldSetProperties() {
-        let address = PostalAddress(street: "TestStreet", city: "TestCity")
-        
-        XCTAssertEqual(address.street, "TestStreet")
-        XCTAssertEqual(address.city, "TestCity")
-    }
-    
 }
 
 // MARK: - Helpers
@@ -46,7 +38,7 @@ private extension LocationCoordinate2D {
     )
 }
 
-private extension PostalAddress {
+private extension Address {
     
     static let test: Self = .init(
         street: "TestStreet", city: "TestCity"

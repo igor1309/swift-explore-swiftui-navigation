@@ -35,7 +35,7 @@ public extension MapViewModel {
                     let placemarks = try await clGeocoder.reverseGeocodeLocation(clLocation)
                     
                     guard let placemark = placemarks.first,
-                          let address = placemark.postalAddress
+                          let address = placemark.address
                     else {
                         return nil
                     }

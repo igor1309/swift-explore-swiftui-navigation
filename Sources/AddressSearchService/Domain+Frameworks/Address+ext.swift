@@ -5,22 +5,18 @@
 //  Created by Igor Malyarov on 26.12.2022.
 //
 
-import MapKit
+import Contacts
 
-extension Address {
+extension Address: RawRepresentable {
     
-    init(mapItem: MapItem) {
-        self.init(
-            street: mapItem.postalAddress.street,
-            city: mapItem.postalAddress.city
-        )
+    public var rawValue: CNPostalAddress {
+        let cnMutablePostalAddress = CNMutablePostalAddress()
+        cnMutablePostalAddress.street = street
+        cnMutablePostalAddress.city = city
+        return cnMutablePostalAddress
+    }
+    
+    public init(rawValue: CNPostalAddress) {
+        self.init(street: rawValue.street, city: rawValue.city)
     }
 }
-
-extension Array where Element == Address {
-    
-    init(_ response: LocalSearchClient.Response) {
-        self = response.mapItems.compactMap(Address.init(mapItem:))
-    }
-}
-

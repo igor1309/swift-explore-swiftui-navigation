@@ -68,7 +68,7 @@ private extension MapItem {
     
     static let empty: Self = .init(
         coordinate: .test,
-        postalAddress: .init(street: "", city: "")
+        address: .init(street: "", city: "")
     )
 }
 

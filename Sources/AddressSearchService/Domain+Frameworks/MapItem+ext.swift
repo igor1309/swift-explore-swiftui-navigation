@@ -13,19 +13,19 @@ extension MapItem: RawRepresentable {
         .init(
             placemark: .init(
                 coordinate: coordinate.rawValue,
-                postalAddress: postalAddress.rawValue
+                postalAddress: address.rawValue
             )
         )
     }
     
     public init?(rawValue: MKMapItem) {
-        guard let postalAddress = rawValue.placemark.postalAddress else {
+        guard let address = rawValue.placemark.postalAddress else {
             return nil
         }
         
         self.init(
             coordinate: .init(rawValue: rawValue.placemark.coordinate),
-            postalAddress: .init(rawValue: postalAddress)
+            address: .init(rawValue: address)
         )
     }
 }
