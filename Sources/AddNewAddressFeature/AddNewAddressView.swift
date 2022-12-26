@@ -57,7 +57,7 @@ public struct AddNewAddressView<MapView: View>: View {
                 Image(systemName: "text.badge.plus")
             }
         }
-        .disabled(viewModel.address == nil)
+        .disabled(viewModel.addAddressButtonIsDisabled)
     }
     
     private func dismissSearchView() -> some View {

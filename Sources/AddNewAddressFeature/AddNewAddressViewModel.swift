@@ -13,6 +13,7 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     public typealias AddressPublisher = AnyPublisher<Address?, Never>
     public typealias GetAddress = () -> AddressPublisher
+    public typealias AddAddress = (Address) -> Void
     public typealias SuggestionsPublisher = AnyPublisher<[Suggestion], Never>
     public typealias GetSuggestions = (String) -> SuggestionsPublisher
     
@@ -21,7 +22,7 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var address: Address?
     
     private let getAddress: GetAddress
-    private let addAddress: (String) -> Void
+    private let addAddress: AddAddress
     
     let dismiss = PassthroughSubject<Void, Never>()
     
@@ -35,7 +36,7 @@ public final class AddNewAddressViewModel: ObservableObject {
     public init(
         getAddress: @escaping GetAddress,
         getSuggestions: @escaping GetSuggestions,
-        addAddress: @escaping (String) -> Void,
+        addAddress: @escaping AddAddress,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.addAddress = addAddress
@@ -59,7 +60,23 @@ public final class AddNewAddressViewModel: ObservableObject {
     }
     
     func addAddressButtonTapped() {
-        addAddress(searchText)
+        guard let address,
+              !address.street.isEmpty
+        else {
+            return
+        }
+                          
+        addAddress(address)
+    }
+    
+    var addAddressButtonIsDisabled: Bool {
+        guard let address,
+              !address.street.isEmpty
+        else {
+            return true
+        }
+        
+        return false
     }
     
     func select(_ suggestion: Suggestion) {
