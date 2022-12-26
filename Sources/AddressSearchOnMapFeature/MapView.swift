@@ -24,7 +24,7 @@ public struct MapView: View {
             )
         )
         .overlay(content: circle)
-        .overlay(content: street)
+        .overlay(content: addressView)
     }
     
     private func circle() -> some View {
@@ -38,16 +38,16 @@ public struct MapView: View {
     }
     
     @ViewBuilder
-    private func street() -> some View {
-        switch viewModel.streetState {
+    private func addressView() -> some View {
+        switch viewModel.addressState {
         case .searching:
             ProgressView()
             
         case .none:
             Text("...")
             
-        case let .street(street):
-            Text(street)
+        case let .address(address):
+            Text(address.street)
                 .font(.subheadline.bold())
                 .offset(x: 50, y: -32)
         }

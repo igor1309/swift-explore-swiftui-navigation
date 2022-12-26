@@ -22,9 +22,16 @@ public struct MapViewDemo: View {
             .safeAreaInset(edge: .bottom, content: watch)
     }
     
+    var location: String {
+        let street = viewModel.address?.street ?? "street n/a"
+        let city = viewModel.address?.city ?? "city n/a"
+        
+        return street + " | " + city
+    }
+    
     private func watch() -> some View {
         VStack {
-            Text((/MapViewModel.StreetState.street).extract(from: viewModel.streetState) ?? "street n/a")
+            Text(location)
                 .padding(2)
             
             Text(viewModel.region.center.latitude.formatted(.number))
@@ -48,6 +55,7 @@ public struct MapViewDemo: View {
 }
 
 struct Place: Identifiable {
+    
     typealias ID = Tagged<Self, UUID>
     
     let id: ID
@@ -64,10 +72,10 @@ struct Place: Identifiable {
 extension Place {
     
     static let barcelona: Self = .init(title: "Barcelona", region: .barcelonaStreet)
-    static let london:    Self = .init(title: "London", region: .londonStreet)
-    static let moscow:    Self = .init(title: "Moscow", region: .moscowStreet)
-    static let paris:     Self = .init(title: "Paris", region: .init(center: .paris, span: .street))
-    static let rome:      Self = .init(title: "Rome", region: .init(center: .rome, span: .street))
+    static let london:    Self = .init(title: "London",    region: .londonStreet)
+    static let moscow:    Self = .init(title: "Moscow",    region: .moscowStreet)
+    static let paris:     Self = .init(title: "Paris",     region: .street(center: .paris))
+    static let rome:      Self = .init(title: "Rome",      region: .street(center: .rome))
 }
 
 extension Array where Element == Place {

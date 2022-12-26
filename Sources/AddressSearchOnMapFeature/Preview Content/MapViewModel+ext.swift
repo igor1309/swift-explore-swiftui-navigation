@@ -14,7 +14,9 @@ public extension MapViewModel {
     
     static let preview: MapViewModel = .init(
         initialRegion: .londonStreet,
-        getStreetFrom: { coordinate in "Review Street, 0123" }
+        getStreetFrom: { _ in
+            .init(street: "Review Street, 0123", city: "NCity")
+        }
     )
     
     static let failing: MapViewModel = .init(
@@ -25,7 +27,7 @@ public extension MapViewModel {
     static func live(region: CoordinateRegion = .londonStreet) -> MapViewModel {
         .init(
             initialRegion: region,
-            getStreetFrom: { coordinate in
+            getStreetFrom: { coordinate -> Address? in
                 do {
                     let geocoder = CLGeocoder()
                     let placemarks = try await geocoder.reverseGeocodeLocation(coordinate.clLocation)
@@ -39,7 +41,7 @@ public extension MapViewModel {
                     //     from: address,
                     //     style: .mailingAddress
                     // )
-                    return address.street
+                    return .init(street: address.street, city: address.city)
                     
                 } catch {
                     return nil

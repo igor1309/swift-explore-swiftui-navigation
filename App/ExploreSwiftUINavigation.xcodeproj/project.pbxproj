@@ -26,6 +26,9 @@
 		2A48CE032959BA9C00DF5A29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A48CE022959BA9C00DF5A29 /* Assets.xcassets */; };
 		2A48CE062959BA9C00DF5A29 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A48CE052959BA9C00DF5A29 /* Preview Assets.xcassets */; };
 		2A48CE0C2959BAB700DF5A29 /* AddNewAddressFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CE0B2959BAB700DF5A29 /* AddNewAddressFeature */; };
+		2A48CE0E2959BB4500DF5A29 /* AddressSearchOnMapFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CE0D2959BB4500DF5A29 /* AddressSearchOnMapFeature */; };
+		2A48CE102959BB4500DF5A29 /* AddressSearchService in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CE0F2959BB4500DF5A29 /* AddressSearchService */; };
+		2A48CE122959BDEE00DF5A29 /* MapDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CE112959BDEE00DF5A29 /* MapDomain */; };
 		2A7AB21E2957018100500FE4 /* DismissSearchPreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB21D2957018100500FE4 /* DismissSearchPreviewAppApp.swift */; };
 		2A7AB2202957018100500FE4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB21F2957018100500FE4 /* ContentView.swift */; };
 		2A7AB2222957018200500FE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB2212957018200500FE4 /* Assets.xcassets */; };
@@ -80,7 +83,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A48CE102959BB4500DF5A29 /* AddressSearchService in Frameworks */,
+				2A48CE0E2959BB4500DF5A29 /* AddressSearchOnMapFeature in Frameworks */,
 				2A1AC7242956F63F0075134A /* AddNewAddressFeature in Frameworks */,
+				2A48CE122959BDEE00DF5A29 /* MapDomain in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +302,9 @@
 			name = AddNewAddressPreviewApp;
 			packageProductDependencies = (
 				2A1AC7232956F63F0075134A /* AddNewAddressFeature */,
+				2A48CE0D2959BB4500DF5A29 /* AddressSearchOnMapFeature */,
+				2A48CE0F2959BB4500DF5A29 /* AddressSearchService */,
+				2A48CE112959BDEE00DF5A29 /* MapDomain */,
 			);
 			productName = AddNewAddressPreviewApp;
 			productReference = 2A1AC7152956F6210075134A /* AddNewAddressPreviewApp.app */;
@@ -1143,6 +1152,18 @@
 		2A48CE0B2959BAB700DF5A29 /* AddNewAddressFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AddNewAddressFeature;
+		};
+		2A48CE0D2959BB4500DF5A29 /* AddressSearchOnMapFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressSearchOnMapFeature;
+		};
+		2A48CE0F2959BB4500DF5A29 /* AddressSearchService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressSearchService;
+		};
+		2A48CE112959BDEE00DF5A29 /* MapDomain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MapDomain;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

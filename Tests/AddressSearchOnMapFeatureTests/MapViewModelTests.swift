@@ -29,7 +29,7 @@ final class MapViewModelTests: XCTestCase {
     func test__() {
         let scheduler = DispatchQueue.test
         let (sut, _, streetSpy) = makeSUT(
-            stub: "Blue Stret, 123",
+            stub: .test,
             scheduler: scheduler.eraseToAnyScheduler()
         )
         
@@ -42,25 +42,25 @@ final class MapViewModelTests: XCTestCase {
         sut.update(region: .moscowStreet)
         scheduler.advance()
 //        scheduler.advance(by: .seconds(1))
-        XCTAssertEqual(streetSpy.values, [.none, .street("Blue Stret, 123")])
+        XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
         
         sut.update(region: .moscowStreet)
 
         scheduler.advance(by: .seconds(1))
-        XCTAssertEqual(streetSpy.values, [.none, .street("Blue Stret, 123")])
+        XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
     }
     
     // MARK: - Helpers
     
     private func makeSUT(
-        stub: String?,
+        stub: Address?,
         scheduler: AnySchedulerOf<DispatchQueue>,
         file: StaticString = #file,
         line: UInt = #line
     ) -> (
         sut: MapViewModel,
         locationSpy: LocationSpy,
-        streetSpy: ValueSpy<MapViewModel.StreetState>
+        streetSpy: ValueSpy<MapViewModel.AddressState>
     ) {
         let initialRegion: CoordinateRegion = .londonStreet
         let locationSpy = LocationSpy(stub: stub)
@@ -70,7 +70,7 @@ final class MapViewModelTests: XCTestCase {
             //getStreetFrom: { _ in Just(stub).eraseToAnyPublisher() },
             scheduler: scheduler
         )
-        let streetSpy = ValueSpy(sut.$streetState)
+        let streetSpy = ValueSpy(sut.$addressState)
         
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(locationSpy, file: file, line: line)
@@ -80,13 +80,13 @@ final class MapViewModelTests: XCTestCase {
     }
     
     private final class LocationSpy {
-        private let stub: String?
+        private let stub: Address?
         
-        init(stub: String?) {
+        init(stub: Address?) {
             self.stub = stub
         }
         
-        func getStreetFrom(coordinate: LocationCoordinate2D) async -> String? {
+        func getStreetFrom(coordinate: LocationCoordinate2D) async -> Address? {
             return stub
         }
     }
@@ -101,4 +101,9 @@ final class MapViewModelTests: XCTestCase {
             }
         }
     }
+}
+
+private extension Address {
+    
+    static let test: Self = .init(street: "Blue Stret, 123", city: "NCity")
 }
