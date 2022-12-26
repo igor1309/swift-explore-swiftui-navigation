@@ -6,7 +6,7 @@
 //
 
 import AddressSearchService
-import MapFeature
+import MapDomain
 import XCTest
 
 final class SearchAddressesTests: XCTestCase {
