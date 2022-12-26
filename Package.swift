@@ -203,15 +203,19 @@ private extension Target {
             .domain
         ]
     )
+    #warning("extract MapFeatureDomain into separate module ")
     static let addressSearchService = target(
         name: .addressSearchService,
         dependencies: [
+            .mapFeature,
         ]
     )
+    #warning("extract MapFeatureDomain into separate module ")
     static let addressSearchServiceTests = testTarget(
         name: .addressSearchServiceTests,
         dependencies: [
             .addressSearchService,
+            .mapFeature,
             .snapshotTesting,
         ]
     )
