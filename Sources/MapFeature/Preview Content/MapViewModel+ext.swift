@@ -26,16 +26,12 @@ public extension MapViewModel {
         .init(
             initialRegion: region,
             getStreetFrom: { coordinate in
-                let clLocation = CLLocation(
-                    latitude: coordinate.latitude,
-                    longitude: coordinate.longitude
-                )
-                let clGeocoder = CLGeocoder()
                 do {
-                    let placemarks = try await clGeocoder.reverseGeocodeLocation(clLocation)
+                    let geocoder = CLGeocoder()
+                    let placemarks = try await geocoder.reverseGeocodeLocation(coordinate.clLocation)
                     
                     guard let placemark = placemarks.first,
-                          let address = placemark.address
+                          let address = placemark.postalAddress
                     else {
                         return nil
                     }
@@ -52,4 +48,13 @@ public extension MapViewModel {
         )
     }
 }
+
+import CoreLocation
+private extension LocationCoordinate2D {
+    
+    var clLocation: CLLocation {
+        .init(latitude: latitude, longitude: longitude)
+    }
+}
+
 #endif
