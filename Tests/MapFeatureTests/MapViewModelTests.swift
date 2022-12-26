@@ -7,6 +7,7 @@
 
 import Combine
 import CombineSchedulers
+import MapDomain
 @testable import MapFeature
 import MapKit
 import XCTest
