@@ -280,20 +280,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MapFeature"
-               BuildableName = "MapFeature"
-               BlueprintName = "MapFeature"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "AddressSearchService"
                BuildableName = "AddressSearchService"
                BlueprintName = "AddressSearchService"
@@ -314,6 +300,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddressSearchOnMapFeature"
+               BuildableName = "AddressSearchOnMapFeature"
+               BlueprintName = "AddressSearchOnMapFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -323,17 +323,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MapFeatureTests"
-               BuildableName = "MapFeatureTests"
-               BlueprintName = "MapFeatureTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO"
             testExecutionOrdering = "random">
@@ -353,6 +342,17 @@
                BlueprintIdentifier = "MapDomainTests"
                BuildableName = "MapDomainTests"
                BlueprintName = "MapDomainTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AddressSearchOnMapFeatureTests"
+               BuildableName = "AddressSearchOnMapFeatureTests"
+               BlueprintName = "AddressSearchOnMapFeatureTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

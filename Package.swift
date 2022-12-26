@@ -15,6 +15,7 @@ let package = Package(
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
+        .addressSearchOnMapFeature,
         .addressSearchService,
         .addressViewFeature,
         .appFeature,
@@ -23,7 +24,6 @@ let package = Package(
         .featureViewFeature,
         .mainPageFeature,
         .mapDomain,
-        .mapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -49,6 +49,8 @@ let package = Package(
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
+        .addressSearchOnMapFeature,
+        .addressSearchOnMapFeatureTests,
         .addressSearchService,
         .addressSearchServiceTests,
         .addressViewFeature,
@@ -59,8 +61,6 @@ let package = Package(
         .mainPageFeature,
         .mapDomain,
         .mapDomainTests,
-        .mapFeature,
-        .mapFeatureTests,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -117,6 +117,10 @@ private extension Product {
         name: .addressPickerFeature,
         targets: [.addressPickerFeature]
     )
+    static let addressSearchOnMapFeature = library(
+        name: .addressSearchOnMapFeature,
+        targets: [.addressSearchOnMapFeature]
+    )
     static let addressSearchService = library(
         name: .addressSearchService,
         targets: [.addressSearchService]
@@ -148,10 +152,6 @@ private extension Product {
     static let mapDomain = library(
         name: .mapDomain,
         targets: [.mapDomain]
-    )
-    static let mapFeature = library(
-        name: .mapFeature,
-        targets: [.mapFeature]
     )
     static let newAppFeatureFeature = library(
         name: .newAppFeatureFeature,
@@ -210,6 +210,23 @@ private extension Target {
             .domain
         ]
     )
+    static let addressSearchOnMapFeature = target(
+        name: .addressSearchOnMapFeature,
+        dependencies: [
+            .casePaths,
+            .combineSchedulers,
+            .mapDomain,
+            .tagged,
+        ]
+    )
+    static let addressSearchOnMapFeatureTests = testTarget(
+        name: .addressSearchOnMapFeatureTests,
+        dependencies: [
+            .combineSchedulers,
+            .mapDomain,
+            .addressSearchOnMapFeature,
+        ]
+    )
     static let addressSearchService = target(
         name: .addressSearchService,
         dependencies: [
@@ -248,7 +265,7 @@ private extension Target {
             .featureViewFeature,
             .mainPageFeature,
             .mapDomain,
-            .mapFeature,
+            .addressSearchOnMapFeature,
             .newAppFeatureFeature,
             .profileEditorFeature,
             .profileFeature,
@@ -294,23 +311,6 @@ private extension Target {
         name: .mapDomainTests,
         dependencies: [
             .mapDomain,
-        ]
-    )
-    static let mapFeature = target(
-        name: .mapFeature,
-        dependencies: [
-            .casePaths,
-            .combineSchedulers,
-            .mapDomain,
-            .tagged,
-        ]
-    )
-    static let mapFeatureTests = testTarget(
-        name: .mapFeatureTests,
-        dependencies: [
-            .combineSchedulers,
-            .mapDomain,
-            .mapFeature,
         ]
     )
     static let newAppFeatureFeature = target(
@@ -385,6 +385,7 @@ private extension Target.Dependency {
 
     static let addNewAddressFeature = byName(name: .addNewAddressFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
+    static let addressSearchOnMapFeature = byName(name: .addressSearchOnMapFeature)
     static let addressSearchService = byName(name: .addressSearchService)
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
@@ -392,7 +393,6 @@ private extension Target.Dependency {
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
     static let mapDomain = byName(name: .mapDomain)
-    static let mapFeature = byName(name: .mapFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileEditorFeature = byName(name: .profileEditorFeature)
     static let profileFeature = byName(name: .profileFeature)
@@ -409,6 +409,8 @@ private extension String {
 
     static let addNewAddressFeature = "AddNewAddressFeature"
     static let addressPickerFeature = "AddressPickerFeature"
+    static let addressSearchOnMapFeature = "AddressSearchOnMapFeature"
+    static let addressSearchOnMapFeatureTests = "AddressSearchOnMapFeatureTests"
     static let addressSearchService = "AddressSearchService"
     static let addressSearchServiceTests = "AddressSearchServiceTests"
     static let addressViewFeature = "AddressViewFeature"
@@ -419,8 +421,6 @@ private extension String {
     static let mainPageFeature = "MainPageFeature"
     static let mapDomain = "MapDomain"
     static let mapDomainTests = "MapDomainTests"
-    static let mapFeature = "MapFeature"
-    static let mapFeatureTests = "MapFeatureTests"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"

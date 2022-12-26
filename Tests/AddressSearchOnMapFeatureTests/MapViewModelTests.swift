@@ -8,7 +8,7 @@
 import Combine
 import CombineSchedulers
 import MapDomain
-@testable import MapFeature
+@testable import AddressSearchOnMapFeature
 import MapKit
 import XCTest
 

@@ -1,7 +1,7 @@
 import Contacts
 import MapKit
 import AddressSearchService
-import MapFeature
+import AddressSearchOnMapFeature
 
 struct Address {
     let street: String
