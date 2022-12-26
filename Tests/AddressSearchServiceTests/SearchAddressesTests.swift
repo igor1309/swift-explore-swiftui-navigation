@@ -35,7 +35,7 @@ final class SearchAddressesTests: XCTestCase {
 private extension LocalSearchClient {
     
     static func test(mapItems: [MapItem] = .test) -> Self {
-        .init { completion in
+        .init { completion, _ in
                 .init(
                     boundingRegion: .test,
                     mapItems: mapItems

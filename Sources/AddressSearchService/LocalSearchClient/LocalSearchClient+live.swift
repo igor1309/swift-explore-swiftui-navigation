@@ -10,7 +10,7 @@ import MapKit
 extension LocalSearchClient {
     
     public static var live: Self {
-        .init { completion in
+        .init { completion, region in
             /// `LocalSearchCompletion` has internal memberwise init for testing
             /// which sets `rawValue` to nil.
             /// `init(rawValue:)` does not set rawValue to nil
@@ -18,7 +18,11 @@ extension LocalSearchClient {
                 throw CompletionError()
             }
             
-            let search = MKLocalSearch(request: .init(completion: rawValue))
+            let request = MKLocalSearch.Request(completion: rawValue)
+            if let region {
+                request.region = region.rawValue
+            }
+            let search = MKLocalSearch(request: request)
             return try await .init(rawValue: search.start())
         }
     }
