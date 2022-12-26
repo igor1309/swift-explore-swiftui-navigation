@@ -11,11 +11,11 @@ import Foundation
 extension Array where Element == Address {
     
     static let prevSearches: Self = [
-        .init(street: .init("5th Ave, 123")),
+        .init(street: .init("5th Ave, 123"), city: "NCity"),
     ]
     static let preview: Self = [
-        .init(street: .init("Black Street, 123")),
-        .init(street: .init("White Avenue, 456"))
+        .init(street: .init("Black Street, 123"), city: "MCity"),
+        .init(street: .init("White Avenue, 456"), city: "QCity")
     ]
 }
 

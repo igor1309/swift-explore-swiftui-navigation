@@ -10,6 +10,9 @@ import Foundation
 #if DEBUG
 extension Address {
     
-    static let preview: Self = .init(street: .init("Review Street, 0123"))
+    static let preview: Self = .init(
+        street: .init("Review Street, 0123"),
+        city: "NCity"
+    )
 }
 #endif
