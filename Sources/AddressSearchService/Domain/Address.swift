@@ -9,9 +9,12 @@ import Foundation
 
 public struct Address: Equatable {
     
-    public let street: String
-    public let city: String
+    /// The street name in a postal address.
+    public var street: String
     
+    /// The city name in a postal address.
+    public var city: String
+
     public init(street: String, city: String) {
         self.street = street
         self.city = city
