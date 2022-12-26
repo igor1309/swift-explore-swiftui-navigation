@@ -17,3 +17,7 @@ UI inspired by СберМаркет app.
 
     Episode #157 • Aug 16, 2021 • Free Episode
     We finish our search-based application by adding and controlling another MapKit API, integrating it into our application so we can annotate a map with search results, and then we’ll go the extra mile and write tests for the entire thing!
+
+- [Searchable modifier in SwiftUI: A UISearchController and UISearchBar equivalent | Sarunw](https://sarunw.com/posts/searchable-in-swiftui/)
+
+- [Craft search experiences in SwiftUI - WWDC21 - Videos - Apple Developer](https://developer.apple.com/videos/play/wwdc2021/10176/)
