@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import MapDomain
 import SwiftUI
 
 extension Map {

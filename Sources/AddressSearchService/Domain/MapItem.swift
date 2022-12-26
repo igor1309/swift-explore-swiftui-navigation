@@ -5,8 +5,7 @@
 //  Created by Igor Malyarov on 26.12.2022.
 //
 
-#warning("extract MapFeatureDomain into separate module")
-import MapFeature
+import MapDomain
 
 public struct MapItem: Equatable {
     

@@ -7,6 +7,7 @@
 
 #if DEBUG
 import Contacts
+import MapDomain
 import MapKit
 
 public extension MapViewModel {

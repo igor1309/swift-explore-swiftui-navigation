@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
-import MapKit
+import MapDomain
 
 #if DEBUG
 extension LocationCoordinate2D {
@@ -17,7 +17,7 @@ extension LocationCoordinate2D {
     static let rome:         Self = .init(41.9, 12.5)
     static let washingtonDC: Self = .init(38.895111, -77.036667)
     
-    private init(_ latitude: CLLocationDegrees, _ longitude: CLLocationDegrees) {
+    private init(_ latitude: LocationDegrees, _ longitude: LocationDegrees) {
         self.init(latitude: latitude, longitude: longitude)
     }
 }

@@ -5,6 +5,8 @@
 //  Created by Igor Malyarov on 25.12.2022.
 //
 
+import MapDomain
+
 func isClose(
     _ lhs: LocationCoordinate2D,
     to rhs: LocationCoordinate2D,

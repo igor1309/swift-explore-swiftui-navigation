@@ -300,6 +300,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "MapDomain"
+               BuildableName = "MapDomain"
+               BlueprintName = "MapDomain"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -328,6 +342,17 @@
                BlueprintIdentifier = "AddressSearchServiceTests"
                BuildableName = "AddressSearchServiceTests"
                BlueprintName = "AddressSearchServiceTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "MapDomainTests"
+               BuildableName = "MapDomainTests"
+               BlueprintName = "MapDomainTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

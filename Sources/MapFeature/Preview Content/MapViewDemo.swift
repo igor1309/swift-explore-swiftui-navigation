@@ -6,6 +6,7 @@
 //
 
 import CasePaths
+import MapDomain
 import SwiftUI
 import Tagged
 

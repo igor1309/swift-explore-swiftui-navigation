@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
-import MapKit
+import MapDomain
 
 #if DEBUG
 extension CoordinateSpan {
@@ -18,8 +18,8 @@ extension CoordinateSpan {
     static var street:       Self = .init(0.001, 0.001)
     
     private init(
-        _ latitudeDelta: CLLocationDegrees,
-        _ longitudeDelta: CLLocationDegrees
+        _ latitudeDelta: LocationDegrees,
+        _ longitudeDelta: LocationDegrees
     ) {
         self.init(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
     }

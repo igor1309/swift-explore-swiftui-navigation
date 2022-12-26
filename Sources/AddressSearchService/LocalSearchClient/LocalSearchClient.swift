@@ -5,7 +5,7 @@
 //  Created by Igor Malyarov on 26.12.2022.
 //
 
-import MapFeature
+import MapDomain
 
 public struct LocalSearchClient {
     

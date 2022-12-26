@@ -6,7 +6,7 @@
 //
 
 import CoreLocation
-import MapFeature
+import MapDomain
 import MapKit
 import XCTest
 

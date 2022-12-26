@@ -22,6 +22,7 @@ let package = Package(
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
+        .mapDomain,
         .mapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
@@ -56,6 +57,8 @@ let package = Package(
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
+        .mapDomain,
+        .mapDomainTests,
         .mapFeature,
         .mapFeatureTests,
         .newAppFeatureFeature,
@@ -142,6 +145,10 @@ private extension Product {
         name: .mainPageFeature,
         targets: [.mainPageFeature]
     )
+    static let mapDomain = library(
+        name: .mapDomain,
+        targets: [.mapDomain]
+    )
     static let mapFeature = library(
         name: .mapFeature,
         targets: [.mapFeature]
@@ -203,19 +210,17 @@ private extension Target {
             .domain
         ]
     )
-    #warning("extract MapFeatureDomain into separate module ")
     static let addressSearchService = target(
         name: .addressSearchService,
         dependencies: [
-            .mapFeature,
+            .mapDomain,
         ]
     )
-    #warning("extract MapFeatureDomain into separate module ")
     static let addressSearchServiceTests = testTarget(
         name: .addressSearchServiceTests,
         dependencies: [
             .addressSearchService,
-            .mapFeature,
+            .mapDomain,
             .snapshotTesting,
         ]
     )
@@ -242,6 +247,7 @@ private extension Target {
             .featuredShopsFeature,
             .featureViewFeature,
             .mainPageFeature,
+            .mapDomain,
             .mapFeature,
             .newAppFeatureFeature,
             .profileEditorFeature,
@@ -279,11 +285,23 @@ private extension Target {
             .domain
         ]
     )
+    static let mapDomain = target(
+        name: .mapDomain,
+        dependencies: [
+        ]
+    )
+    static let mapDomainTests = testTarget(
+        name: .mapDomainTests,
+        dependencies: [
+            .mapDomain,
+        ]
+    )
     static let mapFeature = target(
         name: .mapFeature,
         dependencies: [
             .casePaths,
             .combineSchedulers,
+            .mapDomain,
             .tagged,
         ]
     )
@@ -372,6 +390,7 @@ private extension Target.Dependency {
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
+    static let mapDomain = byName(name: .mapDomain)
     static let mapFeature = byName(name: .mapFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileEditorFeature = byName(name: .profileEditorFeature)
@@ -397,6 +416,8 @@ private extension String {
     static let featuredShopsFeature = "FeaturedShopsFeature"
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
+    static let mapDomain = "MapDomain"
+    static let mapDomainTests = "MapDomainTests"
     static let mapFeature = "MapFeature"
     static let mapFeatureTests = "MapFeatureTests"
     static let newAppFeatureFeature = "NewAppFeatureFeature"

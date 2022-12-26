@@ -8,6 +8,7 @@
 import Combine
 import CombineSchedulers
 import Foundation
+import MapDomain
 
 public final class MapViewModel: ObservableObject {
     
