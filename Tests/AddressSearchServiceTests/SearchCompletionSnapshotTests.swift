@@ -32,11 +32,11 @@ extension LocalSearchCompletion {
         let titleNSRange1 = NSRange(titleRange1, in: title)
         
         let subtitleRange = subtitle.range(of: "stSubTi")!
-        let subtitleNSRange = NSRange(subtitleRange, in: title)
+        let subtitleNSRange = NSRange(subtitleRange, in: subtitle)
         
         return .init(
-            title: "TestTitle",
-            subtitle: "TestSubTitle",
+            title: title,
+            subtitle: subtitle,
             titleHighlightRanges: [titleNSRange0, titleNSRange1],
             subtitleHighlightRanges: [subtitleNSRange]
         )
