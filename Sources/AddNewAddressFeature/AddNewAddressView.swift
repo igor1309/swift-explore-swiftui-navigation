@@ -28,6 +28,8 @@ public struct AddNewAddressView<MapView: View>: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: toolbar)
+            .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .overlay(content: dismissSearchView)
             .searchable(
                 text: .init(
