@@ -18,6 +18,14 @@
 		2A390CA32955EA9200779C18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A390CA22955EA9200779C18 /* Assets.xcassets */; };
 		2A390CA62955EA9200779C18 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A390CA52955EA9200779C18 /* Preview Assets.xcassets */; };
 		2A390CAC2955EAE700779C18 /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 2A390CAB2955EAE700779C18 /* SwiftUINavigation */; };
+		2A48CDF32959BA1300DF5A29 /* AddNewAddressFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CDF22959BA1300DF5A29 /* AddNewAddressFeature */; };
+		2A48CDF52959BA1300DF5A29 /* AddressSearchOnMapFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CDF42959BA1300DF5A29 /* AddressSearchOnMapFeature */; };
+		2A48CDF72959BA1300DF5A29 /* AddressSearchService in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CDF62959BA1300DF5A29 /* AddressSearchService */; };
+		2A48CDFF2959BA9B00DF5A29 /* AddNewAddressDemoPreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A48CDFE2959BA9B00DF5A29 /* AddNewAddressDemoPreviewAppApp.swift */; };
+		2A48CE012959BA9B00DF5A29 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A48CE002959BA9B00DF5A29 /* ContentView.swift */; };
+		2A48CE032959BA9C00DF5A29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A48CE022959BA9C00DF5A29 /* Assets.xcassets */; };
+		2A48CE062959BA9C00DF5A29 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A48CE052959BA9C00DF5A29 /* Preview Assets.xcassets */; };
+		2A48CE0C2959BAB700DF5A29 /* AddNewAddressFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A48CE0B2959BAB700DF5A29 /* AddNewAddressFeature */; };
 		2A7AB21E2957018100500FE4 /* DismissSearchPreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB21D2957018100500FE4 /* DismissSearchPreviewAppApp.swift */; };
 		2A7AB2202957018100500FE4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB21F2957018100500FE4 /* ContentView.swift */; };
 		2A7AB2222957018200500FE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB2212957018200500FE4 /* Assets.xcassets */; };
@@ -26,7 +34,6 @@
 		2A7AB23229573C9F00500FE4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB23129573C9F00500FE4 /* ContentView.swift */; };
 		2A7AB23429573CA100500FE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB23329573CA100500FE4 /* Assets.xcassets */; };
 		2A7AB23729573CA100500FE4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB23629573CA100500FE4 /* Preview Assets.xcassets */; };
-		2A7AB23C29573CB100500FE4 /* MapFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2A7AB23B29573CB100500FE4 /* MapFeature */; };
 		2AFF10482952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10472952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift */; };
 		2AFF104A2952FBA2003E11E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10492952FBA2003E11E5 /* ContentView.swift */; };
 		2AFF104C2952FBA3003E11E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFF104B2952FBA3003E11E5 /* Assets.xcassets */; };
@@ -44,6 +51,12 @@
 		2A390CA02955EA9100779C18 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2A390CA22955EA9200779C18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A390CA52955EA9200779C18 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2A48CDFC2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddNewAddressDemoPreviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A48CDFE2959BA9B00DF5A29 /* AddNewAddressDemoPreviewAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressDemoPreviewAppApp.swift; sourceTree = "<group>"; };
+		2A48CE002959BA9B00DF5A29 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2A48CE022959BA9C00DF5A29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2A48CE052959BA9C00DF5A29 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2A48CE0A2959BAAB00DF5A29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2A7AB21B2957018100500FE4 /* DismissSearchPreviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DismissSearchPreviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A7AB21D2957018100500FE4 /* DismissSearchPreviewAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissSearchPreviewAppApp.swift; sourceTree = "<group>"; };
 		2A7AB21F2957018100500FE4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,6 +92,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2A48CDF92959BA9B00DF5A29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A48CE0C2959BAB700DF5A29 /* AddNewAddressFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2A7AB2182957018100500FE4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -90,7 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A7AB23C29573CB100500FE4 /* MapFeature in Frameworks */,
+				2A48CDF72959BA1300DF5A29 /* AddressSearchService in Frameworks */,
+				2A48CDF52959BA1300DF5A29 /* AddressSearchOnMapFeature in Frameworks */,
+				2A48CDF32959BA1300DF5A29 /* AddNewAddressFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +166,26 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		2A48CDFD2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */ = {
+			isa = PBXGroup;
+			children = (
+				2A48CE0A2959BAAB00DF5A29 /* Info.plist */,
+				2A48CDFE2959BA9B00DF5A29 /* AddNewAddressDemoPreviewAppApp.swift */,
+				2A48CE002959BA9B00DF5A29 /* ContentView.swift */,
+				2A48CE022959BA9C00DF5A29 /* Assets.xcassets */,
+				2A48CE042959BA9C00DF5A29 /* Preview Content */,
+			);
+			path = AddNewAddressDemoPreviewApp;
+			sourceTree = "<group>";
+		};
+		2A48CE042959BA9C00DF5A29 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2A48CE052959BA9C00DF5A29 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		2A7AB21C2957018100500FE4 /* DismissSearchPreviewApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +230,7 @@
 				2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */,
 				2AFF10462952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
 				2A390C9D2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2A48CDFD2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */,
 				2A1AC7162956F6210075134A /* AddNewAddressPreviewApp */,
 				2A7AB21C2957018100500FE4 /* DismissSearchPreviewApp */,
 				2A7AB22E29573C9F00500FE4 /* MapViewPreviewApp */,
@@ -203,6 +247,7 @@
 				2A1AC7152956F6210075134A /* AddNewAddressPreviewApp.app */,
 				2A7AB21B2957018100500FE4 /* DismissSearchPreviewApp.app */,
 				2A7AB22D29573C9F00500FE4 /* MapViewPreviewApp.app */,
+				2A48CDFC2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,6 +321,26 @@
 			productReference = 2A390C9C2955EA9100779C18 /* SwiftUINavigationAlert.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2A48CDFB2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A48CE072959BA9C00DF5A29 /* Build configuration list for PBXNativeTarget "AddNewAddressDemoPreviewApp" */;
+			buildPhases = (
+				2A48CDF82959BA9B00DF5A29 /* Sources */,
+				2A48CDF92959BA9B00DF5A29 /* Frameworks */,
+				2A48CDFA2959BA9B00DF5A29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AddNewAddressDemoPreviewApp;
+			packageProductDependencies = (
+				2A48CE0B2959BAB700DF5A29 /* AddNewAddressFeature */,
+			);
+			productName = AddNewAddressDemoPreviewApp;
+			productReference = 2A48CDFC2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		2A7AB21A2957018100500FE4 /* DismissSearchPreviewApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A7AB2282957018200500FE4 /* Build configuration list for PBXNativeTarget "DismissSearchPreviewApp" */;
@@ -307,7 +372,9 @@
 			);
 			name = MapViewPreviewApp;
 			packageProductDependencies = (
-				2A7AB23B29573CB100500FE4 /* MapFeature */,
+				2A48CDF22959BA1300DF5A29 /* AddNewAddressFeature */,
+				2A48CDF42959BA1300DF5A29 /* AddressSearchOnMapFeature */,
+				2A48CDF62959BA1300DF5A29 /* AddressSearchService */,
 			);
 			productName = MapViewPreviewApp;
 			productReference = 2A7AB22D29573C9F00500FE4 /* MapViewPreviewApp.app */;
@@ -349,6 +416,9 @@
 					2A390C9B2955EA9100779C18 = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					2A48CDFB2959BA9B00DF5A29 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					2A7AB21A2957018100500FE4 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -378,6 +448,7 @@
 			targets = (
 				2AFF10442952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
 				2A390C9B2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2A48CDFB2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */,
 				2A1AC7142956F6210075134A /* AddNewAddressPreviewApp */,
 				2A7AB21A2957018100500FE4 /* DismissSearchPreviewApp */,
 				2A7AB22C29573C9F00500FE4 /* MapViewPreviewApp */,
@@ -401,6 +472,15 @@
 			files = (
 				2A390CA62955EA9200779C18 /* Preview Assets.xcassets in Resources */,
 				2A390CA32955EA9200779C18 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A48CDFA2959BA9B00DF5A29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A48CE062959BA9C00DF5A29 /* Preview Assets.xcassets in Resources */,
+				2A48CE032959BA9C00DF5A29 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +529,15 @@
 			files = (
 				2A390CA12955EA9100779C18 /* ContentView.swift in Sources */,
 				2A390C9F2955EA9100779C18 /* SwiftUINavigationAlertApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A48CDF82959BA9B00DF5A29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A48CE012959BA9B00DF5A29 /* ContentView.swift in Sources */,
+				2A48CDFF2959BA9B00DF5A29 /* AddNewAddressDemoPreviewAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +680,66 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.SwiftUINavigationAlert;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2A48CE082959BA9C00DF5A29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddNewAddressDemoPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddNewAddressDemoPreviewApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddNewAddressDemoPreviewApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A48CE092959BA9C00DF5A29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddNewAddressDemoPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AddNewAddressDemoPreviewApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddNewAddressDemoPreviewApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -907,6 +1056,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		2A48CE072959BA9C00DF5A29 /* Build configuration list for PBXNativeTarget "AddNewAddressDemoPreviewApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A48CE082959BA9C00DF5A29 /* Debug */,
+				2A48CE092959BA9C00DF5A29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2A7AB2282957018200500FE4 /* Build configuration list for PBXNativeTarget "DismissSearchPreviewApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -970,9 +1128,21 @@
 			package = 2A390CAA2955EAE700779C18 /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
 			productName = SwiftUINavigation;
 		};
-		2A7AB23B29573CB100500FE4 /* MapFeature */ = {
+		2A48CDF22959BA1300DF5A29 /* AddNewAddressFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = MapFeature;
+			productName = AddNewAddressFeature;
+		};
+		2A48CDF42959BA1300DF5A29 /* AddressSearchOnMapFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressSearchOnMapFeature;
+		};
+		2A48CDF62959BA1300DF5A29 /* AddressSearchService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressSearchService;
+		};
+		2A48CE0B2959BAB700DF5A29 /* AddNewAddressFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddNewAddressFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
