@@ -1,5 +1,5 @@
 //
-//  searchAddresses.swift
+//  SearchAddressesTests.swift
 //  
 //
 //  Created by Igor Malyarov on 26.12.2022.
@@ -7,43 +7,6 @@
 
 import AddressSearchService
 import MapFeature
-
-struct Address: Equatable {
-    let street: String
-    let city: String
-}
-
-extension Address {
-    
-    init?(mapItem: MapItem) {
-        guard let postalAddress = mapItem.rawValue.placemark.postalAddress
-        else {
-            return nil
-        }
-        
-        self.street = postalAddress.street
-        self.city = postalAddress.city
-    }
-}
-
-extension Array where Element == Address {
-    
-    init(_ response: LocalSearchClient.Response) {
-        self = response.mapItems.compactMap(Address.init(mapItem:))
-    }
-}
-
-extension LocalSearchClient {
-    
-    func searchAddresses(_ completion: LocalSearchCompletion) async throws -> [Address] {
-        try await .init(search(completion))
-    }
-}
-
-import Contacts
-import CoreLocation
-import Intents
-import MapKit
 import XCTest
 
 final class SearchAddressesTests: XCTestCase {
@@ -103,7 +66,10 @@ private extension Array where Element == MapItem {
 
 private extension MapItem {
     
-    static let empty: Self = .init(rawValue: .init())
+    static let empty: Self = .init(
+        coordinate: .test,
+        postalAddress: .init(street: "", city: "")
+    )
 }
 
 private extension Address {
