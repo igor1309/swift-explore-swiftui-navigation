@@ -10,20 +10,19 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        // Domain
+        // Domains
         .domain,
+        .mapDomain,
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
         .addressSearchOnMapFeature,
-        .addressSearchService,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
-        .mapDomain,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -34,6 +33,8 @@ let package = Package(
         .shopTypeFeature,
         .shopTypeStripFeature,
         .showProfileButtonFeature,
+        // Services
+        .addressSearchService,
     ],
     dependencies: [
         .casePaths,
@@ -44,22 +45,20 @@ let package = Package(
         .tagged,
     ],
     targets: [
-        // Domain
+        // Domains
+        .mapDomain,
         .domain,
         // Features
         .addNewAddressFeature,
         .addressPickerFeature,
         .addressSearchOnMapFeature,
         .addressSearchOnMapFeatureTests,
-        .addressSearchService,
-        .addressSearchServiceTests,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
-        .mapDomain,
         .mapDomainTests,
         .newAppFeatureFeature,
         .profileEditorFeature,
@@ -71,16 +70,23 @@ let package = Package(
         .shopTypeFeature,
         .shopTypeStripFeature,
         .showProfileButtonFeature,
+        // Services
+        .addressSearchService,
+        .addressSearchServiceTests,
     ]
 )
 
-// MARK: - Domain
+// MARK: - Domains
 
 private extension Product {
     
     static let domain = library(
         name: .domain,
         targets: [.domain]
+    )
+    static let mapDomain = library(
+        name: .mapDomain,
+        targets: [.mapDomain]
     )
 }
 
@@ -93,16 +99,30 @@ private extension Target {
             .tagged,
         ]
     )
+    static let mapDomain = target(
+        name: .mapDomain,
+        dependencies: [
+        ]
+    )
+    static let mapDomainTests = testTarget(
+        name: .mapDomainTests,
+        dependencies: [
+            .mapDomain,
+        ]
+    )
 }
 
 private extension Target.Dependency {
     
     static let domain = byName(name: .domain)
+    static let mapDomain = byName(name: .mapDomain)
 }
 
 private extension String {
     
     static let domain = "Domain"
+    static let mapDomain = "MapDomain"
+    static let mapDomainTests = "MapDomainTests"
 }
 
 // MARK: - Features
@@ -120,10 +140,6 @@ private extension Product {
     static let addressSearchOnMapFeature = library(
         name: .addressSearchOnMapFeature,
         targets: [.addressSearchOnMapFeature]
-    )
-    static let addressSearchService = library(
-        name: .addressSearchService,
-        targets: [.addressSearchService]
     )
     static let addressViewFeature = library(
         name: .addressViewFeature,
@@ -148,10 +164,6 @@ private extension Product {
     static let mainPageFeature = library(
         name: .mainPageFeature,
         targets: [.mainPageFeature]
-    )
-    static let mapDomain = library(
-        name: .mapDomain,
-        targets: [.mapDomain]
     )
     static let newAppFeatureFeature = library(
         name: .newAppFeatureFeature,
@@ -227,20 +239,6 @@ private extension Target {
             .addressSearchOnMapFeature,
         ]
     )
-    static let addressSearchService = target(
-        name: .addressSearchService,
-        dependencies: [
-            .mapDomain,
-        ]
-    )
-    static let addressSearchServiceTests = testTarget(
-        name: .addressSearchServiceTests,
-        dependencies: [
-            .addressSearchService,
-            .mapDomain,
-            .snapshotTesting,
-        ]
-    )
     static let addressViewFeature = target(
         name: .addressViewFeature,
         dependencies: [
@@ -250,22 +248,21 @@ private extension Target {
     static let appFeature = target(
         name: .appFeature,
         dependencies: [
-            // Domain
+            // Domains
             .domain,
+            .mapDomain,
             // Packages
             .identifiedCollections,
             .swiftUINavigation,
             .tagged,
             // Features
             .addressPickerFeature,
-            .addressSearchService,
+            .addressSearchOnMapFeature,
             .addressViewFeature,
             .deliveryTypePickerFeature,
             .featuredShopsFeature,
             .featureViewFeature,
             .mainPageFeature,
-            .mapDomain,
-            .addressSearchOnMapFeature,
             .newAppFeatureFeature,
             .profileEditorFeature,
             .profileFeature,
@@ -276,6 +273,8 @@ private extension Target {
             .shopTypeFeature,
             .shopTypeStripFeature,
             .showProfileButtonFeature,
+            // Services
+            .addressSearchService,
         ]
     )
     static let deliveryTypePickerFeature = target(
@@ -300,17 +299,6 @@ private extension Target {
         name: .mainPageFeature,
         dependencies: [
             .domain
-        ]
-    )
-    static let mapDomain = target(
-        name: .mapDomain,
-        dependencies: [
-        ]
-    )
-    static let mapDomainTests = testTarget(
-        name: .mapDomainTests,
-        dependencies: [
-            .mapDomain,
         ]
     )
     static let newAppFeatureFeature = target(
@@ -386,13 +374,11 @@ private extension Target.Dependency {
     static let addNewAddressFeature = byName(name: .addNewAddressFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
     static let addressSearchOnMapFeature = byName(name: .addressSearchOnMapFeature)
-    static let addressSearchService = byName(name: .addressSearchService)
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
-    static let mapDomain = byName(name: .mapDomain)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileEditorFeature = byName(name: .profileEditorFeature)
     static let profileFeature = byName(name: .profileFeature)
@@ -411,16 +397,12 @@ private extension String {
     static let addressPickerFeature = "AddressPickerFeature"
     static let addressSearchOnMapFeature = "AddressSearchOnMapFeature"
     static let addressSearchOnMapFeatureTests = "AddressSearchOnMapFeatureTests"
-    static let addressSearchService = "AddressSearchService"
-    static let addressSearchServiceTests = "AddressSearchServiceTests"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"
     static let featuredShopsFeature = "FeaturedShopsFeature"
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
-    static let mapDomain = "MapDomain"
-    static let mapDomainTests = "MapDomainTests"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"
@@ -433,6 +415,44 @@ private extension String {
     static let showProfileButtonFeature = "ShowProfileButtonFeature"
 }
 
+// MARK: - Services
+
+private extension Product {
+    
+    static let addressSearchService = library(
+        name: .addressSearchService,
+        targets: [.addressSearchService]
+    )
+}
+
+private extension Target {
+    
+    static let addressSearchService = target(
+        name: .addressSearchService,
+        dependencies: [
+            .mapDomain,
+        ]
+    )
+    static let addressSearchServiceTests = testTarget(
+        name: .addressSearchServiceTests,
+        dependencies: [
+            .addressSearchService,
+            .mapDomain,
+            .snapshotTesting,
+        ]
+    )
+}
+
+private extension Target.Dependency {
+    
+    static let addressSearchService = byName(name: .addressSearchService)
+}
+
+private extension String {
+    
+    static let addressSearchService = "AddressSearchService"
+    static let addressSearchServiceTests = "AddressSearchServiceTests"
+}
 // MARK: - Point-Free
 
 private extension Package.Dependency {
