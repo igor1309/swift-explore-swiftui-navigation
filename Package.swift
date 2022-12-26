@@ -309,6 +309,7 @@ private extension Target {
         name: .mapFeatureTests,
         dependencies: [
             .combineSchedulers,
+            .mapDomain,
             .mapFeature,
         ]
     )
