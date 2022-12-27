@@ -45,8 +45,8 @@ final class Composer {
 
 extension Composer {
     
-    static func moscowNeighborhood(
-        addAddress: @escaping AddNewAddressViewModel.AddAddress
+    static func neighborhoodMoscow(
+        addAddress: @escaping AddAddress
     ) -> Composer {
         .init(region: .neighborhoodMoscow, addAddress: addAddress)
     }

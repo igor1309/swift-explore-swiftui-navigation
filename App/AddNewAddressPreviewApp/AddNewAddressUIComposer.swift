@@ -26,6 +26,6 @@ struct AddNewAddressUIComposer: View {
 
 struct AddNewAddressUIComposer_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewAddressUIComposer(composer: .moscowNeighborhood { _ in })
+        AddNewAddressUIComposer(composer: .neighborhoodMoscow { _ in })
     }
 }

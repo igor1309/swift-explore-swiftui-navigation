@@ -14,7 +14,7 @@ struct ContentView: View {
     
     var body: some View {
         AddNewAddressUIComposer(
-            composer: .moscowNeighborhood(
+            composer: .neighborhoodMoscow(
                 addAddress: addAddress
             )
         )
