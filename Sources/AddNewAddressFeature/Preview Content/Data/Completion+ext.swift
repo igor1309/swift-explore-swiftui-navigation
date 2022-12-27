@@ -31,35 +31,65 @@ public extension Completion {
         )
     }()
     
-    static let prevSearch1: Self = .init(
-        title: "Prev Search 1",
-        subtitle: "Without highlight ranges",
-        titleHighlightRanges: [],
-        subtitleHighlightRanges: []
-    )
-    static let prevSearch2: Self = .init(
-        title: "Prev Search 2",
-        subtitle: "Without highlight ranges",
-        titleHighlightRanges: [],
-        subtitleHighlightRanges: []
-    )
-    static let prevSearch3: Self = .init(
-        title: "Prev Search 3",
-        subtitle: "Without highlight ranges",
-        titleHighlightRanges: [],
-        subtitleHighlightRanges: []
-    )
-    static let fake1: Self = .init(
-        title: "Simple Fake 1",
-        subtitle: "Without highlight ranges",
-        titleHighlightRanges: [],
-        subtitleHighlightRanges: []
-    )
-    static let fake2: Self = .init(
-        title: "Simple Fake 2",
-        subtitle: "Without highlight ranges",
-        titleHighlightRanges: [],
-        subtitleHighlightRanges: []
-    )
+    static let prevSearch1: Self = {
+        let title = "Prev Search 1"
+        let titleRange = title.range(of: "arch 1")!
+        let titleNSRange = NSRange(titleRange, in: title)
+        
+        return .init(
+            title: title,
+            subtitle: "Subtitle without highlight ranges",
+            titleHighlightRanges: [titleNSRange],
+            subtitleHighlightRanges: []
+        )
+    }()
+    static let prevSearch2: Self = {
+        let title = "Prev Search 2"
+        let titleRange = title.range(of: "arch 2")!
+        let titleNSRange = NSRange(titleRange, in: title)
+        
+        return .init(
+            title: title,
+            subtitle: "Subtitle without highlight ranges",
+            titleHighlightRanges: [titleNSRange],
+            subtitleHighlightRanges: []
+        )
+    }()
+    static let prevSearch3: Self = {
+        let title = "Prev Search 3"
+        let titleRange = title.range(of: "arch 3")!
+        let titleNSRange = NSRange(titleRange, in: title)
+        
+        return .init(
+            title: title,
+            subtitle: "Subtitle without highlight ranges",
+            titleHighlightRanges: [titleNSRange],
+            subtitleHighlightRanges: []
+        )
+    }()
+    static let fake1: Self = {
+        let title = "Simple Fake 1"
+        let titleRange = title.range(of: "le Fa")!
+        let titleNSRange = NSRange(titleRange, in: title)
+        
+        return .init(
+            title: title,
+            subtitle: "Subtitle without highlight ranges",
+            titleHighlightRanges: [titleNSRange],
+            subtitleHighlightRanges: []
+        )
+    }()
+    static let fake2: Self = {
+        let title = "Simple Fake 2"
+        let titleRange = title.range(of: "le Fa")!
+        let titleNSRange = NSRange(titleRange, in: title)
+        
+        return .init(
+            title: title,
+            subtitle: "Subtitle without highlight ranges",
+            titleHighlightRanges: [titleNSRange],
+            subtitleHighlightRanges: []
+        )
+    }()
 }
 #endif
