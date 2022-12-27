@@ -29,8 +29,6 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     public typealias AddAddress = (Address) -> Void
     
-    private let search: Search
-    private let getAddress: GetAddress
     private let addAddress: AddAddress
     
     let dismiss = PassthroughSubject<Void, Never>()
@@ -50,8 +48,6 @@ public final class AddNewAddressViewModel: ObservableObject {
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.addAddress = addAddress
-        self.search = search
-        self.getAddress = getAddress
         
         Publishers.Merge(
             $searchText
