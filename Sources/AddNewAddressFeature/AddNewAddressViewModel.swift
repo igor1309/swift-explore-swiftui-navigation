@@ -29,10 +29,10 @@ public final class AddNewAddressViewModel: ObservableObject {
     let dismiss = PassthroughSubject<Void, Never>()
     
     private let selectAddress = PassthroughSubject<Address?, Never>()
-    #warning("add service to store previous searches / or just inject?")
+    #warning("add service to store previous searches / or just inject? / or move this responsibility up the chain to CompletionsPublisher as in AddNewAddressViewDemo")
     /// - Parameters:
     ///   - getAddress: A closure connected to map interactions.
-    ///   - getCompletions: Search completions.
+    ///   - getCompletions: Search completions. Also responsible for (optionally) providing previous search queries to be displayed on search field activation (search field is active but still empty).
     ///   - addAddress: Injected closure to handle selected/created address.
     ///   - scheduler: DispatchQueue Scheduler.
     public init(
