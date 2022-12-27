@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class AddressSearchService {
-    
-    public init() {}
-}
+//public final class AddressSearchService {
+//    
+//    public init() {}
+//}
