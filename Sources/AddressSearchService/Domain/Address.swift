@@ -28,10 +28,3 @@ extension Address {
         )
     }
 }
-
-extension Array where Element == Address {
-    
-    init(_ response: LocalSearchClient.Response) {
-        self = response.mapItems.compactMap(Address.init(mapItem:))
-    }
-}

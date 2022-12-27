@@ -8,23 +8,23 @@
 import Combine
 import MapDomain
 
-extension LocalSearchClient {
+extension LocalTextSearchClient {
     
     public func searchAddresses(
-        _ completion: LocalSearchCompletion,
+        _ query: String,
         region: CoordinateRegion? = nil
     ) async throws -> [Address] {
-        try await .init(search(completion, region))
+        try await .init(search(query, region))
     }
     
     public func searchAddresses(
-        _ completion: LocalSearchCompletion,
+        _ query: String,
         region: CoordinateRegion? = nil
     ) -> AnyPublisher<Result<[Address], Error>, Never> {
         Deferred {
             Future { promise in
                 Task {
-                    try await searchAddresses(completion, region: region)
+                    try await searchAddresses(query, region: region)
                 }
             }
         }
@@ -34,7 +34,7 @@ extension LocalSearchClient {
 
 private extension Array where Element == Address {
     
-    init(_ response: LocalSearchClient.Response) {
+    init(_ response: LocalTextSearchClient.Response) {
         self = response.mapItems.compactMap(Address.init(mapItem:))
     }
 }
