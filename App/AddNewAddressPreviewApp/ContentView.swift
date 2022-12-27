@@ -7,34 +7,14 @@
 
 import AddNewAddressFeature
 import AddressSearchOnMapFeature
-import AddressSearchService
-import Combine
-import MapDomain
 import SwiftUI
 
 struct ContentView: View {
-    
-    private let composer: Composer
-    
-    init(composer: Composer) {
-        self.composer = composer
-    }
-    
-    var body: some View {
-        AddNewAddressView(viewModel: composer.addNewAddressViewModel) {
-            MapView(viewModel: composer.mapViewModel)
-        }
-    }
-}
-
-#if DEBUG
-struct ContentViewDemo: View {
     @State private var address: AddressSearchOnMapFeature.Address?
     
     var body: some View {
-        ContentView(
-            composer: .init(
-                region: .moscowNeighborhood,
+        AddNewAddressUIComposer(
+            composer: .moscowNeighborhood(
                 addAddress: addAddress
             )
         )
@@ -92,14 +72,13 @@ private extension AddNewAddressFeature.Address {
         )
     }
 }
-#endif
 
 struct ContentView_Previews: PreviewProvider {
     
     
     static var previews: some View {
         NavigationStack {
-            ContentViewDemo()
+            ContentView()
         }
     }
 }

@@ -43,6 +43,15 @@ final class Composer {
     }
 }
 
+extension Composer {
+    
+    static func moscowNeighborhood(
+        addAddress: @escaping AddNewAddressViewModel.AddAddress
+    ) -> Composer {
+        .init(region: .moscowNeighborhood, addAddress: addAddress)
+    }
+}
+
 // MARK: - Adapters
 
 private extension Swift.Optional where Wrapped == AddressSearchOnMapFeature.Address {

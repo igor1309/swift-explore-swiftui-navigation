@@ -12,7 +12,7 @@ struct AddNewAddressPreviewAppApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ContentViewDemo()
+                ContentView()
             }
         }
     }
