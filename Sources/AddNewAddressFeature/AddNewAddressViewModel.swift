@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
+import CasePaths
 import Combine
 import CombineSchedulers
 import Foundation
@@ -14,11 +15,12 @@ public final class AddNewAddressViewModel: ObservableObject {
     public typealias AddressPublisher = AnyPublisher<Address?, Never>
     public typealias GetAddress = () -> AddressPublisher
     public typealias AddAddress = (Address) -> Void
-    public typealias SuggestionsPublisher = AnyPublisher<[Suggestion], Never>
-    public typealias GetSuggestions = (String) -> SuggestionsPublisher
+    
+    public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
+    public typealias GetCompletions = (String) -> CompletionsPublisher
     
     @Published private(set) var searchText: String = ""
-    @Published private(set) var suggestions: [Suggestion] = []
+    @Published private(set) var suggestions: Suggestions?
     @Published private(set) var address: Address?
     
     private let getAddress: GetAddress
@@ -27,15 +29,15 @@ public final class AddNewAddressViewModel: ObservableObject {
     let dismiss = PassthroughSubject<Void, Never>()
     
     private let selectAddress = PassthroughSubject<Address?, Never>()
-    
+    #warning("add service to store previous searches / or just inject?")
     /// - Parameters:
     ///   - getAddress: A closure connected to map interactions.
-    ///   - getSuggestions: Search completions.
+    ///   - getCompletions: Search completions.
     ///   - addAddress: Injected closure to handle selected/created address.
     ///   - scheduler: DispatchQueue Scheduler.
     public init(
         getAddress: @escaping GetAddress,
-        getSuggestions: @escaping GetSuggestions,
+        getCompletions: @escaping GetCompletions,
         addAddress: @escaping AddAddress,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
@@ -45,8 +47,9 @@ public final class AddNewAddressViewModel: ObservableObject {
         $searchText
             .removeDuplicates()
             .debounce(for: 0.5, scheduler: scheduler)
-            .flatMap(getSuggestions)
+            .flatMap(getCompletions)
             .receive(on: scheduler)
+            .map{ .completions($0) }
             .assign(to: &$suggestions)
         
         getAddress()
@@ -79,8 +82,17 @@ public final class AddNewAddressViewModel: ObservableObject {
         return false
     }
     
-    func select(_ suggestion: Suggestion) {
-        selectAddress.send(suggestion.address)
+    func completionButtonTapped(completion: Completion) {
+        #warning("finish this")
+    }
+    
+    func addressButtonTapped(address: Address) {
+        #warning("finish this")
+    }
+    
+    #warning("fix this")
+    func select(_ suggestion: Suggestions) {
+        // selectAddress.send(suggestion.address)
         self.dismiss.send(())
     }
 }

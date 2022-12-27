@@ -75,18 +75,35 @@ public struct AddNewAddressView<MapView: View>: View {
         }
     }
     
+    @ViewBuilder
     private func searchSuggestions() -> some View {
-        ForEach(viewModel.suggestions, content: suggestionView)
+        switch viewModel.suggestions {
+        case .none:
+            EmptyView()
+            
+        case let .completions(completions):
+            ForEach(completions, content: completionButton)
+            
+        case let .addresses(addresses):
+            ForEach(addresses, content: addressButton)
+        }
     }
     
-    private func suggestionView(suggestion: Suggestion) -> some View {
+    private func completionButton(completion: Completion) -> some View {
         Button {
-            viewModel.select(suggestion)
+            viewModel.completionButtonTapped(completion: completion)
         } label: {
-            Label(
-                suggestion.address.street.rawValue,
-                systemImage: "building.2.crop.circle"
-            )
+            CompletionView(completion, attributes: .primary)
+        }
+        .containerShape(Rectangle())
+        .buttonStyle(.plain)
+    }
+    
+    private func addressButton(address: Address) -> some View {
+        Button {
+            viewModel.addressButtonTapped(address: address)
+        } label: {
+            PlainRow(address: address)
         }
     }
 }

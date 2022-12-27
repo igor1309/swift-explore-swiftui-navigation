@@ -10,11 +10,12 @@ import Foundation
 #if DEBUG
 import Combine
 
-public extension AnyPublisher where Output == [Suggestion], Failure == Never {
+public extension AnyPublisher where Output == [Completion], Failure == Never {
     
     static let prevSearches: Self = Just(.prevSearches).eraseToAnyPublisher()
     static let preview: Self = Just(.preview).eraseToAnyPublisher()
 }
+
 public extension AnyPublisher where Output == Address?, Failure == Never {
     
     static let null: Self = Just(nil).eraseToAnyPublisher()

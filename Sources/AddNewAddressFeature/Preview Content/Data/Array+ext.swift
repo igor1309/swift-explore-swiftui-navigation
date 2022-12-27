@@ -19,13 +19,13 @@ extension Array where Element == Address {
     ]
 }
 
-extension Array where Element == Suggestion {
+extension Array where Element == Completion {
     
-    static let prevSearches: Self = [Address].prevSearches.map {
-        .init(address: $0)
-    }
-    static let preview: Self = [Address].preview.map {
-        .init(address: $0)
-    }
+    #warning("fix preview instances")
+    static let prevSearches: Self = []
+//    [Address].prevSearches.map { _ in
+//        .init()//address: $0)
+//    }
+    static let preview: Self = [.preview, .fake1, .fake2]
 }
 #endif

@@ -212,6 +212,7 @@ private extension Target {
     static let addNewAddressFeature = target(
         name: .addNewAddressFeature,
         dependencies: [
+            .casePaths,
             .combineSchedulers,
             .tagged
         ]

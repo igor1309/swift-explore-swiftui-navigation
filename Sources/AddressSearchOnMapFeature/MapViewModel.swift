@@ -18,7 +18,7 @@ public final class MapViewModel: ObservableObject {
     @Published private(set) var region: CoordinateRegion
     @Published private(set) var addressState: AddressState
     
-    public func streetPublisher() -> AnyPublisher<Address?, Never> {
+    public func addressPublisher() -> AnyPublisher<Address?, Never> {
         $addressState
             .map((/AddressState.address).extract(from:))
             .eraseToAnyPublisher()

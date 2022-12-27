@@ -13,7 +13,6 @@ public struct Completion: Equatable, Identifiable {
     public typealias ID = Tagged<Self, UUID>
     
     public let id: ID
-//    public let address: Address
     
     /// The title string associated with the point of interest.
     public let title: String
@@ -30,14 +29,12 @@ public struct Completion: Equatable, Identifiable {
 
     public init(
         id: ID = .init(),
-//        address: Address
         title: String,
         subtitle: String,
         titleHighlightRanges: [NSRange],
         subtitleHighlightRanges: [NSRange]
     ) {
         self.id = id
-//        self.address = address
         self.title = title
         self.subtitle = subtitle
         self.titleHighlightRanges = titleHighlightRanges

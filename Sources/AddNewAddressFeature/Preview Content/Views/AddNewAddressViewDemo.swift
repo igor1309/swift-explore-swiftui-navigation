@@ -12,7 +12,7 @@ public struct AddNewAddressViewDemo<MapView: View>: View {
     
     @StateObject private var viewModel: AddNewAddressViewModel = .init(
         getAddress: { .preview },
-        getSuggestions: { text in
+        getCompletions: { text in
             if text.isEmpty {
                 return .prevSearches
             } else {
