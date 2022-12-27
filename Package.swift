@@ -438,6 +438,7 @@ private extension Target {
         name: .addressSearchServiceTests,
         dependencies: [
             .addressSearchService,
+            .casePaths,
             .mapDomain,
             .snapshotTesting,
         ]
