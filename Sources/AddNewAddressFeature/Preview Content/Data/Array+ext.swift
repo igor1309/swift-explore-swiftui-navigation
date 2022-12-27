@@ -21,11 +21,7 @@ extension Array where Element == Address {
 
 extension Array where Element == Completion {
     
-    #warning("fix preview instances")
-    static let prevSearches: Self = []
-//    [Address].prevSearches.map { _ in
-//        .init()//address: $0)
-//    }
+    static let prevSearches: Self = [.prevSearch1, .prevSearch2, .prevSearch3]
     static let preview: Self = [.preview, .fake1, .fake2]
 }
 #endif

@@ -31,6 +31,24 @@ public extension Completion {
         )
     }()
     
+    static let prevSearch1: Self = .init(
+        title: "Prev Search 1",
+        subtitle: "Without highlight ranges",
+        titleHighlightRanges: [],
+        subtitleHighlightRanges: []
+    )
+    static let prevSearch2: Self = .init(
+        title: "Prev Search 2",
+        subtitle: "Without highlight ranges",
+        titleHighlightRanges: [],
+        subtitleHighlightRanges: []
+    )
+    static let prevSearch3: Self = .init(
+        title: "Prev Search 3",
+        subtitle: "Without highlight ranges",
+        titleHighlightRanges: [],
+        subtitleHighlightRanges: []
+    )
     static let fake1: Self = .init(
         title: "Simple Fake 1",
         subtitle: "Without highlight ranges",
