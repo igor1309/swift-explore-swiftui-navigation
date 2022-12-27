@@ -21,4 +21,10 @@ public extension AnyPublisher where Output == Address?, Failure == Never {
     static let null: Self = Just(nil).eraseToAnyPublisher()
     static let preview: Self = Just(.preview).eraseToAnyPublisher()
 }
+
+public extension AnyPublisher where Output == [Address], Failure == Never {
+    
+    static let empty: Self = Just([]).eraseToAnyPublisher()
+    static let preview: Self = Just(.preview).eraseToAnyPublisher()
+}
 #endif
