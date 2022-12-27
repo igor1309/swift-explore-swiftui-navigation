@@ -13,7 +13,7 @@ final class SearchCompletionSnapshotTests: XCTestCase {
     
     func test_snapshot() throws {
         let searchCompletion: LocalSearchCompletion = .test
-
+        #warning("make stronger by explicitly setting dark/light")
         try assertAsImage(searchCompletion.highlightedTitle(.test))
         try assertAsImage(searchCompletion.highlightedSubtitle(.test))
     }

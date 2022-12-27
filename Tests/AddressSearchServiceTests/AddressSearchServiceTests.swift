@@ -10,7 +10,7 @@ import XCTest
 
 final class AddressSearchServiceTests: XCTestCase {
 
-    func test() {
-        let sut = AddressSearchService()
-    }
+//    func test() {
+//        let sut = AddressSearchService()
+//    }
 }
