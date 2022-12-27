@@ -19,6 +19,9 @@ public struct AddNewAddressViewDemo<MapView: View>: View {
                 return .preview
             }
         },
+        search: { completion in
+            return .preview
+        },
         addAddress: { _ in }
     )
     
