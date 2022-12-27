@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         NavigationStack {
-            MapViewDemo(viewModel: .live(region: .moscowNeighborhood))
+            MapViewDemo(viewModel: .live(region: .neighborhoodMoscow))
                 .ignoresSafeArea()
         }
     }

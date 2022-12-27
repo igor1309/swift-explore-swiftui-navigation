@@ -13,18 +13,18 @@ import MapKit
 public extension MapViewModel {
     
     static let preview: MapViewModel = .init(
-        initialRegion: .londonStreet,
+        initialRegion: .streetLondon,
         getStreetFrom: { _ in
             .init(street: "Review Street, 0123", city: "NCity")
         }
     )
     
     static let failing: MapViewModel = .init(
-        initialRegion: .londonStreet,
+        initialRegion: .streetLondon,
         getStreetFrom: { coordinate in nil }
     )
     
-    static func live(region: CoordinateRegion = .londonStreet) -> MapViewModel {
+    static func live(region: CoordinateRegion = .streetLondon) -> MapViewModel {
         .init(
             initialRegion: region,
             getStreetFrom: { coordinate -> Address? in

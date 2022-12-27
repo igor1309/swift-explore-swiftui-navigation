@@ -71,9 +71,9 @@ struct Place: Identifiable {
 
 extension Place {
     
-    static let barcelona: Self = .init(title: "Barcelona", region: .barcelonaStreet)
-    static let london:    Self = .init(title: "London",    region: .londonStreet)
-    static let moscow:    Self = .init(title: "Moscow",    region: .moscowStreet)
+    static let barcelona: Self = .init(title: "Barcelona", region: .streetBarcelona)
+    static let london:    Self = .init(title: "London",    region: .streetLondon)
+    static let moscow:    Self = .init(title: "Moscow",    region: .streetMoscow)
     static let paris:     Self = .init(title: "Paris",     region: .street(center: .paris))
     static let rome:      Self = .init(title: "Rome",      region: .street(center: .rome))
 }

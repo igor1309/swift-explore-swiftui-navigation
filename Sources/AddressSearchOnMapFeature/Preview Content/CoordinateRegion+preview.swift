@@ -10,18 +10,18 @@ import MapDomain
 #if DEBUG
 public extension CoordinateRegion {
     
-    static let londonCity:            Self = .city(center: .london)
-    static let moscowCity:            Self = .city(center: .moscow)
+    static let cityLondon:            Self = .city(center: .london)
+    static let cityMoscow:            Self = .city(center: .moscow)
 
-    static let barcelonaNeighborhood: Self = .neighborhood(center: .barcelona)
-    static let londonNeighborhood:    Self = .neighborhood(center: .london)
-    static let moscowNeighborhood:    Self = .neighborhood(center: .moscow)
+    static let neighborhoodBarcelona: Self = .neighborhood(center: .barcelona)
+    static let neighborhoodLondon:    Self = .neighborhood(center: .london)
+    static let neighborhoodMoscow:    Self = .neighborhood(center: .moscow)
     
-    static let barcelonaStreet:       Self = .street(center: .barcelona)
-    static let londonStreet:          Self = .street(center: .london)
-    static let moscowStreet:          Self = .street(center: .moscow)
+    static let streetBarcelona:       Self = .street(center: .barcelona)
+    static let streetLondon:          Self = .street(center: .london)
+    static let streetMoscow:          Self = .street(center: .moscow)
 
-    static let londonTown:            Self = .town(center: .london)
+    static let townLondon:            Self = .town(center: .london)
     
     static func city(center: LocationCoordinate2D) -> Self {
         .init(center: center, span: .city)

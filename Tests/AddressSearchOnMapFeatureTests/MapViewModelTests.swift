@@ -39,12 +39,12 @@ final class MapViewModelTests: XCTestCase {
         scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none])
         
-        sut.update(region: .moscowStreet)
+        sut.update(region: .streetMoscow)
         scheduler.advance()
 //        scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
         
-        sut.update(region: .moscowStreet)
+        sut.update(region: .streetMoscow)
 
         scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
@@ -62,7 +62,7 @@ final class MapViewModelTests: XCTestCase {
         locationSpy: LocationSpy,
         streetSpy: ValueSpy<MapViewModel.AddressState>
     ) {
-        let initialRegion: CoordinateRegion = .londonStreet
+        let initialRegion: CoordinateRegion = .streetLondon
         let locationSpy = LocationSpy(stub: stub)
         let sut = MapViewModel(
             initialRegion: initialRegion,
