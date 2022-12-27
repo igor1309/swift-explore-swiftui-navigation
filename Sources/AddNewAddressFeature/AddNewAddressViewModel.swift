@@ -12,12 +12,13 @@ import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
     
-    public typealias AddressPublisher = AnyPublisher<Address?, Never>
-    public typealias GetAddress = () -> AddressPublisher
-    public typealias AddAddress = (Address) -> Void
-    
     public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
     public typealias GetCompletions = (String) -> CompletionsPublisher
+    
+    public typealias AddressPublisher = AnyPublisher<Address?, Never>
+    public typealias GetAddress = () -> AddressPublisher
+    
+    public typealias AddAddress = (Address) -> Void
     
     @Published private(set) var searchText: String = ""
     @Published private(set) var suggestions: Suggestions?
