@@ -16,8 +16,8 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var suggestions: Suggestions?
     @Published private(set) var address: Address?
     
-    private let completionSubject = PassthroughSubject<Completion, Never>()
-    
+    let dismiss = PassthroughSubject<Void, Never>()
+        
     public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
     public typealias GetCompletions = (String) -> CompletionsPublisher
     
@@ -29,11 +29,11 @@ public final class AddNewAddressViewModel: ObservableObject {
     
     public typealias AddAddress = (Address) -> Void
     
-    private let addAddress: AddAddress
-    
-    let dismiss = PassthroughSubject<Void, Never>()
-    
+    private let completionSubject = PassthroughSubject<Completion, Never>()
     private let selectAddress = PassthroughSubject<Address?, Never>()
+    
+    private let addAddress: AddAddress    
+    
 #warning("add service to store previous searches / or just inject? / or move this responsibility up the chain to CompletionsPublisher as in AddNewAddressViewDemo")
     /// - Parameters:
     ///   - getAddress: A closure connected to map interactions.
