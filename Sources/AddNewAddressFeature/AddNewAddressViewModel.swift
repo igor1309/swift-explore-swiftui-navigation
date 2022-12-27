@@ -12,6 +12,10 @@ import Foundation
 
 public final class AddNewAddressViewModel: ObservableObject {
     
+    @Published private(set) var searchText: String = ""
+    @Published private(set) var suggestions: Suggestions?
+    @Published private(set) var address: Address?
+    
     public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
     public typealias GetCompletions = (String) -> CompletionsPublisher
     
@@ -19,10 +23,6 @@ public final class AddNewAddressViewModel: ObservableObject {
     public typealias GetAddress = () -> AddressPublisher
     
     public typealias AddAddress = (Address) -> Void
-    
-    @Published private(set) var searchText: String = ""
-    @Published private(set) var suggestions: Suggestions?
-    @Published private(set) var address: Address?
     
     private let getAddress: GetAddress
     private let addAddress: AddAddress
