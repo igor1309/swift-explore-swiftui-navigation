@@ -6,6 +6,7 @@
 //
 
 import AddressSearchService
+import CasePaths
 import Combine
 import MapKit
 import XCTest
@@ -29,6 +30,22 @@ final class LocalSearchCompleterTests: XCTestCase {
         XCTAssertEqual(spy.values.count, 1)
         XCTAssertEqual(delegate.completions.map(\.title), ["Apple Store", "Apple Store"])
         XCTAssertEqual(delegate.completions.map(\.subtitle), ["найти возле меня", "Bromyard, Англия"])
+    }
+    
+    func test_searchCompletions() {
+        let sut = LocalSearchCompleter()
+        let spy = ValueSpy(sut.searchCompletions("Apple Store"))
+        _ = XCTWaiter().wait(for: [.init()], timeout: 0.5)
+        
+        XCTAssertEqual(spy.values.count, 1)
+        XCTAssertEqual(
+            spy.values.compactMap(/ValueSpy.Event.value).map { $0.map(\.title) },
+            [["Apple Store", "Apple Store"]]
+        )
+        XCTAssertEqual(
+            spy.values.compactMap(/ValueSpy.Event.value).map { $0.map(\.subtitle) },
+            [["найти возле меня", "Bromyard, Англия"]]
+        )
     }
     
     // MARK: - Helpers

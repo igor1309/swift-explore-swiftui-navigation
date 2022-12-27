@@ -39,6 +39,11 @@ public final class LocalSearchCompleter {
     public func completions() -> CompletionsPublisher {
         subject.eraseToAnyPublisher()
     }
+    
+    public func searchCompletions(_ query: String) -> CompletionsPublisher {
+        completer.queryFragment = query
+        return subject.eraseToAnyPublisher()
+    }
 }
 
 open class LocalSearchCompleterDelegate: NSObject, MKLocalSearchCompleterDelegate {
