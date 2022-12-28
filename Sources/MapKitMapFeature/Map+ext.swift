@@ -9,7 +9,7 @@ import MapKit
 import MapDomain
 import SwiftUI
 
-extension Map {
+public extension Map {
     
     init(
         region: Binding<CoordinateRegion>//,
