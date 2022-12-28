@@ -5,8 +5,6 @@
 //  Created by Igor Malyarov on 24.12.2022.
 //
 
-import MapDomain
-
 #if DEBUG
 public extension LocationCoordinate2D {
     
