@@ -22,11 +22,11 @@ public final class AddressMapSearchViewModel: ObservableObject {
     public typealias GetAddressFromCoordinate = (LocationCoordinate2D) -> AddressPublisher
     
     public init(
-        region: CoordinateRegion,
+        initialRegion: CoordinateRegion,
         getAddressFromCoordinate: @escaping GetAddressFromCoordinate,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
-        self.region = region
+        self.region = initialRegion
         self.addressState = .none
         
         regionSearch

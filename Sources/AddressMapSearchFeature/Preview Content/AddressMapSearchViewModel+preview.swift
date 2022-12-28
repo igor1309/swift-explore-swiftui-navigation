@@ -11,15 +11,15 @@ import Foundation
 public extension AddressMapSearchViewModel {
     
     static let preview: AddressMapSearchViewModel = .init(
-        region: .townLondon,
+        initialRegion: .townLondon,
         getAddressFromCoordinate: { .preview(coordinate: $0) }
     )
     static let delayedPreview: AddressMapSearchViewModel = .init(
-        region: .townLondon,
+        initialRegion: .townLondon,
         getAddressFromCoordinate: { .delayedPreview(coordinate: $0) }
     )
     static let failing: AddressMapSearchViewModel = .init(
-        region: .townLondon,
+        initialRegion: .townLondon,
         getAddressFromCoordinate: { .failing(coordinate: $0) }
     )
 }
