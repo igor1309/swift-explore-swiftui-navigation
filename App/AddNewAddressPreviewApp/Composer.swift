@@ -21,7 +21,9 @@ typealias GetAddress = AddNewAddressViewModel.GetAddress
 typealias GetCompletions = AddNewAddressViewModel.GetCompletions
 
 typealias SearchAddressesPublisher = AnyPublisher<Result<[SearchAddress], Error>, Never>
-typealias SearchAddresses = (LocalSearchCompletion, CoordinateRegion) -> SearchAddressesPublisher
+typealias SearchAddresses = (Completion, CoordinateRegion) -> SearchAddressesPublisher
+
+typealias SearchPublisher = AddNewAddressViewModel.SearchPublisher
 
 #warning("add abstract interfaces and extract this whole thing into separate module")
 final class Composer {
@@ -53,7 +55,7 @@ final class Composer {
         }
         
         let search: Search = { (completion: Completion) in
-            searchAddresses(completion.localSearchCompletion, region)
+            searchAddresses(completion, region)
                 .map(\.addresses)
                 .map { $0.map(\.featureAddress) }
                 .eraseToAnyPublisher()
@@ -77,9 +79,24 @@ extension Composer {
     ) -> Composer {
         .init(
             region: .neighborhoodMoscow,
-            searchAddresses: LocalSearchClient.live.searchAddresses,
+            searchAddresses: LocalTextSearchClient.live.searchAddresses,
             searchCompletions: LocalSearchCompleter().searchCompletions,
             addAddress: addAddress
+        )
+    }
+}
+
+// MARK: - Adapters
+
+private extension LocalTextSearchClient {
+    
+    func searchAddresses(
+        completion: Completion,
+        region: CoordinateRegion?
+    ) -> SearchAddressesPublisher {
+        searchAddresses(
+            completion.title + " " + completion.subtitle,
+            region: region
         )
     }
 }
@@ -158,12 +175,5 @@ private extension LocalSearchCompletion {
             titleHighlightRanges: titleHighlightRanges,
             subtitleHighlightRanges: subtitleHighlightRanges
         )
-    }
-}
-
-private extension Completion {
-    
-    var localSearchCompletion: LocalSearchCompletion {
-        fatalError()
     }
 }
