@@ -35,17 +35,17 @@ final class MapViewModelTests: XCTestCase {
         
         XCTAssertEqual(streetSpy.values, [.none])
         
-//        scheduler.advance()
+        //        scheduler.advance()
         scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none])
         
         sut.update(region: .streetMoscow)
         scheduler.advance()
-//        scheduler.advance(by: .seconds(1))
+        //        scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
         
         sut.update(region: .streetMoscow)
-
+        
         scheduler.advance(by: .seconds(1))
         XCTAssertEqual(streetSpy.values, [.none, .address(.test)])
     }
@@ -58,15 +58,15 @@ final class MapViewModelTests: XCTestCase {
         file: StaticString = #file,
         line: UInt = #line
     ) -> (
-        sut: MapViewModel,
+        sut: AddressMapSearchViewModel,
         locationSpy: LocationSpy,
-        streetSpy: ValueSpy<MapViewModel.AddressState>
+        streetSpy: ValueSpy<AddressMapSearchViewModel.AddressState>
     ) {
         let initialRegion: CoordinateRegion = .streetLondon
         let locationSpy = LocationSpy(stub: stub)
-        let sut = MapViewModel(
+        let sut = AddressMapSearchViewModel(
             initialRegion: initialRegion,
-            getStreetFrom: locationSpy.getStreetFrom,
+            getAddressFromCoordinate: locationSpy.getAddressFromCoordinate,
             //getStreetFrom: { _ in Just(stub).eraseToAnyPublisher() },
             scheduler: scheduler
         )
@@ -86,8 +86,10 @@ final class MapViewModelTests: XCTestCase {
             self.stub = stub
         }
         
-        func getStreetFrom(coordinate: LocationCoordinate2D) async -> Address? {
-            return stub
+        func getAddressFromCoordinate(
+            coordinate: LocationCoordinate2D
+        ) -> AddressMapSearchViewModel.AddressPublisher {
+            Just(stub).eraseToAnyPublisher()
         }
     }
     
