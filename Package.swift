@@ -19,6 +19,7 @@ let package = Package(
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
+        .appleMapFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
@@ -55,6 +56,7 @@ let package = Package(
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
+        .appleMapFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
@@ -148,6 +150,10 @@ private extension Product {
     static let appFeature = library(
         name: .appFeature,
         targets: [.appFeature]
+    )
+    static let appleMapFeature = library(
+        name: .appleMapFeature,
+        targets: [.appleMapFeature]
     )
     static let deliveryTypePickerFeature = library(
         name: .deliveryTypePickerFeature,
@@ -278,6 +284,13 @@ private extension Target {
             .addressSearchService,
         ]
     )
+    
+    static let appleMapFeature = target(
+        name: .appleMapFeature,
+        dependencies: [
+            .mapDomain
+        ]
+    )
     static let deliveryTypePickerFeature = target(
         name: .deliveryTypePickerFeature,
         dependencies: [
@@ -376,6 +389,7 @@ private extension Target.Dependency {
     static let addressMapSearchFeature = byName(name: .addressMapSearchFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
     static let addressViewFeature = byName(name: .addressViewFeature)
+    static let appleMapFeature = byName(name: .appleMapFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
     static let featureViewFeature = byName(name: .featureViewFeature)
@@ -400,6 +414,7 @@ private extension String {
     static let addressPickerFeature = "AddressPickerFeature"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"
+    static let appleMapFeature = "AppleMapFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"
     static let featuredShopsFeature = "FeaturedShopsFeature"
     static let featureViewFeature = "FeatureViewFeature"
