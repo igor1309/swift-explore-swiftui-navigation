@@ -14,6 +14,10 @@ public extension AddressMapSearchViewModel {
         region: .townLondon,
         getAddressFromCoordinate: { .preview(coordinate: $0) }
     )
+    static let delayedPreview: AddressMapSearchViewModel = .init(
+        region: .townLondon,
+        getAddressFromCoordinate: { .delayedPreview(coordinate: $0) }
+    )
     static let failing: AddressMapSearchViewModel = .init(
         region: .townLondon,
         getAddressFromCoordinate: { .failing(coordinate: $0) }

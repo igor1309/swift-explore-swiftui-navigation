@@ -74,6 +74,7 @@ struct AddressMapSearchView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             addressMapSearchView(viewModel: .preview)
+            addressMapSearchView(viewModel: .delayedPreview)
             addressMapSearchView(viewModel: .failing)
         }
     }

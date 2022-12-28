@@ -13,32 +13,40 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var viewModel: AddressMapSearchViewModel = .preview//.failing
+    @StateObject private var viewModel: AddressMapSearchViewModel = .delayedPreview//.preview//.failing
     
     var body: some View {
         AddressMapSearchView(
             viewModel: viewModel,
             mapView: mapView
         )
-        .safeAreaInset(edge: .bottom, content: watch)
-        .toolbar(content: toolbar)
+        .ignoresSafeArea()
     }
     
     private func mapView(region: Binding<CoordinateRegion>) -> some View {
         Map(region: region)
-    }
-    
-    private func watch() -> some View {
-        VStack {
-            Text(location)
-                .padding(2)
-            
-            Text(viewModel.region.center.latitude.formatted(.number))
-            Text(viewModel.region.center.longitude.formatted(.number))
-        }
-        .font(.caption)
-        .padding(.bottom)
-        .monospaced()
+        // Color.indigo
+            .safeAreaInset(edge: .bottom) {
+                VStack {
+                    HStack {
+                        ForEach([Place].preview) { place in
+                            Button(place.title) {
+                                viewModel.updateAndSearch(region: place.region)
+                            }
+                        }
+                    }
+                    Text(location)
+                        .padding(2)
+                    
+                    HStack {
+                        Text(region.wrappedValue.center.description)
+                        Text(region.wrappedValue.span.description)
+                    }
+                }
+                .font(.caption)
+                .padding(.bottom)
+                .monospaced()
+            }
     }
     
     var location: String {
@@ -47,17 +55,27 @@ struct ContentView: View {
         
         return street + " | " + city
     }
+}
+
+extension LocationCoordinate2D: CustomStringConvertible {
     
-    private func toolbar() -> some ToolbarContent {
-        ToolbarItem {
-            Menu("Places") {
-                ForEach([Place].preview) { place in
-                    Button(place.title) {
-                        viewModel.update(region: place.region)
-                    }
-                }
-            }
-        }
+    public var description: String {
+        """
+        Coordinate
+        \t\(latitude.formatted(.number.precision(.fractionLength(4))))
+        \t\(longitude.formatted(.number.precision(.fractionLength(4))))
+        """
+    }
+}
+
+extension CoordinateSpan: CustomStringConvertible {
+    
+    public var description: String {
+        """
+        Span
+        \(latitudeDelta.formatted(.number.precision(.fractionLength(4))))
+        \(longitudeDelta.formatted(.number.precision(.fractionLength(4))))
+        """
     }
 }
 

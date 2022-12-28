@@ -7,13 +7,22 @@
 
 import CasePaths
 import Combine
+import Foundation
 import MapDomain
 
 #if DEBUG
 extension AddressMapSearchViewModel.AddressPublisher {
     
     static func preview(coordinate: LocationCoordinate2D) -> Self {
-        Just(Address.preview).map(/Optional.some).eraseToAnyPublisher()
+        Just(Address.preview)
+            .map(/Optional.some)
+            .eraseToAnyPublisher()
+    }
+    static func delayedPreview(coordinate: LocationCoordinate2D) -> Self {
+        Just(Address.preview)
+            .delay(for: 1, scheduler: DispatchQueue.main)
+            .map(/Optional.some)
+            .eraseToAnyPublisher()
     }
     static func failing(coordinate: LocationCoordinate2D) -> Self {
         Just(Address?.none).eraseToAnyPublisher()

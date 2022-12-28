@@ -13,7 +13,7 @@ import MapDomain
 
 public final class AddressMapSearchViewModel: ObservableObject {
     
-    @Published public private(set) var region: CoordinateRegion
+    @Published private(set) var region: CoordinateRegion
     @Published private(set) var addressState: AddressState
     
     private let regionSearch = PassthroughSubject<CoordinateRegion, Never>()
@@ -33,6 +33,9 @@ public final class AddressMapSearchViewModel: ObservableObject {
             .map(\.center)
             .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
             .debounce(for: 0.5, scheduler: scheduler)
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.addressState = .searching
+            })
             .flatMap(getAddressFromCoordinate)
             .map(AddressState.make(address:))
             .receive(on: scheduler)
@@ -64,9 +67,8 @@ public final class AddressMapSearchViewModel: ObservableObject {
     /// The `setter` part of the `region` binding: update map region,
     /// and invoke search for the address at the center of the region.
     public func updateAndSearch(region: CoordinateRegion) {
-        addressState = .searching
-        regionSearch.send(region)
-        update(region: region)
+        self.regionSearch.send(region)
+        self.update(region: region)
     }
     
     enum AddressState: Equatable {
