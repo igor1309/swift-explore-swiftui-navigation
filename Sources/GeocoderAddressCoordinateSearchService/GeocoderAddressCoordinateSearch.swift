@@ -17,8 +17,11 @@ public final class GeocoderAddressCoordinateSearch {
     public init(geocoder: CLGeocoder = .init()) {
         self.geocoder = geocoder
     }
+}
+
+public extension GeocoderAddressCoordinateSearch {
     
-    public func getAddress(from coordinate: LocationCoordinate2D) async -> Address? {
+    func getAddress(from coordinate: LocationCoordinate2D) async -> Address? {
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(coordinate.clLocation)
             
@@ -27,12 +30,31 @@ public final class GeocoderAddressCoordinateSearch {
             else {
                 return nil
             }
-
+            
             return .init(street: address.street, city: address.city)
             
         } catch {
             return nil
         }
+    }
+}
+
+import Combine
+
+public extension GeocoderAddressCoordinateSearch {
+    
+    func getAddress(
+        from coordinate: LocationCoordinate2D
+    ) -> AnyPublisher<Address?, Never> {
+        return Deferred {
+            Future { promise in
+                Task {
+                    let address = await self.getAddress(from: coordinate)
+                    promise(.success(address))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
     }
 }
 

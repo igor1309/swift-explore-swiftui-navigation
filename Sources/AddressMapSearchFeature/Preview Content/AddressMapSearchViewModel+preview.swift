@@ -10,29 +10,17 @@ import MapDomain
 #if DEBUG
 public extension AddressMapSearchViewModel {
     
-    static func preview(
-        _ initialRegion: CoordinateRegion = .townLondon
-    ) -> AddressMapSearchViewModel {
-        .init(
-            initialRegion: initialRegion,
-            getAddressFromCoordinate: { .preview(coordinate: $0) }
-        )
-    }
-    static func delayedPreview(
-        _ initialRegion: CoordinateRegion = .townLondon
-    ) -> AddressMapSearchViewModel {
-        .init(
-            initialRegion: initialRegion,
-            getAddressFromCoordinate: { .delayedPreview(coordinate: $0) }
-        )
-    }
-    static func failing(
-        _ initialRegion: CoordinateRegion = .townLondon
-    ) -> AddressMapSearchViewModel {
-        .init(
-            initialRegion: initialRegion,
-            getAddressFromCoordinate: { .failing(coordinate: $0) }
-        )
-    }
+    static let preview: AddressMapSearchViewModel = .init(
+        initialRegion: .townLondon,
+        getAddressFromCoordinate: { .preview(coordinate: $0) }
+    )
+    static let delayedPreview: AddressMapSearchViewModel = .init(
+        initialRegion: .townLondon,
+        getAddressFromCoordinate: { .delayedPreview(coordinate: $0) }
+    )
+    static let failing: AddressMapSearchViewModel = .init(
+        initialRegion: .townLondon,
+        getAddressFromCoordinate: { .failing(coordinate: $0) }
+    )
 }
 #endif

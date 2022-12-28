@@ -74,13 +74,13 @@ struct ContentView: View {
         var viewModel: AddressMapSearchViewModel {
             switch self {
             case .failing:
-                return .failing()
+                return .failing
             case .live:
-                return .live()
+                return .live
             case .delayed:
-                return .delayedPreview()
+                return .delayedPreview
             case .preview:
-                return .preview()
+                return .preview
             }
         }
     }
@@ -88,35 +88,16 @@ struct ContentView: View {
 
 extension AddressMapSearchViewModel {
     
-    static func live(
-        _ initialRegion: CoordinateRegion = .townLondon
-    ) -> AddressMapSearchViewModel {
-        .init(
-            initialRegion: initialRegion,
-            getAddressFromCoordinate: { coordinate in
-                let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
-               
-                return Deferred {
-                    Future { promise in
-                        Task {
-                            let address = await addressCoordinateSearch.getAddress(from: coordinate)
-                            promise(.success(address?.featureAddress))
-                        }
-                    }
-                }
+    static let live: AddressMapSearchViewModel = .init(
+        initialRegion: .townLondon,
+        getAddressFromCoordinate: { coordinate in
+            let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
+            
+            return addressCoordinateSearch.getAddress(from: coordinate)
+                .map(\.featureAddress)
                 .eraseToAnyPublisher()
-            }
-        )
-    }
-}
-
-// MARK: - Adapter
-
-extension GeocoderAddressCoordinateSearchService.Address {
-    
-    var featureAddress: AddressMapSearchFeature.Address {
-        .init(street: street, city: city)
-    }
+        }
+    )
 }
 
 extension LocationCoordinate2D: CustomStringConvertible {
@@ -173,3 +154,27 @@ extension Array where Element == Place {
     
     static let preview: Self = [.barcelona, .london, .moscow, .paris, .rome]
 }
+
+// MARK: - Adapters
+
+typealias SearchAddress = GeocoderAddressCoordinateSearchService.Address
+typealias FeatureAddress = AddressMapSearchFeature.Address
+
+extension Swift.Optional where Wrapped == SearchAddress {
+    
+    var featureAddress: FeatureAddress? {
+        guard let wrapped = self else {
+            return nil
+        }
+        
+        return wrapped.featureAddress
+    }
+}
+
+extension SearchAddress {
+    
+    var featureAddress: FeatureAddress {
+        .init(street: street, city: city)
+    }
+}
+
