@@ -25,7 +25,9 @@ extension AddressMapSearchViewModel.AddressPublisher {
             .eraseToAnyPublisher()
     }
     static func failing(coordinate: LocationCoordinate2D) -> Self {
-        Just(Address?.none).eraseToAnyPublisher()
+        Just(Address?.none)
+            .delay(for: 0.5, scheduler: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
 }
 #endif

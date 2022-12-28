@@ -13,11 +13,11 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var viewModel: AddressMapSearchViewModel = .delayedPreview//.preview//.failing
+    @State private var useCase: UseCase = .delayed
     
     var body: some View {
         AddressMapSearchView(
-            viewModel: viewModel,
+            viewModel: useCase.viewModel,
             mapView: mapView
         )
         .ignoresSafeArea()
@@ -28,10 +28,18 @@ struct ContentView: View {
         // Color.indigo
             .safeAreaInset(edge: .bottom) {
                 VStack {
+                    Picker("Use case", selection: $useCase) {
+                        ForEach(UseCase.allCases) { useCase in
+                            Text(useCase.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.bottom, 6)
+                    
                     HStack {
                         ForEach([Place].preview) { place in
                             Button(place.title) {
-                                viewModel.updateAndSearch(region: place.region)
+                                useCase.viewModel.updateAndSearch(region: place.region)
                             }
                         }
                     }
@@ -50,10 +58,27 @@ struct ContentView: View {
     }
     
     var location: String {
-        let street = viewModel.address?.street ?? "street n/a"
-        let city = viewModel.address?.city ?? "city n/a"
+        let street = useCase.viewModel.address?.street ?? "street n/a"
+        let city = useCase.viewModel.address?.city ?? "city n/a"
         
         return street + " | " + city
+    }
+    
+    enum UseCase: String, CaseIterable, Identifiable {
+        case failing, delayed, preview
+        
+        var id: Self { self }
+        
+        var viewModel: AddressMapSearchViewModel {
+            switch self {
+            case .failing:
+                return .failing
+            case .delayed:
+                return .delayedPreview
+            case .preview:
+                return .preview
+            }
+        }
     }
 }
 
@@ -100,11 +125,11 @@ struct Place: Identifiable {
 
 extension Place {
     
-    static let barcelona: Self = .init(title: "Barcelona", region: .streetBarcelona)
-    static let london:    Self = .init(title: "London",    region: .streetLondon)
-    static let moscow:    Self = .init(title: "Moscow",    region: .streetMoscow)
-    static let paris:     Self = .init(title: "Paris",     region: .street(center: .paris))
-    static let rome:      Self = .init(title: "Rome",      region: .street(center: .rome))
+    static let barcelona: Self = .init(title: "Barcelona", region: .neighborhood(center: .barcelona))
+    static let london:    Self = .init(title: "London",    region: .neighborhood(center: .london))
+    static let moscow:    Self = .init(title: "Moscow",    region: .neighborhood(center: .moscow))
+    static let paris:     Self = .init(title: "Paris",     region: .neighborhood(center: .paris))
+    static let rome:      Self = .init(title: "Rome",      region: .neighborhood(center: .rome))
 }
 
 extension Array where Element == Place {
