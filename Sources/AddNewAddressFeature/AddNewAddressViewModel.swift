@@ -16,7 +16,7 @@ public final class AddNewAddressViewModel: ObservableObject {
     @Published private(set) var suggestions: Suggestions?
     @Published private(set) var address: Address?
     
-    let dismiss = PassthroughSubject<Void, Never>()
+    let dismissSearch = PassthroughSubject<Void, Never>()
         
     public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
     public typealias GetCompletions = (String) -> CompletionsPublisher
@@ -87,9 +87,11 @@ public final class AddNewAddressViewModel: ObservableObject {
     }
     
     func addressButtonTapped(address: Address) {
-        self.selectAddress.send(address)
-        self.dismiss.send(())
+        // self.selectAddress.send(address)
+        self.address = address
+        #warning("need to position map! - so need a binding")
         self.suggestions = nil
+        self.dismissSearch.send(())
     }
     
     func addAddressButtonTapped() {

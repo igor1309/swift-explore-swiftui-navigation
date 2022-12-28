@@ -61,7 +61,7 @@ public struct AddNewAddressView<MapView: View>: View {
     }
     
     private func dismissSearchView() -> some View {
-        DismissSearchView(dismiss: viewModel.dismiss)
+        DismissSearchView(dismiss: viewModel.dismissSearch)
     }
     
     private struct DismissSearchView: View {
