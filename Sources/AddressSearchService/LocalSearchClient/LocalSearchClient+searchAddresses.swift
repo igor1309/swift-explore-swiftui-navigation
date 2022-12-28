@@ -24,7 +24,12 @@ extension LocalSearchClient {
         Deferred {
             Future { promise in
                 Task {
-                    try await searchAddresses(completion, region: region)
+                    do {
+                        let addresses = try await searchAddresses(completion, region: region)
+                        promise(.success(.success(addresses)))
+                    } catch {
+                        promise(.success(.failure(error)))
+                    }
                 }
             }
         }
