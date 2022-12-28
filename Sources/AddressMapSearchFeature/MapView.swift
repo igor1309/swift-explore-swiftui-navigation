@@ -23,6 +23,7 @@ public struct MapView: View {
                 set: viewModel.update(region:)
             )
         )
+        .animation(.easeInOut, value: viewModel.region)
         .overlay(content: circle)
         .overlay(content: addressView)
     }

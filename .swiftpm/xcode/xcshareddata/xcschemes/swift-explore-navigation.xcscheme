@@ -308,9 +308,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AddressSearchOnMapFeature"
-               BuildableName = "AddressSearchOnMapFeature"
-               BlueprintName = "AddressSearchOnMapFeature"
+               BlueprintIdentifier = "AddressMapSearchFeature"
+               BuildableName = "AddressMapSearchFeature"
+               BlueprintName = "AddressMapSearchFeature"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -350,9 +350,9 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AddressSearchOnMapFeatureTests"
-               BuildableName = "AddressSearchOnMapFeatureTests"
-               BlueprintName = "AddressSearchOnMapFeatureTests"
+               BlueprintIdentifier = "AddressMapSearchFeatureTests"
+               BuildableName = "AddressMapSearchFeatureTests"
+               BlueprintName = "AddressMapSearchFeatureTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

@@ -15,8 +15,8 @@ let package = Package(
         .mapDomain,
         // Features
         .addNewAddressFeature,
+        .addressMapSearchFeature,
         .addressPickerFeature,
-        .addressSearchOnMapFeature,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
@@ -50,9 +50,9 @@ let package = Package(
         .domain,
         // Features
         .addNewAddressFeature,
+        .addressMapSearchFeature,
+        .addressMapSearchFeatureTests,
         .addressPickerFeature,
-        .addressSearchOnMapFeature,
-        .addressSearchOnMapFeatureTests,
         .addressViewFeature,
         .appFeature,
         .deliveryTypePickerFeature,
@@ -133,13 +133,13 @@ private extension Product {
         name: .addNewAddressFeature,
         targets: [.addNewAddressFeature]
     )
+    static let addressMapSearchFeature = library(
+        name: .addressMapSearchFeature,
+        targets: [.addressMapSearchFeature]
+    )
     static let addressPickerFeature = library(
         name: .addressPickerFeature,
         targets: [.addressPickerFeature]
-    )
-    static let addressSearchOnMapFeature = library(
-        name: .addressSearchOnMapFeature,
-        targets: [.addressSearchOnMapFeature]
     )
     static let addressViewFeature = library(
         name: .addressViewFeature,
@@ -217,14 +217,8 @@ private extension Target {
             .tagged
         ]
     )
-    static let addressPickerFeature = target(
-        name: .addressPickerFeature,
-        dependencies: [
-            .domain
-        ]
-    )
-    static let addressSearchOnMapFeature = target(
-        name: .addressSearchOnMapFeature,
+    static let addressMapSearchFeature = target(
+        name: .addressMapSearchFeature,
         dependencies: [
             .casePaths,
             .combineSchedulers,
@@ -232,12 +226,18 @@ private extension Target {
             .tagged,
         ]
     )
-    static let addressSearchOnMapFeatureTests = testTarget(
-        name: .addressSearchOnMapFeatureTests,
+    static let addressMapSearchFeatureTests = testTarget(
+        name: .addressMapSearchFeatureTests,
         dependencies: [
             .combineSchedulers,
             .mapDomain,
-            .addressSearchOnMapFeature,
+            .addressMapSearchFeature,
+        ]
+    )
+    static let addressPickerFeature = target(
+        name: .addressPickerFeature,
+        dependencies: [
+            .domain
         ]
     )
     static let addressViewFeature = target(
@@ -257,8 +257,8 @@ private extension Target {
             .swiftUINavigation,
             .tagged,
             // Features
+            .addressMapSearchFeature,
             .addressPickerFeature,
-            .addressSearchOnMapFeature,
             .addressViewFeature,
             .deliveryTypePickerFeature,
             .featuredShopsFeature,
@@ -373,8 +373,8 @@ private extension Target {
 private extension Target.Dependency {
 
     static let addNewAddressFeature = byName(name: .addNewAddressFeature)
+    static let addressMapSearchFeature = byName(name: .addressMapSearchFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
-    static let addressSearchOnMapFeature = byName(name: .addressSearchOnMapFeature)
     static let addressViewFeature = byName(name: .addressViewFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
@@ -395,9 +395,9 @@ private extension Target.Dependency {
 private extension String {
 
     static let addNewAddressFeature = "AddNewAddressFeature"
+    static let addressMapSearchFeature = "AddressMapSearchFeature"
+    static let addressMapSearchFeatureTests = "AddressMapSearchFeatureTests"
     static let addressPickerFeature = "AddressPickerFeature"
-    static let addressSearchOnMapFeature = "AddressSearchOnMapFeature"
-    static let addressSearchOnMapFeatureTests = "AddressSearchOnMapFeatureTests"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"
