@@ -322,9 +322,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AppleMapFeature"
-               BuildableName = "AppleMapFeature"
-               BlueprintName = "AppleMapFeature"
+               BlueprintIdentifier = "MapKitMapFeature"
+               BuildableName = "MapKitMapFeature"
+               BlueprintName = "MapKitMapFeature"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "GeocoderAddressCoordinateSearch"
+               BuildableName = "GeocoderAddressCoordinateSearch"
+               BlueprintName = "GeocoderAddressCoordinateSearch"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>

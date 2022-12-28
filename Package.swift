@@ -36,6 +36,7 @@ let package = Package(
         .showProfileButtonFeature,
         // Services
         .addressSearchService,
+        .geocoderAddressCoordinateSearch,
     ],
     dependencies: [
         .casePaths,
@@ -75,6 +76,7 @@ let package = Package(
         // Services
         .addressSearchService,
         .addressSearchServiceTests,
+        .geocoderAddressCoordinateSearch,
     ]
 )
 
@@ -439,6 +441,10 @@ private extension Product {
         name: .addressSearchService,
         targets: [.addressSearchService]
     )
+    static let geocoderAddressCoordinateSearch = library(
+        name: .geocoderAddressCoordinateSearch,
+        targets: [.geocoderAddressCoordinateSearch]
+    )
 }
 
 private extension Target {
@@ -458,17 +464,25 @@ private extension Target {
             .snapshotTesting,
         ]
     )
+    static let geocoderAddressCoordinateSearch = target(
+        name: .geocoderAddressCoordinateSearch,
+        dependencies: [
+            .mapDomain,
+        ]
+    )
 }
 
 private extension Target.Dependency {
     
     static let addressSearchService = byName(name: .addressSearchService)
+    static let geocoderAddressCoordinateSearch = byName(name: .geocoderAddressCoordinateSearch)
 }
 
 private extension String {
     
     static let addressSearchService = "AddressSearchService"
     static let addressSearchServiceTests = "AddressSearchServiceTests"
+    static let geocoderAddressCoordinateSearch = "GeocoderAddressCoordinateSearch"
 }
 // MARK: - Point-Free
 
