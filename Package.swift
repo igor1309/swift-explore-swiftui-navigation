@@ -19,11 +19,11 @@ let package = Package(
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
-        .appleMapFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
+        .mapKitMapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -49,6 +49,7 @@ let package = Package(
         // Domains
         .mapDomain,
         .domain,
+        .mapDomainTests,
         // Features
         .addNewAddressFeature,
         .addressMapSearchFeature,
@@ -56,12 +57,11 @@ let package = Package(
         .addressPickerFeature,
         .addressViewFeature,
         .appFeature,
-        .appleMapFeature,
         .deliveryTypePickerFeature,
         .featuredShopsFeature,
         .featureViewFeature,
         .mainPageFeature,
-        .mapDomainTests,
+        .mapKitMapFeature,
         .newAppFeatureFeature,
         .profileEditorFeature,
         .profileFeature,
@@ -151,10 +151,6 @@ private extension Product {
         name: .appFeature,
         targets: [.appFeature]
     )
-    static let appleMapFeature = library(
-        name: .appleMapFeature,
-        targets: [.appleMapFeature]
-    )
     static let deliveryTypePickerFeature = library(
         name: .deliveryTypePickerFeature,
         targets: [.deliveryTypePickerFeature]
@@ -170,6 +166,10 @@ private extension Product {
     static let mainPageFeature = library(
         name: .mainPageFeature,
         targets: [.mainPageFeature]
+    )
+    static let mapKitMapFeature = library(
+        name: .mapKitMapFeature,
+        targets: [.mapKitMapFeature]
     )
     static let newAppFeatureFeature = library(
         name: .newAppFeatureFeature,
@@ -285,12 +285,6 @@ private extension Target {
         ]
     )
     
-    static let appleMapFeature = target(
-        name: .appleMapFeature,
-        dependencies: [
-            .mapDomain
-        ]
-    )
     static let deliveryTypePickerFeature = target(
         name: .deliveryTypePickerFeature,
         dependencies: [
@@ -313,6 +307,12 @@ private extension Target {
         name: .mainPageFeature,
         dependencies: [
             .domain
+        ]
+    )
+    static let mapKitMapFeature = target(
+        name: .mapKitMapFeature,
+        dependencies: [
+            .mapDomain
         ]
     )
     static let newAppFeatureFeature = target(
@@ -389,11 +389,11 @@ private extension Target.Dependency {
     static let addressMapSearchFeature = byName(name: .addressMapSearchFeature)
     static let addressPickerFeature = byName(name: .addressPickerFeature)
     static let addressViewFeature = byName(name: .addressViewFeature)
-    static let appleMapFeature = byName(name: .appleMapFeature)
     static let deliveryTypePickerFeature = byName(name: .deliveryTypePickerFeature)
     static let featuredShopsFeature = byName(name: .featuredShopsFeature)
     static let featureViewFeature = byName(name: .featureViewFeature)
     static let mainPageFeature = byName(name: .mainPageFeature)
+    static let mapKitMapFeature = byName(name: .mapKitMapFeature)
     static let newAppFeatureFeature = byName(name: .newAppFeatureFeature)
     static let profileEditorFeature = byName(name: .profileEditorFeature)
     static let profileFeature = byName(name: .profileFeature)
@@ -414,11 +414,11 @@ private extension String {
     static let addressPickerFeature = "AddressPickerFeature"
     static let addressViewFeature = "AddressViewFeature"
     static let appFeature = "AppFeature"
-    static let appleMapFeature = "AppleMapFeature"
     static let deliveryTypePickerFeature = "DeliveryTypePickerFeature"
     static let featuredShopsFeature = "FeaturedShopsFeature"
     static let featureViewFeature = "FeatureViewFeature"
     static let mainPageFeature = "MainPageFeature"
+    static let mapKitMapFeature = "MapKitMapFeature"
     static let newAppFeatureFeature = "NewAppFeatureFeature"
     static let profileEditorFeature = "ProfileEditorFeature"
     static let profileFeature = "ProfileFeature"
