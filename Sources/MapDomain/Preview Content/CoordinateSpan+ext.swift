@@ -1,5 +1,5 @@
 //
-//  CoordinateSpan+preview.swift
+//  CoordinateSpan+ext.swift
 //  
 //
 //  Created by Igor Malyarov on 24.12.2022.
@@ -8,7 +8,7 @@
 import MapDomain
 
 #if DEBUG
-extension CoordinateSpan {
+public extension CoordinateSpan {
     
     static var regional:     Self = .init(8,     8)
     static var area:         Self = .init(2,     2)

@@ -1,5 +1,5 @@
 //
-//  CoordinateRegion+preview.swift
+//  CoordinateRegion+ext.swift
 //  
 //
 //  Created by Igor Malyarov on 24.12.2022.
