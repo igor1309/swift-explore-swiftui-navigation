@@ -37,6 +37,12 @@
 		2A7AB23229573C9F00500FE4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7AB23129573C9F00500FE4 /* ContentView.swift */; };
 		2A7AB23429573CA100500FE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB23329573CA100500FE4 /* Assets.xcassets */; };
 		2A7AB23729573CA100500FE4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7AB23629573CA100500FE4 /* Preview Assets.xcassets */; };
+		2AA0ABC3295C276A00711FF4 /* AddressMapSearchPreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA0ABC2295C276A00711FF4 /* AddressMapSearchPreviewAppApp.swift */; };
+		2AA0ABC5295C276A00711FF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA0ABC4295C276A00711FF4 /* ContentView.swift */; };
+		2AA0ABC7295C276B00711FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AA0ABC6295C276B00711FF4 /* Assets.xcassets */; };
+		2AA0ABCA295C276B00711FF4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AA0ABC9295C276B00711FF4 /* Preview Assets.xcassets */; };
+		2AA0ABCF295C278500711FF4 /* AddressMapSearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABCE295C278500711FF4 /* AddressMapSearchFeature */; };
+		2AA0ABD1295C278500711FF4 /* MapKitMapFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD0295C278500711FF4 /* MapKitMapFeature */; };
 		2AC4E5DD295AF1D200EAB861 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DC295AF1D200EAB861 /* Composer.swift */; };
 		2AC4E5DF295AF8B600EAB861 /* AddNewAddressUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DE295AF8B600EAB861 /* AddNewAddressUIComposer.swift */; };
 		2AFF10482952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10472952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift */; };
@@ -72,6 +78,11 @@
 		2A7AB23129573C9F00500FE4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2A7AB23329573CA100500FE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A7AB23629573CA100500FE4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2AA0ABC0295C276A00711FF4 /* AddressMapSearchPreviewApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddressMapSearchPreviewApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AA0ABC2295C276A00711FF4 /* AddressMapSearchPreviewAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressMapSearchPreviewAppApp.swift; sourceTree = "<group>"; };
+		2AA0ABC4295C276A00711FF4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		2AA0ABC6295C276B00711FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2AA0ABC9295C276B00711FF4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2AC4E5DC295AF1D200EAB861 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		2AC4E5DE295AF8B600EAB861 /* AddNewAddressUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressUIComposer.swift; sourceTree = "<group>"; };
 		2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "swift-explore-swiftui-navigation"; path = ..; sourceTree = "<group>"; };
@@ -124,6 +135,15 @@
 				2A48CDF72959BA1300DF5A29 /* AddressSearchService in Frameworks */,
 				2A48CDF52959BA1300DF5A29 /* AddressSearchOnMapFeature in Frameworks */,
 				2A48CDF32959BA1300DF5A29 /* AddNewAddressFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AA0ABBD295C276A00711FF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AA0ABD1295C278500711FF4 /* MapKitMapFeature in Frameworks */,
+				2AA0ABCF295C278500711FF4 /* AddressMapSearchFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,16 +256,36 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		2AA0ABC1295C276A00711FF4 /* AddressMapSearchPreviewApp */ = {
+			isa = PBXGroup;
+			children = (
+				2AA0ABC2295C276A00711FF4 /* AddressMapSearchPreviewAppApp.swift */,
+				2AA0ABC4295C276A00711FF4 /* ContentView.swift */,
+				2AA0ABC6295C276B00711FF4 /* Assets.xcassets */,
+				2AA0ABC8295C276B00711FF4 /* Preview Content */,
+			);
+			path = AddressMapSearchPreviewApp;
+			sourceTree = "<group>";
+		};
+		2AA0ABC8295C276B00711FF4 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				2AA0ABC9295C276B00711FF4 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		2AFF100F2952F953003E11E5 = {
 			isa = PBXGroup;
 			children = (
 				2AFF10292952F99D003E11E5 /* swift-explore-swiftui-navigation */,
-				2AFF10462952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
-				2A390C9D2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2A7AB21C2957018100500FE4 /* DismissSearchPreviewApp */,
 				2A48CDFD2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */,
 				2A1AC7162956F6210075134A /* AddNewAddressPreviewApp */,
-				2A7AB21C2957018100500FE4 /* DismissSearchPreviewApp */,
+				2AA0ABC1295C276A00711FF4 /* AddressMapSearchPreviewApp */,
 				2A7AB22E29573C9F00500FE4 /* MapViewPreviewApp */,
+				2AFF10462952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
+				2A390C9D2955EA9100779C18 /* SwiftUINavigationAlert */,
 				2AFF10192952F953003E11E5 /* Products */,
 				2AFF102A2952FAEE003E11E5 /* Frameworks */,
 			);
@@ -260,6 +300,7 @@
 				2A7AB21B2957018100500FE4 /* DismissSearchPreviewApp.app */,
 				2A7AB22D29573C9F00500FE4 /* MapViewPreviewApp.app */,
 				2A48CDFC2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp.app */,
+				2AA0ABC0295C276A00711FF4 /* AddressMapSearchPreviewApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -395,6 +436,27 @@
 			productReference = 2A7AB22D29573C9F00500FE4 /* MapViewPreviewApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2AA0ABBF295C276A00711FF4 /* AddressMapSearchPreviewApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AA0ABCD295C276B00711FF4 /* Build configuration list for PBXNativeTarget "AddressMapSearchPreviewApp" */;
+			buildPhases = (
+				2AA0ABBC295C276A00711FF4 /* Sources */,
+				2AA0ABBD295C276A00711FF4 /* Frameworks */,
+				2AA0ABBE295C276A00711FF4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AddressMapSearchPreviewApp;
+			packageProductDependencies = (
+				2AA0ABCE295C278500711FF4 /* AddressMapSearchFeature */,
+				2AA0ABD0295C278500711FF4 /* MapKitMapFeature */,
+			);
+			productName = AddressMapSearchPreviewApp;
+			productReference = 2AA0ABC0295C276A00711FF4 /* AddressMapSearchPreviewApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		2AFF10442952FBA2003E11E5 /* ShopUIPrototypePreviewApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2AFF10502952FBA3003E11E5 /* Build configuration list for PBXNativeTarget "ShopUIPrototypePreviewApp" */;
@@ -440,6 +502,9 @@
 					2A7AB22C29573C9F00500FE4 = {
 						CreatedOnToolsVersion = 14.2;
 					};
+					2AA0ABBF295C276A00711FF4 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					2AFF10442952FBA2003E11E5 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -463,6 +528,7 @@
 			targets = (
 				2AFF10442952FBA2003E11E5 /* ShopUIPrototypePreviewApp */,
 				2A390C9B2955EA9100779C18 /* SwiftUINavigationAlert */,
+				2AA0ABBF295C276A00711FF4 /* AddressMapSearchPreviewApp */,
 				2A48CDFB2959BA9B00DF5A29 /* AddNewAddressDemoPreviewApp */,
 				2A1AC7142956F6210075134A /* AddNewAddressPreviewApp */,
 				2A7AB21A2957018100500FE4 /* DismissSearchPreviewApp */,
@@ -514,6 +580,15 @@
 			files = (
 				2A7AB23729573CA100500FE4 /* Preview Assets.xcassets in Resources */,
 				2A7AB23429573CA100500FE4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AA0ABBE295C276A00711FF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AA0ABCA295C276B00711FF4 /* Preview Assets.xcassets in Resources */,
+				2AA0ABC7295C276B00711FF4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,6 +648,15 @@
 			files = (
 				2A7AB23229573C9F00500FE4 /* ContentView.swift in Sources */,
 				2A7AB23029573C9F00500FE4 /* MapViewPreviewAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2AA0ABBC295C276A00711FF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AA0ABC5295C276A00711FF4 /* ContentView.swift in Sources */,
+				2AA0ABC3295C276A00711FF4 /* AddressMapSearchPreviewAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,6 +964,64 @@
 			};
 			name = Release;
 		};
+		2AA0ABCB295C276B00711FF4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddressMapSearchPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddressMapSearchPreviewApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2AA0ABCC295C276B00711FF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AddressMapSearchPreviewApp/Preview Content\"";
+				DEVELOPMENT_TEAM = VRVJ9YNRQU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.photoigor.AddressMapSearchPreviewApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		2AFF10242952F955003E11E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1100,6 +1242,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		2AA0ABCD295C276B00711FF4 /* Build configuration list for PBXNativeTarget "AddressMapSearchPreviewApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AA0ABCB295C276B00711FF4 /* Debug */,
+				2AA0ABCC295C276B00711FF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2AFF10132952F953003E11E5 /* Build configuration list for PBXProject "ExploreSwiftUINavigation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1172,6 +1323,14 @@
 		2A48CE112959BDEE00DF5A29 /* MapDomain */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MapDomain;
+		};
+		2AA0ABCE295C278500711FF4 /* AddressMapSearchFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressMapSearchFeature;
+		};
+		2AA0ABD0295C278500711FF4 /* MapKitMapFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MapKitMapFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
