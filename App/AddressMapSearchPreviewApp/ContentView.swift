@@ -6,6 +6,8 @@
 //
 
 import AddressMapSearchFeature
+import Combine
+import GeocoderAddressCoordinateSearchService
 import MapDomain
 import MapKit
 import MapKitMapFeature
@@ -65,20 +67,55 @@ struct ContentView: View {
     }
     
     enum UseCase: String, CaseIterable, Identifiable {
-        case failing, delayed, preview
+        case failing, live, delayed, preview
         
         var id: Self { self }
         
         var viewModel: AddressMapSearchViewModel {
             switch self {
             case .failing:
-                return .failing
+                return .failing()
+            case .live:
+                return .live()
             case .delayed:
-                return .delayedPreview
+                return .delayedPreview()
             case .preview:
-                return .preview
+                return .preview()
             }
         }
+    }
+}
+
+extension AddressMapSearchViewModel {
+    
+    static func live(
+        _ initialRegion: CoordinateRegion = .townLondon
+    ) -> AddressMapSearchViewModel {
+        .init(
+            initialRegion: initialRegion,
+            getAddressFromCoordinate: { coordinate in
+                let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
+               
+                return Deferred {
+                    Future { promise in
+                        Task {
+                            let address = await addressCoordinateSearch.getAddress(from: coordinate)
+                            promise(.success(address?.featureAddress))
+                        }
+                    }
+                }
+                .eraseToAnyPublisher()
+            }
+        )
+    }
+}
+
+// MARK: - Adapter
+
+extension GeocoderAddressCoordinateSearchService.Address {
+    
+    var featureAddress: AddressMapSearchFeature.Address {
+        .init(street: street, city: city)
     }
 }
 

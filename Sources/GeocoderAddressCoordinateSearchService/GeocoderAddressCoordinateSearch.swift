@@ -10,15 +10,15 @@ import CoreLocation
 import MapDomain
 import MapKit
 
-final class GeocoderAddressCoordinateSearch {
+public final class GeocoderAddressCoordinateSearch {
     
     private let geocoder: CLGeocoder
     
-    init(geocoder: CLGeocoder = .init()) {
+    public init(geocoder: CLGeocoder = .init()) {
         self.geocoder = geocoder
     }
     
-    func getAddress(from coordinate: LocationCoordinate2D) async -> Address? {
+    public func getAddress(from coordinate: LocationCoordinate2D) async -> Address? {
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(coordinate.clLocation)
             

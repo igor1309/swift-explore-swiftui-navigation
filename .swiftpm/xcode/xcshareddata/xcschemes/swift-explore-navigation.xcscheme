@@ -336,9 +336,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "GeocoderAddressCoordinateSearch"
-               BuildableName = "GeocoderAddressCoordinateSearch"
-               BlueprintName = "GeocoderAddressCoordinateSearch"
+               BlueprintIdentifier = "GeocoderAddressCoordinateSearchService"
+               BuildableName = "GeocoderAddressCoordinateSearchService"
+               BlueprintName = "GeocoderAddressCoordinateSearchService"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>

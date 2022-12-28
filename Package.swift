@@ -482,7 +482,7 @@ private extension String {
     
     static let addressSearchService = "AddressSearchService"
     static let addressSearchServiceTests = "AddressSearchServiceTests"
-    static let geocoderAddressCoordinateSearch = "GeocoderAddressCoordinateSearch"
+    static let geocoderAddressCoordinateSearch = "GeocoderAddressCoordinateSearchService"
 }
 // MARK: - Point-Free
 
