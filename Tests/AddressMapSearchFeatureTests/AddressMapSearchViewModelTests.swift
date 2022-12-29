@@ -137,7 +137,9 @@ private final class AddressMapSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
+        #warning("debounce, removeDuplicates")
         searchTextSubject
+            .debounce(for: 0.3, scheduler: scheduler)
             .handleEvents(receiveOutput: { [weak self] in
                 self?.state.search = .some(.init(searchText: $0))
             })
@@ -505,19 +507,20 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     }
     
     func test_shouldSetSearchState_onSearchTextEditing() {
-        let (sut, spy) = makeSUT()
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(scheduler: scheduler.eraseToAnyScheduler())
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
         ])
         
-        sut.setSearchText(to: "")
+        typeAndAdvance("", sut: sut, by: .milliseconds(300), on: scheduler)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
             .state(region: .test, search: .init(searchText: "", suggestions: .completions([.test, .another]))),
         ])
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
         XCTAssertEqual(spy.values.count, 5)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
@@ -527,7 +530,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .init(searchText: "Lond", suggestions: .completions([.test, .another]))),
         ])
         
-        sut.setSearchText(to: "London")
+        typeAndAdvance("London", sut: sut, by: .milliseconds(300), on: scheduler)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
@@ -538,7 +541,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .init(searchText: "London", suggestions: .completions([.test, .another]))),
         ])
         
-        sut.setSearchText(to: "")
+        typeAndAdvance("", sut: sut, by: .milliseconds(300), on: scheduler)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
@@ -565,9 +568,10 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     }
     
     func test_dismissSearch_shouldSetSearchStateToNil_onActiveSearch() {
-        let (sut, spy) = makeSUT()
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(scheduler: scheduler.eraseToAnyScheduler())
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .init(searchText: "Lond", suggestions: .none)),
@@ -585,20 +589,46 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_searchTextEditing_shouldInvokeSearchCompletion() {
         let searchCompleterSpy = SearchCompleterSpy()
-        let (sut, _) = makeSUT(searchCompleter: searchCompleterSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, _) = makeSUT(
+            searchCompleter: searchCompleterSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
+        XCTAssertEqual(searchCompleterSpy.calls, [])
+        
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+        
+        XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
+    }
+    
+    func test_searchTextEditing_shouldNotInvokeSearchCompletion_beforeDebounceInterval() {
+        let searchCompleterSpy = SearchCompleterSpy()
+        let scheduler = DispatchQueue.test
+        let (sut, _) = makeSUT(
+            searchCompleter: searchCompleterSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         XCTAssertEqual(searchCompleterSpy.calls, [])
         
         sut.setSearchText(to: "Lond")
         
+        scheduler.advance(by: .milliseconds(299))
+        XCTAssertEqual(searchCompleterSpy.calls, [])
+        
+        scheduler.advance(by: .milliseconds(1))
         XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
     }
     
     func test_suggestionsShouldBeEmpty_onEmptyCompletionsReturned() {
         let emptyCompleterSpy = SearchCompleterSpy(stub: .success([]))
-        let (sut, spy) = makeSUT(searchCompleter: emptyCompleterSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            searchCompleter: emptyCompleterSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
-        
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -608,10 +638,14 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_suggestionsShouldBeEmpty_onFailingCompletionsLoad() {
         let failingCompleterSpy = SearchCompleterSpy(stub: .failure(anyError()))
-        let (sut, spy) = makeSUT(searchCompleter: failingCompleterSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            searchCompleter: failingCompleterSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
-        
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -621,10 +655,14 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_shouldDeliverSuggestions_onSuccessfulCompletionsLoad() {
         let successfulCompleterSpy = SearchCompleterSpy(stub: .test)
-        let (sut, spy) = makeSUT(searchCompleter: successfulCompleterSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            searchCompleter: successfulCompleterSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
-        
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -643,10 +681,16 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_searchItemsShouldBeEmpty_onEmptyLocalSearch() {
         let emptyLocalSearchSpy = LocalSearchSpy(stub: .success([]))
-        let (sut, spy) = makeSUT(localSearch: emptyLocalSearchSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            localSearch: emptyLocalSearchSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+        
         sut.completionButtonTapped(.another)
+        scheduler.advance()
 
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
@@ -658,11 +702,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_searchItemsShouldBeEmpty_onFailingLocalSearchLoad() {
         let failingLocalSearchSpy = LocalSearchSpy(stub: .failure(anyError()))
-        let (sut, spy) = makeSUT(localSearch: failingLocalSearchSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            localSearch: failingLocalSearchSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+        
         sut.completionButtonTapped(.another)
-        
+        scheduler.advance()
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -673,11 +723,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_shouldDeliverSearchItems_onSuccessfulCompletionsLoad() {
         let successfulLocalSearchSpy = LocalSearchSpy(stub: .test)
-        let (sut, spy) = makeSUT(localSearch: successfulLocalSearchSpy)
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(
+            localSearch: successfulLocalSearchSpy,
+            scheduler: scheduler.eraseToAnyScheduler()
+        )
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
+
         sut.completionButtonTapped(.another)
-        
+        scheduler.advance()
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -687,12 +743,15 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     }
     
     func test_searchItemSelection_should_setRegion_resetSearch_setAddress() {
-        let (sut, spy) = makeSUT()
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(scheduler: scheduler.eraseToAnyScheduler())
         
-        sut.setSearchText(to: "Lond")
+        typeAndAdvance("Lond", sut: sut, by: .milliseconds(300), on: scheduler)
         sut.completionButtonTapped(.another)
+        scheduler.advance()
         sut.searchItemButtonTapped(.another)
-        
+        scheduler.advance()
+
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
@@ -790,6 +849,16 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             
             return Just(stub).eraseToAnyPublisher()
         }
+    }
+    
+    private func typeAndAdvance(
+        _ text: String,
+        sut: AddressMapSearchViewModel,
+        by interval: DispatchQueue.SchedulerTimeType.Stride,
+        on scheduler: TestSchedulerOf<DispatchQueue>
+    ) {
+        sut.setSearchText(to: text)
+        scheduler.advance(by: interval)
     }
 }
 
