@@ -74,11 +74,12 @@ private final class AddressMapSearchViewModel: ObservableObject {
     ) {
         self.state = .init(region: initialRegion)
         
-        coordinateSearchSubject
+        // a publisher with side-effects: state changes inside the pipeline
+        // see `handleEvents`
+        let addressByCoordinateSearch: AnyPublisher<AddressResult, Never> = coordinateSearchSubject
             .debounce(for: 0.5, scheduler: scheduler)
             .handleEvents(receiveOutput: { [weak self] in
-#warning("would this `handleEvents` be enough for UI to update without errors? Or need additional `receive(on:)` dancing?")
-                // self?.state = .init(region: $0, search: .none, addressState: .searching)
+                #warning("would this `handleEvents` be enough for UI to update without errors? Or need additional `receive(on:)` dancing?")
                 self?.state.region = $0
             })
             .map(\.center)
@@ -87,6 +88,9 @@ private final class AddressMapSearchViewModel: ObservableObject {
                 self?.state.addressState = .searching
             })
             .flatMap(coordinateSearch.search(for:))
+            .eraseToAnyPublisher()
+        
+        addressByCoordinateSearch
             .receive(on: scheduler)
             .sink { [weak self] in
                 self?.updateAddressState(with: $0)
