@@ -59,7 +59,10 @@ protocol SearchCompleter {
     func complete(query: String) -> CompletionsResultPublisher
 }
 
-struct SearchItem: Equatable {}
+struct SearchItem: Equatable {
+    let address: Address
+    let region: CoordinateRegion
+}
 
 typealias SearchResult = Result<[SearchItem], Error>
 typealias SearchResultPublisher = AnyPublisher<SearchResult, Never>
@@ -172,6 +175,14 @@ private final class AddressMapSearchViewModel: ObservableObject {
     
     func completionButtonTapped(_ completion: Completion) {
         completionSubject.send(completion)
+    }
+    
+    func searchItemButtonTapped(_ searchItem: SearchItem) {
+        state = .init(
+            region: searchItem.region,
+            search: .none,
+            addressState: .address(searchItem.address)
+        )
     }
     
     private func updateAddressState(with result: AddressResult) {
@@ -330,7 +341,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         )
         XCTAssertEqual(coordinateSearchSpy.calls, [])
         
-        sut.updateRegion(to: .anotherTest)
+        sut.updateRegion(to: .another)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(coordinateSearchSpy.calls, [.test])
         
@@ -349,22 +360,22 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .none, addressState: .none),
         ])
         
-        sut.updateRegion(to: .anotherTest)
+        sut.updateRegion(to: .another)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
             .state(region: .test,        search: .none, addressState: .none),
-            .state(region: .anotherTest, search: .none, addressState: .none),
-            .state(region: .anotherTest, search: .none, addressState: .searching),
-            .state(region: .anotherTest, search: .none, addressState: .address(.test)),
+            .state(region: .another, search: .none, addressState: .none),
+            .state(region: .another, search: .none, addressState: .searching),
+            .state(region: .another, search: .none, addressState: .address(.test)),
         ])
         
         sut.updateRegion(to: .test)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
             .state(region: .test,        search: .none, addressState: .none),
-            .state(region: .anotherTest, search: .none, addressState: .none),
-            .state(region: .anotherTest, search: .none, addressState: .searching),
-            .state(region: .anotherTest, search: .none, addressState: .address(.test)),
+            .state(region: .another, search: .none, addressState: .none),
+            .state(region: .another, search: .none, addressState: .searching),
+            .state(region: .another, search: .none, addressState: .address(.test)),
             .state(region: .test,        search: .none, addressState: .address(.test)),
         ], "Should change the state just for the region")
     }
@@ -659,6 +670,23 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         ])
     }
     
+    func test_searchItemSelection_should_setRegion_resetSearch_setAddress() {
+        let successfulLocalSearchSpy = LocalSearchSpy(stub: .test)
+        let (sut, spy) = makeSUT(localSearch: successfulLocalSearchSpy)
+        
+        sut.setSearchText(to: "Lond")
+        sut.completionButtonTapped(.another)
+        sut.searchItemButtonTapped(.another)
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([.test, .another]))),
+            .state(region: .another, search: .none, addressState: .address(.another)),
+        ])
+    }    
+
     // MARK: - Helpers
     
     private func makeSUT(
@@ -792,7 +820,8 @@ func anyError() -> Error {
 
 private extension Address {
     
-    static let test: Self = .init()
+    static let test:    Self = .init()
+    static let another: Self = .init()
 }
 
 private extension AddressResult {
@@ -803,7 +832,7 @@ private extension AddressResult {
 
 private extension Completion {
     
-    static let test: Self = .init()
+    static let test:    Self = .init()
     static let another: Self = .init()
 }
 
@@ -816,8 +845,8 @@ private extension CompletionsResult {
 
 private extension SearchItem {
     
-    static let test: Self = .init()
-    static let another: Self = .init()
+    static let test:    Self = .init(address: .test, region: .test)
+    static let another: Self = .init(address: .another, region: .another)
 }
 
 private extension SearchResult {
@@ -829,9 +858,9 @@ private extension SearchResult {
 
 private extension CoordinateRegion {
     
-    static let test:        Self = .init(center: .test, span: .test)
-    static let anotherTest: Self = .init(center: .test, span: .any)
-    static let any:         Self = .init(center: .any, span: .any)
+    static let test:    Self = .init(center: .test, span: .test)
+    static let another: Self = .init(center: .test, span: .any)
+    static let any:     Self = .init(center: .any, span: .any)
 }
 
 private extension LocationCoordinate2D {
