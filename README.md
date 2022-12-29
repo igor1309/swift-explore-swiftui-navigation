@@ -126,6 +126,8 @@ Map zoom and pan interactions and search address by coordinate API
     - ! observe property in the child view (! see example in docs and DismissibleView) and pass it to the view model callback: this callback would set state to `.search` if true; no need to change the state if false
 - on dismiss set state to map/zoom and pan; or search to none
 - on empty searchText show empty suggestions (or prev searches - see note)
+- debounce
+- remove duplicates
 - suggestions should be empty if no completions returned by API** - it’s a non-failing API call, just empty
 - should have empty completions for non empty searchText on failing API call
 - should have non empty completions for non empty searchText on non-failing API call
@@ -133,6 +135,7 @@ Map zoom and pan interactions and search address by coordinate API
 - selecting suggested completion should call search API with completion
 - selecting suggested completion should not call other search APIs
 - selecting completion should be possible only from provided completions
+- selecting completion should set address state to searching
 - selecting search result should be possible from provided search results only
 - selecting search result should set address to the address in selected result
 - selecting search result should set coordinate region to region in selected search result - via subject, see Map interactions
