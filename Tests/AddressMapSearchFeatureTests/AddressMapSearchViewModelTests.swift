@@ -138,17 +138,7 @@ private final class AddressMapSearchViewModel: ObservableObject {
     
     /// The `setter` part of the `searchText` binding.
     func setSearchText(to text: String) {
-//        state.search = .some(.init(searchText: text))
         searchTextSubject.send(text)
-//        let casePath = /AddressMapSearchState.Search?.some
-//        guard var searchState = casePath.extract(from: state.search)
-//        else {
-//            state.search = .some(.init(searchText: text))
-//            return
-//        }
-//
-//        searchState.searchText = text
-//        state.search = searchState
     }
     
     private func updateAddressState(with result: AddressResult) {
@@ -555,6 +545,19 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .none),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
             .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+        ])
+    }
+    
+    func test_shouldDeliverSuggestions_onSuccessfulCompletionsLoad() {
+        let successfulCompleterSpy = SearchCompleterSpy(stub: .test)
+        let (sut, spy) = makeSUT(searchCompleter: successfulCompleterSpy)
+        
+        sut.setSearchText(to: "Lond")
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [.test, .another])),
         ])
     }
     
