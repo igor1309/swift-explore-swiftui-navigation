@@ -684,8 +684,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     }
     
     func test_searchItemSelection_should_setRegion_resetSearch_setAddress() {
-        let successfulLocalSearchSpy = LocalSearchSpy(stub: .test)
-        let (sut, spy) = makeSUT(localSearch: successfulLocalSearchSpy)
+        let (sut, spy) = makeSUT()
         
         sut.setSearchText(to: "Lond")
         sut.completionButtonTapped(.another)
