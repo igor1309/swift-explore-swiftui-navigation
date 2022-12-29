@@ -38,7 +38,6 @@ struct AddressMapSearchState: Equatable {
 
 struct Address: Equatable {}
 
-
 typealias AddressResult = Result<Address, Error>
 typealias AddressResultPublisher = AnyPublisher<AddressResult, Never>
 
@@ -519,6 +518,28 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         ])
     }
     
+    func test_searchTextEditing_shouldInvokeSearchCompletion() {
+        let searchCompleterSpy = SearchCompleterSpy()
+        let (sut, _) = makeSUT(searchCompleter: searchCompleterSpy)
+        XCTAssertEqual(searchCompleterSpy.calls, [])
+
+        sut.setSearchText(to: "Lond")
+        
+        XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
+    }
+    
+    func test_suggestionsShouldBeEmpty_onNoCompletionsReturned() {
+        let emptyCompleterSpy = SearchCompleterSpy(stub: .success([]))
+        let (sut, spy) = makeSUT(searchCompleter: emptyCompleterSpy)
+
+        sut.setSearchText(to: "Lond")
+        
+        XCTAssertEqual(
+            spy.values.last,
+            .value(.init(region: .test, search: .some(.init(searchText: "Lond", suggestions: []))))
+        )
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
@@ -723,4 +744,11 @@ extension AddressMapSearchState.AddressState: CustomStringConvertible {
 extension Optional where Wrapped == AddressMapSearchState.Search {
     
     static let empty:  Self = .some(.init())
+    
+    static func make(
+        searchText: String = "",
+        suggestions: [Completion] = []
+    ) -> Self {
+        .some(.init(searchText: searchText, suggestions: suggestions))
+    }
 }
