@@ -397,23 +397,23 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         ], "Should change the state just for the region and address")
     }
     
-    #warning("how to test there is `receive(on:)` in the pipeline?")
-//    func test_regionChange_shouldChangeState_onMainThread() {
-//        let scheduler = DispatchQueue.test
-//        let (sut, spy) = makeSUT(
-//            scheduler: scheduler.eraseToAnyScheduler()
-//        )
-//
-//        XCTAssertEqual(spy.values, [
-//            .value(.init(region: .test, search: .none, addressState: .none))
-//        ])
-//
-//        sut.updateRegion(to: .any)
-//        scheduler.advance(by: .milliseconds(500))
-//
-//        XCTAssert(Thread.isMainThread)
-//        XCTFail("Unimplemented")
-//    }
+#warning("how to test there is `receive(on:)` in the pipeline?")
+    //    func test_regionChange_shouldChangeState_onMainThread() {
+    //        let scheduler = DispatchQueue.test
+    //        let (sut, spy) = makeSUT(
+    //            scheduler: scheduler.eraseToAnyScheduler()
+    //        )
+    //
+    //        XCTAssertEqual(spy.values, [
+    //            .value(.init(region: .test, search: .none, addressState: .none))
+    //        ])
+    //
+    //        sut.updateRegion(to: .any)
+    //        scheduler.advance(by: .milliseconds(500))
+    //
+    //        XCTAssert(Thread.isMainThread)
+    //        XCTFail("Unimplemented")
+    //    }
     
     func test_shouldSetSearchState_onSearchActivation() {
         let (sut, spy) = makeSUT()
@@ -492,7 +492,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         XCTAssertEqual(spy.values, [
             .value(.init(region: .test, search: .none)),
         ])
-
+        
         sut.dismissSearch()
         XCTAssertEqual(spy.values, [
             .value(.init(region: .test, search: .none)),
@@ -522,7 +522,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         let searchCompleterSpy = SearchCompleterSpy()
         let (sut, _) = makeSUT(searchCompleter: searchCompleterSpy)
         XCTAssertEqual(searchCompleterSpy.calls, [])
-
+        
         sut.setSearchText(to: "Lond")
         
         XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
@@ -531,12 +531,12 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     func test_suggestionsShouldBeEmpty_onNoCompletionsReturned() {
         let emptyCompleterSpy = SearchCompleterSpy(stub: .success([]))
         let (sut, spy) = makeSUT(searchCompleter: emptyCompleterSpy)
-
+        
         sut.setSearchText(to: "Lond")
         
         XCTAssertEqual(
             spy.values.last,
-            .value(.init(region: .test, search: .some(.init(searchText: "Lond", suggestions: []))))
+            .value(.init(region: .test, search: .make(searchText: "Lond", suggestions: [])))
         )
     }
     
@@ -567,7 +567,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(coordinateSearch, file: file, line: line)
         trackForMemoryLeaks(searchCompleter, file: file, line: line)
-
+        
         return (sut, spy)
     }
     
@@ -600,39 +600,39 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             return Just(stub).eraseToAnyPublisher()
         }
     }
+}
+
+private final class ValueSpy<Value: Equatable> {
+    private(set) var values = [Event]()
+    private var cancellable: AnyCancellable?
     
-    private final class ValueSpy<Value: Equatable> {
-        private(set) var values = [Event]()
-        private var cancellable: AnyCancellable?
-        
-        init<P>(_ publisher: P) where P: Publisher, P.Output == Value {
-            cancellable = publisher.sink { [weak self] completion in
-                switch completion {
-                case .finished:
-                    self?.values.append(.finished)
-                    
-                case .failure:
-                    self?.values.append(.failure)
-                }
-            } receiveValue: { [weak self] in
-                self?.values.append(.value($0))
+    init<P>(_ publisher: P) where P: Publisher, P.Output == Value {
+        cancellable = publisher.sink { [weak self] completion in
+            switch completion {
+            case .finished:
+                self?.values.append(.finished)
+                
+            case .failure:
+                self?.values.append(.failure)
             }
+        } receiveValue: { [weak self] in
+            self?.values.append(.value($0))
         }
+    }
+    
+    enum Event: Equatable, CustomStringConvertible {
+        case finished
+        case failure
+        case value(Value)
         
-        enum Event: Equatable, CustomStringConvertible {
-            case finished
-            case failure
-            case value(Value)
-            
-            var description: String {
-                switch self {
-                case .finished:
-                    return ".finished"
-                case .failure:
-                    return ".failure"
-                case let .value(value):
-                    return "\(value)"
-                }
+        var description: String {
+            switch self {
+            case .finished:
+                return ".finished"
+            case .failure:
+                return ".failure"
+            case let .value(value):
+                return "\(value)"
             }
         }
     }
@@ -743,7 +743,7 @@ extension AddressMapSearchState.AddressState: CustomStringConvertible {
 
 extension Optional where Wrapped == AddressMapSearchState.Search {
     
-    static let empty:  Self = .some(.init())
+    static let empty:  Self = .make()
     
     static func make(
         searchText: String = "",
