@@ -5,6 +5,7 @@
 //  Created by Igor Malyarov on 29.12.2022.
 //
 
+import CasePaths
 import Combine
 import CombineSchedulers
 import MapDomain
@@ -61,6 +62,7 @@ private final class AddressMapSearchViewModel: ObservableObject {
     @Published private(set) var state: AddressMapSearchState
     
     private let coordinateSearchSubject = PassthroughSubject<CoordinateRegion, Never>()
+    private let searchTextSubject = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
@@ -96,6 +98,18 @@ private final class AddressMapSearchViewModel: ObservableObject {
                 self?.updateAddressState(with: $0)
             }
             .store(in: &cancellables)
+        
+        searchTextSubject
+            .handleEvents(receiveOutput: { [weak self] in
+                self?.state.search = .some(.init(searchText: $0))
+            })
+            //.removeDuplicates()
+            .flatMap(searchCompleter.complete(query:))
+            .receive(on: scheduler)
+            .sink { [weak self] in
+                self?.updateSearchState(with: $0)
+            }
+            .store(in: &cancellables)
     }
     
     func updateRegion(to region: CoordinateRegion) {
@@ -125,16 +139,36 @@ private final class AddressMapSearchViewModel: ObservableObject {
     
     /// The `setter` part of the `searchText` binding.
     func setSearchText(to text: String) {
-        state.search = .some(.init(searchText: text))
+//        state.search = .some(.init(searchText: text))
+        searchTextSubject.send(text)
+//        let casePath = /AddressMapSearchState.Search?.some
+//        guard var searchState = casePath.extract(from: state.search)
+//        else {
+//            state.search = .some(.init(searchText: text))
+//            return
+//        }
+//
+//        searchState.searchText = text
+//        state.search = searchState
     }
     
     private func updateAddressState(with result: AddressResult) {
         switch result {
         case .failure:
-            self.state.addressState = .none
+            state.addressState = .none
             
         case let .success(address):
-            self.state.addressState = .address(address)
+            state.addressState = .address(address)
+        }
+    }
+    
+    private func updateSearchState(with result: CompletionsResult) {
+        switch result {
+        case .failure:
+            state.search?.suggestions = []
+
+        case let .success(completions):
+            state.search?.suggestions = completions
         }
     }
 }
@@ -410,37 +444,47 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     func test_shouldSetSearchState_onSearchTextEditing() {
         let (sut, spy) = makeSUT()
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .value(.init(region: .test, search: .none)),
         ])
         
         sut.setSearchText(to: "")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .value(.init(region: .test, search: .none)),
             .value(.init(region: .test, search: .empty)),
+            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
         ])
         
         sut.setSearchText(to: "Lond")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .value(.init(region: .test, search: .none)),
             .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .lond)),
+            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
         ])
         
         sut.setSearchText(to: "London")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .value(.init(region: .test, search: .none)),
             .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .lond)),
-            .value(.init(region: .test, search: .london)),
+            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
+            .value(.init(region: .test, search: .init(searchText: "London", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "London", suggestions: [.test, .another]))),
         ])
         
         sut.setSearchText(to: "")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .value(.init(region: .test, search: .none)),
             .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .lond)),
-            .value(.init(region: .test, search: .london)),
+            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
+            .value(.init(region: .test, search: .init(searchText: "London", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "London", suggestions: [.test, .another]))),
             .value(.init(region: .test, search: .empty)),
+            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
         ])
     }
     
@@ -458,45 +502,21 @@ final class AddressMapSearchViewModelTests: XCTestCase {
     
     func test_dismissSearch_shouldSetSearchStateToNil_onActiveSearch() {
         let (sut, spy) = makeSUT()
-
+        
         sut.setSearchText(to: "Lond")
         XCTAssertEqual(spy.values, [
             .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .lond)),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
         ])
-
+        
         sut.dismissSearch()
         XCTAssertEqual(spy.values, [
             .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .lond)),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
+            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
             .value(.init(region: .test, search: .none)),
         ])
-    }
-    
-    func test_searchTextEditing_shouldInvokeSearchCompletion() {
-        let searchCompleterSpy = SearchCompleterSpy()
-        let (sut, spy) = makeSUT(searchCompleter: searchCompleterSpy)
-        
-        sut.setSearchText(to: "Lond")
-        
-        XCTAssertEqual(spy.values, [
-            //...
-        ])
-        XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
-    }
-    func test_suggestionsShouldBeEmpty_onNoCompletionsReturned() {
-        let searchCompleterSpy = SearchCompleterSpy(stub: .success([]))
-        let (sut, spy) = makeSUT(searchCompleter: searchCompleterSpy)
-        
-        sut.setSearchText(to: "Lond")
-        
-        XCTAssertEqual(spy.values, [
-            //...
-        ])
-        XCTAssertEqual(
-            spy.values.last,
-            .value(.init(region: .test, search: .some(.init(searchText: "Lond", suggestions: [.test]))))
-        )
     }
     
     // MARK: - Helpers
@@ -703,6 +723,4 @@ extension AddressMapSearchState.AddressState: CustomStringConvertible {
 extension Optional where Wrapped == AddressMapSearchState.Search {
     
     static let empty:  Self = .some(.init())
-    static let lond:   Self = .some(.init(searchText: "Lond"))
-    static let london: Self = .some(.init(searchText: "London"))
 }
