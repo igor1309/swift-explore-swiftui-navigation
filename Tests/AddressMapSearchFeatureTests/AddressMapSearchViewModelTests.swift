@@ -34,6 +34,11 @@ struct AddressMapSearchState: Equatable {
         case searching
         case address(Address)
     }
+    
+    enum Suggestions: Equatable {
+        case completions([Completion])
+        case searchItems([SearchItem])
+    }
 }
 
 struct Address: Equatable {}
@@ -42,7 +47,6 @@ typealias AddressResult = Result<Address, Error>
 typealias AddressResultPublisher = AnyPublisher<AddressResult, Never>
 
 protocol CoordinateSearch {
-    
     func search(for coordinate: LocationCoordinate2D) -> AddressResultPublisher
 }
 
@@ -52,8 +56,16 @@ typealias CompletionsResult = Result<[Completion], Error>
 typealias CompletionsResultPublisher = AnyPublisher<CompletionsResult, Never>
 
 protocol SearchCompleter {
-    
     func complete(query: String) -> CompletionsResultPublisher
+}
+
+struct SearchItem: Equatable {}
+
+typealias SearchResult = Result<[SearchItem], Error>
+typealias SearchResultPublisher = AnyPublisher<SearchResult, Never>
+
+protocol LocalSearch {
+    func search(completion: Completion) -> SearchResultPublisher
 }
 
 private final class AddressMapSearchViewModel: ObservableObject {
@@ -62,6 +74,7 @@ private final class AddressMapSearchViewModel: ObservableObject {
     
     private let coordinateSearchSubject = PassthroughSubject<CoordinateRegion, Never>()
     private let searchTextSubject = PassthroughSubject<String, Never>()
+    private let completionSubject = PassthroughSubject<Completion, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
@@ -71,6 +84,7 @@ private final class AddressMapSearchViewModel: ObservableObject {
         coordinateSearch: CoordinateSearch,
         isClose: @escaping IsClose,
         searchCompleter: SearchCompleter,
+        localSearch: LocalSearch,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.state = .init(region: initialRegion)
@@ -109,6 +123,17 @@ private final class AddressMapSearchViewModel: ObservableObject {
                 self?.updateSearchState(with: $0)
             }
             .store(in: &cancellables)
+        
+//        completionSubject
+//            .handleEvents(receiveOutput: { [weak self] _ in
+//                self?.state.addressState = .searching
+//            })
+//            .flatMap(localSearch.search(completion:))
+//            .receive(on: scheduler)
+//            .sink { [weak self] in
+//                self?.updateSearchState(with: $0)
+//            }
+//            .store(in: &cancellables)
     }
     
     func updateRegion(to region: CoordinateRegion) {
@@ -141,6 +166,14 @@ private final class AddressMapSearchViewModel: ObservableObject {
         searchTextSubject.send(text)
     }
     
+    func onSearchFieldCommit(text: String) {
+        setSearchText(to: text)
+    }
+    
+    func completionButtonTapped(_ completion: Completion) {
+        completionSubject.send(completion)
+    }
+    
     private func updateAddressState(with result: AddressResult) {
         switch result {
         case .failure:
@@ -160,6 +193,16 @@ private final class AddressMapSearchViewModel: ObservableObject {
             state.search?.suggestions = completions
         }
     }
+    
+//    private func updateSearchState(with result: SearchResult) {
+//        switch result {
+//        case .failure:
+//            state.search?.suggestions = []
+//
+//        case let .success(searchItems):
+//            state.search?.suggestions = searchItems
+//        }
+//    }
 }
 
 final class AddressMapSearchViewModelTests: XCTestCase {
@@ -561,12 +604,22 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         ])
     }
     
+//    func test_completionSelection_shouldCallSearchAPI() {
+//        let searchSpy = LocalSearchSpy()
+//        let (sut, _) = makeSUT(localSearch: searchSpy)
+//        
+//        sut.completionButtonTapped(.another)
+//        
+//        XCTAssertEqual(searchSpy.calls, [.another])
+//    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
         initialRegion: CoordinateRegion = .test,
         coordinateSearch: CoordinateSearchSpy = .init(),
         searchCompleter: SearchCompleterSpy = .init(),
+        localSearch: LocalSearchSpy = .init(),
         isClose: @escaping AddressMapSearchViewModel.IsClose = (==),
         scheduler: AnySchedulerOf<DispatchQueue> = .immediate,
         file: StaticString = #file,
@@ -580,6 +633,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             coordinateSearch: coordinateSearch,
             isClose: isClose,
             searchCompleter: searchCompleter,
+            localSearch: localSearch,
             scheduler: scheduler
         )
         let spy = ValueSpy(sut.$state)
@@ -588,7 +642,8 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(coordinateSearch, file: file, line: line)
         trackForMemoryLeaks(searchCompleter, file: file, line: line)
-        
+        trackForMemoryLeaks(localSearch, file: file, line: line)
+
         return (sut, spy)
     }
     
@@ -617,6 +672,21 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         func complete(query: String) -> CompletionsResultPublisher {
             calls.append(query)
+            
+            return Just(stub).eraseToAnyPublisher()
+        }
+    }
+    
+    private final class LocalSearchSpy: LocalSearch {
+        private(set) var calls = [Completion]()
+        private let stub: SearchResult
+        
+        init(stub: SearchResult = .test) {
+            self.stub = stub
+        }
+        
+        func search(completion: Completion) -> SearchResultPublisher {
+            calls.append(completion)
             
             return Just(stub).eraseToAnyPublisher()
         }
@@ -681,7 +751,7 @@ private extension Address {
 
 private extension AddressResult {
     
-    static let test: Self = .success(.test)
+    static let test:  Self = .success(.test)
     static let error: Self = .failure(anyError())
 }
 
@@ -693,7 +763,20 @@ private extension Completion {
 
 private extension CompletionsResult {
     
-    static let test: Self = .success([.test, .another])
+    static let test:  Self = .success([.test, .another])
+    static let empty: Self = .success([])
+    static let error: Self = .failure(anyError())
+}
+
+private extension SearchItem {
+    
+    static let test: Self = .init()
+    static let another: Self = .init()
+}
+
+private extension SearchResult {
+    
+    static let test:  Self = .success([.test, .another])
     static let empty: Self = .success([])
     static let error: Self = .failure(anyError())
 }
