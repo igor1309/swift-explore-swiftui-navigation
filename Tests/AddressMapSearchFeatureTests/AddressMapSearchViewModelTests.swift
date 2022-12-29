@@ -98,6 +98,8 @@ private final class AddressMapSearchViewModel: ObservableObject {
     private let coordinateSearchSubject = PassthroughSubject<CoordinateRegion, Never>()
     private let searchTextSubject = PassthroughSubject<String, Never>()
     private let completionSubject = PassthroughSubject<Completion, Never>()
+    let dismissSearchSubject = PassthroughSubject<Void, Never>()
+    
     private var cancellables = Set<AnyCancellable>()
     
     typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
@@ -196,6 +198,7 @@ private final class AddressMapSearchViewModel: ObservableObject {
             search: .none,
             addressState: .address(searchItem.address)
         )
+        dismissSearchSubject.send(())
     }
     
     private func updateAddressState(with result: AddressResult) {
@@ -697,6 +700,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([.test, .another]))),
             .state(region: .another, search: .none, addressState: .address(.another)),
         ])
+    }
+
+    func test_searchItemSelection_should_sendSearchDismiss() {
+        let (sut, _) = makeSUT()
+        let spy = ValueSpy(sut.dismissSearchSubject.map { _ in "dismiss" })
+        
+        sut.setSearchText(to: "Lond")
+        sut.completionButtonTapped(.another)
+        sut.searchItemButtonTapped(.another)
+        
+        XCTAssertEqual(spy.values, [.value("dismiss")])
     }
 
     // MARK: - Helpers
