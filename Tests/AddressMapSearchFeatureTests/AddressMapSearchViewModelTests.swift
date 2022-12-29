@@ -9,6 +9,7 @@ import CasePaths
 import Combine
 import CombineSchedulers
 import MapDomain
+import Tagged
 import XCTest
 
 struct AddressMapSearchState: Equatable {
@@ -50,7 +51,16 @@ protocol CoordinateSearch {
     func search(for coordinate: LocationCoordinate2D) -> AddressResultPublisher
 }
 
-struct Completion: Equatable {}
+struct Completion: Equatable, Identifiable {
+    
+    typealias ID = Tagged<Self, UUID>
+    
+    let id: ID
+    
+    init(id: ID = .init()) {
+        self.id = id
+    }
+}
 
 typealias CompletionsResult = Result<[Completion], Error>
 typealias CompletionsResultPublisher = AnyPublisher<CompletionsResult, Never>
@@ -59,9 +69,19 @@ protocol SearchCompleter {
     func complete(query: String) -> CompletionsResultPublisher
 }
 
-struct SearchItem: Equatable {
+struct SearchItem: Equatable, Identifiable {
+    
+    typealias ID = Tagged<Self, UUID>
+    
+    let id: ID
     let address: Address
     let region: CoordinateRegion
+    
+    init(id: ID = .init(), address: Address, region: CoordinateRegion) {
+        self.id = id
+        self.address = address
+        self.region = region
+    }
 }
 
 typealias SearchResult = Result<[SearchItem], Error>
