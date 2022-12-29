@@ -31,6 +31,15 @@ public struct AddressMapSearchView<MapView: View>: View {
         .animation(.easeInOut, value: viewModel.region)
         .overlay(alignment: .center, content: target)
         .overlay(content: addressView)
+        .overlay(content: dismissSearchView)
+        .searchable(
+            text: .init(
+                get: { viewModel.searchText },
+                set: viewModel.setSearchText
+            ),
+            prompt: Text("SEARCH_FIELD", bundle: .module)
+        )
+        .searchSuggestions(searchSuggestions)
     }
     
     private func target() -> some View {
@@ -53,9 +62,45 @@ public struct AddressMapSearchView<MapView: View>: View {
             Text("...")
             
         case let .address(address):
-            Text(address.street)
+            Text(address.street.rawValue)
                 .font(.subheadline.bold())
                 .offset(x: 50, y: -32)
+        }
+    }
+    
+    private func dismissSearchView() -> some View {
+        DismissSearchView(dismiss: viewModel.dismissSearch)
+    }
+    
+    @ViewBuilder
+    private func searchSuggestions() -> some View {
+        switch viewModel.suggestions {
+        case .none:
+            EmptyView()
+            
+        case let .completions(completions):
+            ForEach(completions, content: completionButton)
+            
+        case let .addresses(addresses):
+            ForEach(addresses, content: addressButton)
+        }
+    }
+    
+    private func completionButton(completion: Completion) -> some View {
+        Button {
+            viewModel.completionButtonTapped(completion: completion)
+        } label: {
+            CompletionView(completion, attributes: .primary)
+        }
+        .containerShape(Rectangle())
+        .buttonStyle(.plain)
+    }
+    
+    private func addressButton(address: Address) -> some View {
+        Button {
+            viewModel.addressButtonTapped(address: address)
+        } label: {
+            PlainRow(address: address)
         }
     }
 }
@@ -68,6 +113,11 @@ struct AddressMapSearchView_Previews: PreviewProvider {
         NavigationStack {
             AddressMapSearchView(viewModel: viewModel, mapView: mapView)
                 .ignoresSafeArea()
+                .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .onAppear {
+                    viewModel.updateAndSearch(region: .streetLondon)
+                }
         }
     }
     

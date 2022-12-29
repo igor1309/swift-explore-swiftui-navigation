@@ -178,21 +178,25 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         let initialRegion: CoordinateRegion = .test
         let (sut, spy) = makeSUT(initialRegion: initialRegion)
         
-        XCTAssertEqual(spy.values, [.value(.init(region: initialRegion))])
+        XCTAssertEqual(spy.values, [.state(region: initialRegion)])
         XCTAssertNotNil(sut)
     }
     
     func test_init_shouldSetSearch_toNil() {
         let (sut, spy) = makeSUT()
         
-        XCTAssertEqual(spy.values, [.value(.init(region: .test, search: .none))])
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+        ])
         XCTAssertNotNil(sut)
     }
     
     func test_init_shouldSetAddressState_toNil() {
         let (sut, spy) = makeSUT()
         
-        XCTAssertEqual(spy.values, [.value(.init(region: .test, addressState: .none))])
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, addressState: .none),
+        ])
         XCTAssertNotNil(sut)
     }
     
@@ -215,17 +219,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         let scheduler = DispatchQueue.test
         let (sut, spy) = makeSUT(scheduler: scheduler.eraseToAnyScheduler())
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, addressState: .none))
+            .state(region: .test, addressState: .none),
         ])
         
         sut.updateRegion(to: .any)
         scheduler.advance(by: .milliseconds(500))
         
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, addressState: .none)),
-            .value(.init(region: .any,  addressState: .none)),
-            .value(.init(region: .any,  addressState: .searching)),
-            .value(.init(region: .any,  addressState: .address(.test)))
+            .state(region: .test, addressState: .none),
+            .state(region: .any,  addressState: .none),
+            .state(region: .any,  addressState: .searching),
+            .state(region: .any,  addressState: .address(.test)),
         ])
     }
     
@@ -237,17 +241,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             scheduler: scheduler.eraseToAnyScheduler()
         )
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, addressState: nil))
+            .state(region: .test, addressState: nil),
         ])
         
         sut.updateRegion(to: .any)
         scheduler.advance(by: .milliseconds(500))
         
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, addressState: .none)),
-            .value(.init(region: .any,  addressState: .none)),
-            .value(.init(region: .any,  addressState: .searching)),
-            .value(.init(region: .any,  addressState: .none))
+            .state(region: .test, addressState: .none),
+            .state(region: .any,  addressState: .none),
+            .state(region: .any,  addressState: .searching),
+            .state(region: .any,  addressState: .none)
         ])
     }
     
@@ -309,26 +313,26 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         )
         
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none))
+            .state(region: .test, search: .none, addressState: .none),
         ])
         
         sut.updateRegion(to: .anotherTest)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test,        search: .none, addressState: .none)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .none)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .searching)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .address(.test))),
+            .state(region: .test,        search: .none, addressState: .none),
+            .state(region: .anotherTest, search: .none, addressState: .none),
+            .state(region: .anotherTest, search: .none, addressState: .searching),
+            .state(region: .anotherTest, search: .none, addressState: .address(.test)),
         ])
         
         sut.updateRegion(to: .test)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test,        search: .none, addressState: .none)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .none)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .searching)),
-            .value(.init(region: .anotherTest, search: .none, addressState: .address(.test))),
-            .value(.init(region: .test,        search: .none, addressState: .address(.test))),
+            .state(region: .test,        search: .none, addressState: .none),
+            .state(region: .anotherTest, search: .none, addressState: .none),
+            .state(region: .anotherTest, search: .none, addressState: .searching),
+            .state(region: .anotherTest, search: .none, addressState: .address(.test)),
+            .state(region: .test,        search: .none, addressState: .address(.test)),
         ], "Should change the state just for the region")
     }
     
@@ -340,26 +344,26 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         )
         
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none))
+            .state(region: .test, search: .none, addressState: .none)
         ])
         
         sut.updateRegion(to: .any)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .searching)),
-            .value(.init(region: .any,  search: .none, addressState: .address(.test))),
+            .state(region: .test, search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .searching),
+            .state(region: .any,  search: .none, addressState: .address(.test)),
         ])
         
         sut.updateRegion(to: .test)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .searching)),
-            .value(.init(region: .any,  search: .none, addressState: .address(.test))),
-            .value(.init(region: .test, search: .none, addressState: .address(.test))),
+            .state(region: .test, search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .searching),
+            .state(region: .any,  search: .none, addressState: .address(.test)),
+            .state(region: .test, search: .none, addressState: .address(.test)),
         ], "Should change the state just for the region")
     }
     
@@ -371,29 +375,29 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         )
         
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none))
+            .state(region: .test, search: .none, addressState: .none),
         ])
         
         sut.updateRegion(to: .any)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .searching)),
-            .value(.init(region: .any,  search: .none, addressState: .address(.test))),
+            .state(region: .test, search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .searching),
+            .state(region: .any,  search: .none, addressState: .address(.test)),
         ])
         
         sut.updateRegion(to: .test)
         scheduler.advance(by: .milliseconds(500))
         XCTAssertEqual(spy.values.count, 7)
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .none)),
-            .value(.init(region: .any,  search: .none, addressState: .searching)),
-            .value(.init(region: .any,  search: .none, addressState: .address(.test))),
-            .value(.init(region: .test, search: .none, addressState: .address(.test))),
-            .value(.init(region: .test, search: .none, addressState: .searching)),
-            .value(.init(region: .test, search: .none, addressState: .address(.test))),
+            .state(region: .test, search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .none),
+            .state(region: .any,  search: .none, addressState: .searching),
+            .state(region: .any,  search: .none, addressState: .address(.test)),
+            .state(region: .test, search: .none, addressState: .address(.test)),
+            .state(region: .test, search: .none, addressState: .searching),
+            .state(region: .test, search: .none, addressState: .address(.test)),
         ], "Should change the state just for the region and address")
     }
     
@@ -423,79 +427,79 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         sut.handleIsSearching(false)
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
+            .state(region: .test),
         ], "Change from non-searching to non-searching should not change state")
         
         sut.handleIsSearching(true)
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
-            .value(.init(region: .test, search: .empty)),
+            .state(region: .test),
+            .state(region: .test, search: .empty),
         ], "Change from non-search to search should change state")
         
         sut.handleIsSearching(false)
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test)),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test)),
+            .state(region: .test),
+            .state(region: .test, search: .empty),
+            .state(region: .test),
         ], "Change from search to non-search should change state")
     }
     
     func test_shouldSetSearchState_onSearchTextEditing() {
         let (sut, spy) = makeSUT()
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
+            .state(region: .test, search: .none),
         ])
         
         sut.setSearchText(to: "")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .empty),
+            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
         ])
         
         sut.setSearchText(to: "Lond")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .empty),
+            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
         ])
         
         sut.setSearchText(to: "London")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .init(searchText: "London", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "London", suggestions: [.test, .another]))),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .empty),
+            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "London", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "London", suggestions: [.test, .another])),
         ])
         
         sut.setSearchText(to: "")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .init(searchText: "London", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "London", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .empty)),
-            .value(.init(region: .test, search: .init(searchText: "", suggestions: [.test, .another]))),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .empty),
+            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "London", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "London", suggestions: [.test, .another])),
+            .state(region: .test, search: .empty),
+            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
         ])
     }
     
     func test_dismissSearch_shouldNotChangeSearchState_onInactiveSearch() {
         let (sut, spy) = makeSUT()
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
+            .state(region: .test, search: .none),
         ])
         
         sut.dismissSearch()
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
+            .state(region: .test, search: .none),
         ], "Search dismiss should not change search state on inactive search.")
     }
     
@@ -504,17 +508,17 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         sut.setSearchText(to: "Lond")
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
         ])
         
         sut.dismissSearch()
         XCTAssertEqual(spy.values, [
-            .value(.init(region: .test, search: .none)),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: []))),
-            .value(.init(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another]))),
-            .value(.init(region: .test, search: .none)),
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .none),
         ])
     }
     
@@ -536,7 +540,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         XCTAssertEqual(
             spy.values.last,
-            .value(.init(region: .test, search: .make(searchText: "Lond", suggestions: [])))
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: []))
         )
     }
     
@@ -635,6 +639,17 @@ private final class ValueSpy<Value: Equatable> {
                 return "\(value)"
             }
         }
+    }
+}
+
+private extension ValueSpy<AddressMapSearchState>.Event {
+    
+    static func state(
+        region: CoordinateRegion,
+        search: AddressMapSearchState.Search? = nil,
+        addressState: AddressMapSearchState.AddressState? = nil
+    ) -> Self {
+        .value(.init(region: region, search: search, addressState: addressState))
     }
 }
 

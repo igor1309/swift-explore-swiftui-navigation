@@ -45,6 +45,7 @@
 		2AA0ABD1295C278500711FF4 /* MapKitMapFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD0295C278500711FF4 /* MapKitMapFeature */; };
 		2AA0ABD3295C286D00711FF4 /* MapDomain in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD2295C286D00711FF4 /* MapDomain */; };
 		2AA0ABD7295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD6295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService */; };
+		2AA0ABD9295C645F00711FF4 /* AddressSearchService in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD8295C645F00711FF4 /* AddressSearchService */; };
 		2AC4E5DD295AF1D200EAB861 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DC295AF1D200EAB861 /* Composer.swift */; };
 		2AC4E5DF295AF8B600EAB861 /* AddNewAddressUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DE295AF8B600EAB861 /* AddNewAddressUIComposer.swift */; };
 		2AFF10482952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10472952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift */; };
@@ -145,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AA0ABD1295C278500711FF4 /* MapKitMapFeature in Frameworks */,
+				2AA0ABD9295C645F00711FF4 /* AddressSearchService in Frameworks */,
 				2AA0ABD3295C286D00711FF4 /* MapDomain in Frameworks */,
 				2AA0ABCF295C278500711FF4 /* AddressMapSearchFeature in Frameworks */,
 				2AA0ABD7295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService in Frameworks */,
@@ -458,6 +460,7 @@
 				2AA0ABD0295C278500711FF4 /* MapKitMapFeature */,
 				2AA0ABD2295C286D00711FF4 /* MapDomain */,
 				2AA0ABD6295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService */,
+				2AA0ABD8295C645F00711FF4 /* AddressSearchService */,
 			);
 			productName = AddressMapSearchPreviewApp;
 			productReference = 2AA0ABC0295C276A00711FF4 /* AddressMapSearchPreviewApp.app */;
@@ -1345,6 +1348,10 @@
 		2AA0ABD6295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GeocoderAddressCoordinateSearchService;
+		};
+		2AA0ABD8295C645F00711FF4 /* AddressSearchService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AddressSearchService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

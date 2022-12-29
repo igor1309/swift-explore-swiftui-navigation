@@ -237,9 +237,9 @@ private extension Target {
     static let addressMapSearchFeatureTests = testTarget(
         name: .addressMapSearchFeatureTests,
         dependencies: [
+            .addressMapSearchFeature,
             .combineSchedulers,
             .mapDomain,
-            .addressMapSearchFeature,
         ]
     )
     static let addressPickerFeature = target(

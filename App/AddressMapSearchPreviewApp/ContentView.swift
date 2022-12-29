@@ -6,6 +6,7 @@
 //
 
 import AddressMapSearchFeature
+import AddressSearchService
 import Combine
 import GeocoderAddressCoordinateSearchService
 import MapDomain
@@ -22,12 +23,14 @@ struct ContentView: View {
             viewModel: useCase.viewModel,
             mapView: mapView
         )
-        .ignoresSafeArea()
+        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     private func mapView(region: Binding<CoordinateRegion>) -> some View {
         Map(region: region)
         // Color.indigo
+            .ignoresSafeArea()
             .safeAreaInset(edge: .bottom) {
                 VStack {
                     Picker("Use case", selection: $useCase) {
@@ -54,8 +57,9 @@ struct ContentView: View {
                     }
                 }
                 .font(.caption)
-                .padding(.bottom)
+                .padding(.top, 6)
                 .monospaced()
+                .background(.thinMaterial)
             }
     }
     
@@ -84,20 +88,6 @@ struct ContentView: View {
             }
         }
     }
-}
-
-extension AddressMapSearchViewModel {
-    
-    static let live: AddressMapSearchViewModel = .init(
-        initialRegion: .townLondon,
-        getAddressFromCoordinate: { coordinate in
-            let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
-            
-            return addressCoordinateSearch.getAddress(from: coordinate)
-                .map(\.featureAddress)
-                .eraseToAnyPublisher()
-        }
-    )
 }
 
 extension LocationCoordinate2D: CustomStringConvertible {
@@ -157,10 +147,16 @@ extension Array where Element == Place {
 
 // MARK: - Adapters
 
-typealias SearchAddress = GeocoderAddressCoordinateSearchService.Address
+typealias MapAddress = AddressMapSearchFeature.Address
+typealias SearchAddress = AddressSearchService.Address
+
+typealias GeocoderAddress = GeocoderAddressCoordinateSearchService.Address
 typealias FeatureAddress = AddressMapSearchFeature.Address
 
-extension Swift.Optional where Wrapped == SearchAddress {
+typealias GeocoderAddressResultPublisher = AnyPublisher<Result<[GeocoderAddress], Error>, Never>
+typealias SearchGeocoderAddresses = (Completion, CoordinateRegion) -> GeocoderAddressResultPublisher
+
+extension Swift.Optional where Wrapped == GeocoderAddress {
     
     var featureAddress: FeatureAddress? {
         guard let wrapped = self else {
@@ -171,10 +167,147 @@ extension Swift.Optional where Wrapped == SearchAddress {
     }
 }
 
+extension AddressMapSearchViewModel {
+    
+    static let live: AddressMapSearchViewModel = .init(
+        initialRegion: .townLondon,
+        getAddressFromCoordinate: getAddressFromCoordinate,
+        getCompletions: getCompletions,
+        search: search
+    )
+    
+    private static func getAddressFromCoordinate(
+        coordinate: LocationCoordinate2D
+    ) -> AddressPublisher {
+        let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
+        
+        return addressCoordinateSearch
+            .getAddress(from: coordinate)
+            .map(\.featureAddress)
+            .eraseToAnyPublisher()
+    }
+    
+    private static func getCompletions(text: String) -> CompletionsPublisher {
+        print("getCompletions", text)
+        let completer = LocalSearchCompleter()
+        _ = completer
+        return completer
+            .searchCompletions(text)
+            .handleEvents(receiveOutput: {
+                print("LocalSearchCompleter:", String(describing: $0))
+            })
+            .map(\.searchCompletions)
+            .handleEvents(receiveOutput: {
+                print("searchCompletions:", String(describing: $0))
+            })
+            .map { $0.map(\.completion) }
+            .handleEvents(receiveOutput: {
+                print("completion:", String(describing: $0))
+            })
+            .eraseToAnyPublisher()
+    }
+    
+#warning("use region")
+    private static func search(completion: Completion) -> SearchPublisher {
+        LocalTextSearchClient.live
+            .searchAddresses(completion: completion, region: nil)
+            .eraseToAnyPublisher()
+    }
+}
+
+typealias MapAddressPublisher = AnyPublisher<[MapAddress], Never>
+
+private extension LocalTextSearchClient {
+    
+    func searchAddresses(
+        completion: Completion,
+        region: CoordinateRegion?
+    ) -> MapAddressPublisher {
+        searchAddresses(
+            completion.title + " " + completion.subtitle,
+            region: region
+        )
+        .map(\.addresses)
+        .map { $0.map(\.mapAddress) }
+        .eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Completion Adapters
+
+private extension LocalSearchCompletion {
+    
+    var completion: Completion {
+        .init(
+            title: title,
+            subtitle: subtitle,
+            titleHighlightRanges: titleHighlightRanges,
+            subtitleHighlightRanges: subtitleHighlightRanges
+        )
+    }
+}
+
+// MARK: - Result Adapters
+
+private extension CompletionsResult {
+    
+    var searchCompletions: [LocalSearchCompletion] {
+        switch self {
+        case .failure:
+            return []
+            
+        case let .success(searchCompletions):
+            return searchCompletions
+        }
+    }
+}
+
+private extension Result where Success == [GeocoderAddress] {
+    
+    var addresses: [GeocoderAddress] {
+        switch self {
+        case .failure:
+            return []
+            
+        case let .success(addresses):
+            return addresses
+        }
+    }
+}
+
+private extension Result where Success == [SearchAddress] {
+    
+    var addresses: [SearchAddress] {
+        switch self {
+        case .failure:
+            return []
+            
+        case let .success(addresses):
+            return addresses
+        }
+    }
+}
+
+// MARK: - Address Adapters
+
 extension SearchAddress {
     
-    var featureAddress: FeatureAddress {
+    var mapAddress: MapAddress {
+        .init(street: .init(street), city: .init(city))
+    }
+}
+
+extension GeocoderAddress {
+    
+    var searchAddress: SearchAddress {
         .init(street: street, city: city)
+    }
+}
+
+extension GeocoderAddress {
+    
+    var featureAddress: FeatureAddress {
+        .init(street: .init(street), city: .init(city))
     }
 }
 
