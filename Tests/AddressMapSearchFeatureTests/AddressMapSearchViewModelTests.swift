@@ -538,10 +538,24 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         sut.setSearchText(to: "Lond")
         
-        XCTAssertEqual(
-            spy.values.last,
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: []))
-        )
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+        ])
+    }
+    
+    func test_suggestionsShouldBeEmpty_onFailingCompletionsLoad() {
+        let failingCompleterSpy = SearchCompleterSpy(stub: .failure(anyError()))
+        let (sut, spy) = makeSUT(searchCompleter: failingCompleterSpy)
+        
+        sut.setSearchText(to: "Lond")
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+        ])
     }
     
     // MARK: - Helpers
