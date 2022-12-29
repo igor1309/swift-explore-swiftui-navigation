@@ -27,7 +27,7 @@ struct AddressMapSearchState: Equatable {
         /// The text to display and edit in the search field.
         var searchText: String = ""
         
-        var suggestions: [Completion] = []
+        var suggestions: Suggestions?
     }
     
     enum AddressState: Equatable {
@@ -124,16 +124,16 @@ private final class AddressMapSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-//        completionSubject
-//            .handleEvents(receiveOutput: { [weak self] _ in
-//                self?.state.addressState = .searching
-//            })
-//            .flatMap(localSearch.search(completion:))
-//            .receive(on: scheduler)
-//            .sink { [weak self] in
-//                self?.updateSearchState(with: $0)
-//            }
-//            .store(in: &cancellables)
+        completionSubject
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.state.addressState = .searching
+            })
+            .flatMap(localSearch.search(completion:))
+            .receive(on: scheduler)
+            .sink { [weak self] in
+                self?.updateSearchState(with: $0)
+            }
+            .store(in: &cancellables)
     }
     
     func updateRegion(to region: CoordinateRegion) {
@@ -187,22 +187,22 @@ private final class AddressMapSearchViewModel: ObservableObject {
     private func updateSearchState(with result: CompletionsResult) {
         switch result {
         case .failure:
-            state.search?.suggestions = []
+            state.search?.suggestions = .completions([])
 
         case let .success(completions):
-            state.search?.suggestions = completions
+            state.search?.suggestions = .completions(completions)
         }
     }
     
-//    private func updateSearchState(with result: SearchResult) {
-//        switch result {
-//        case .failure:
-//            state.search?.suggestions = []
-//
-//        case let .success(searchItems):
-//            state.search?.suggestions = searchItems
-//        }
-//    }
+    private func updateSearchState(with result: SearchResult) {
+        switch result {
+        case .failure:
+            state.search?.suggestions = .searchItems([])
+
+        case let .success(searchItems):
+            state.search?.suggestions = .searchItems(searchItems)
+        }
+    }
 }
 
 final class AddressMapSearchViewModelTests: XCTestCase {
@@ -487,40 +487,41 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
-            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "", suggestions: .completions([.test, .another]))),
         ])
         
         sut.setSearchText(to: "Lond")
+        XCTAssertEqual(spy.values.count, 5)
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
-            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "",     suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .completions([.test, .another]))),
         ])
         
         sut.setSearchText(to: "London")
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
-            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
-            .state(region: .test, search: .init(searchText: "London", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "London", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "",       suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .init(searchText: "Lond",   suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lond",   suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .init(searchText: "London", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "London", suggestions: .completions([.test, .another]))),
         ])
         
         sut.setSearchText(to: "")
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
             .state(region: .test, search: .empty),
-            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
-            .state(region: .test, search: .init(searchText: "London", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "London", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "",       suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .init(searchText: "Lond",   suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lond",   suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .init(searchText: "London", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "London", suggestions: .completions([.test, .another]))),
             .state(region: .test, search: .empty),
-            .state(region: .test, search: .init(searchText: "", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "",       suggestions: .completions([.test, .another]))),
         ])
     }
     
@@ -542,15 +543,15 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         sut.setSearchText(to: "Lond")
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .completions([.test, .another]))),
         ])
         
         sut.dismissSearch()
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .init(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lond", suggestions: .completions([.test, .another]))),
             .state(region: .test, search: .none),
         ])
     }
@@ -573,8 +574,8 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([]))),
         ])
     }
     
@@ -586,8 +587,8 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([]))),
         ])
     }
     
@@ -599,19 +600,19 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         
         XCTAssertEqual(spy.values, [
             .state(region: .test, search: .none),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [])),
-            .state(region: .test, search: .make(searchText: "Lond", suggestions: [.test, .another])),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([.test, .another]))),
         ])
     }
     
-//    func test_completionSelection_shouldCallSearchAPI() {
-//        let searchSpy = LocalSearchSpy()
-//        let (sut, _) = makeSUT(localSearch: searchSpy)
-//        
-//        sut.completionButtonTapped(.another)
-//        
-//        XCTAssertEqual(searchSpy.calls, [.another])
-//    }
+    func test_completionSelection_shouldCallSearchAPI() {
+        let searchSpy = LocalSearchSpy()
+        let (sut, _) = makeSUT(localSearch: searchSpy)
+        
+        sut.completionButtonTapped(.another)
+        
+        XCTAssertEqual(searchSpy.calls, [.another])
+    }
     
     // MARK: - Helpers
     
@@ -862,7 +863,7 @@ extension Optional where Wrapped == AddressMapSearchState.Search {
     
     static func make(
         searchText: String = "",
-        suggestions: [Completion] = []
+        suggestions: AddressMapSearchState.Suggestions? = nil
     ) -> Self {
         .some(.init(searchText: searchText, suggestions: suggestions))
     }
