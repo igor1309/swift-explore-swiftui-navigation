@@ -125,9 +125,9 @@ private final class AddressMapSearchViewModel: ObservableObject {
             .store(in: &cancellables)
         
         completionSubject
-            .handleEvents(receiveOutput: { [weak self] _ in
-                self?.state.addressState = .searching
-            })
+//            .handleEvents(receiveOutput: { [weak self] _ in
+//                self?.state.addressState = .searching
+//            })
             .flatMap(localSearch.search(completion:))
             .receive(on: scheduler)
             .sink { [weak self] in
@@ -612,6 +612,51 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         sut.completionButtonTapped(.another)
         
         XCTAssertEqual(searchSpy.calls, [.another])
+    }
+    
+    func test_searchItemsShouldBeEmpty_onEmptyLocalSearch() {
+        let emptyLocalSearchSpy = LocalSearchSpy(stub: .success([]))
+        let (sut, spy) = makeSUT(localSearch: emptyLocalSearchSpy)
+        
+        sut.setSearchText(to: "Lond")
+        sut.completionButtonTapped(.another)
+
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([]))),
+        ])
+    }
+    
+    func test_searchItemsShouldBeEmpty_onFailingLocalSearchLoad() {
+        let failingLocalSearchSpy = LocalSearchSpy(stub: .failure(anyError()))
+        let (sut, spy) = makeSUT(localSearch: failingLocalSearchSpy)
+        
+        sut.setSearchText(to: "Lond")
+        sut.completionButtonTapped(.another)
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([]))),
+        ])
+    }
+    
+    func test_shouldDeliverSearchItems_onSuccessfulCompletionsLoad() {
+        let successfulLocalSearchSpy = LocalSearchSpy(stub: .test)
+        let (sut, spy) = makeSUT(localSearch: successfulLocalSearchSpy)
+        
+        sut.setSearchText(to: "Lond")
+        sut.completionButtonTapped(.another)
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .none)),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .completions([.test, .another]))),
+            .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([.test, .another]))),
+        ])
     }
     
     // MARK: - Helpers
