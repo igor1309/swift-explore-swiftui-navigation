@@ -137,13 +137,12 @@ private final class AddressMapSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        #warning("debounce, removeDuplicates")
         searchTextSubject
             .debounce(for: 0.3, scheduler: scheduler)
+            .removeDuplicates()
             .handleEvents(receiveOutput: { [weak self] in
                 self?.state.search = .some(.init(searchText: $0))
             })
-            //.removeDuplicates()
             .flatMap(searchCompleter.complete(query:))
             .receive(on: scheduler)
             .sink { [weak self] in
@@ -552,6 +551,24 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .init(searchText: "London", suggestions: .completions([.test, .another]))),
             .state(region: .test, search: .empty),
             .state(region: .test, search: .init(searchText: "",       suggestions: .completions([.test, .another]))),
+        ])
+    }
+    
+    func test_searchTextEditing_shouldFilterDuplicates() {
+        let scheduler = DispatchQueue.test
+        let (sut, spy) = makeSUT(scheduler: scheduler.eraseToAnyScheduler())
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+        ])
+        
+        typeAndAdvance("Lon", sut: sut, by: .milliseconds(300), on: scheduler)
+        typeAndAdvance("Lon", sut: sut, by: .milliseconds(300), on: scheduler)
+        typeAndAdvance("Lon", sut: sut, by: .milliseconds(300), on: scheduler)
+        
+        XCTAssertEqual(spy.values, [
+            .state(region: .test, search: .none),
+            .state(region: .test, search: .init(searchText: "Lon", suggestions: .none)),
+            .state(region: .test, search: .init(searchText: "Lon", suggestions: .completions([.test, .another]))),
         ])
     }
     
