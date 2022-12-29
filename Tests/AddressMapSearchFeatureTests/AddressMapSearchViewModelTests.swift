@@ -532,7 +532,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
         XCTAssertEqual(searchCompleterSpy.calls, ["Lond"])
     }
     
-    func test_suggestionsShouldBeEmpty_onNoCompletionsReturned() {
+    func test_suggestionsShouldBeEmpty_onEmptyCompletionsReturned() {
         let emptyCompleterSpy = SearchCompleterSpy(stub: .success([]))
         let (sut, spy) = makeSUT(searchCompleter: emptyCompleterSpy)
         
