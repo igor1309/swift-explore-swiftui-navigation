@@ -128,9 +128,6 @@ private final class AddressMapSearchViewModel: ObservableObject {
             .store(in: &cancellables)
         
         completionSubject
-//            .handleEvents(receiveOutput: { [weak self] _ in
-//                self?.state.addressState = .searching
-//            })
             .flatMap(localSearch.search(completion:))
             .receive(on: scheduler)
             .sink { [weak self] in
@@ -167,10 +164,6 @@ private final class AddressMapSearchViewModel: ObservableObject {
     /// The `setter` part of the `searchText` binding.
     func setSearchText(to text: String) {
         searchTextSubject.send(text)
-    }
-    
-    func onSearchFieldCommit(text: String) {
-        setSearchText(to: text)
     }
     
     func completionButtonTapped(_ completion: Completion) {
@@ -685,7 +678,7 @@ final class AddressMapSearchViewModelTests: XCTestCase {
             .state(region: .test, search: .make(searchText: "Lond", suggestions: .searchItems([.test, .another]))),
             .state(region: .another, search: .none, addressState: .address(.another)),
         ])
-    }    
+    }
 
     // MARK: - Helpers
     
