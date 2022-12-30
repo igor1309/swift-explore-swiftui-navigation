@@ -189,7 +189,7 @@ extension AddressMapSearchViewModel {
     static let live: AddressMapSearchViewModel = .init(
         initialRegion: .townLondon,
         // coordinateSearch: getAddressFromCoordinate,
-        coordinateSearch: GeocoderCoordinateSearch(),
+        coordinateSearch: GeocoderAddressCoordinateSearch(),
         isClose: { isClose($0, to: $1, withAccuracy: 0.0001) },
         // getCompletions: getCompletions,
         searchCompleter: LocalSearchCompleter(),
@@ -198,17 +198,14 @@ extension AddressMapSearchViewModel {
     )
 }
 
-// MARK: - CoordinateSearch
+// MARK: - CoordinateSearch Adapters
 
-private final class GeocoderCoordinateSearch: CoordinateSearch {
+extension GeocoderAddressCoordinateSearch: CoordinateSearch {
     
-    private let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
-    
-    func search(
+    public func search(
         for coordinate: LocationCoordinate2D
     ) -> AddressResultPublisher {
-        addressCoordinateSearch
-            .getAddress(from: coordinate)
+        getAddress(from: coordinate)
             .map { address in
                 guard let address else {
                     return .failure(NSError(domain: "address", code: 0))
@@ -226,7 +223,7 @@ private extension GeocoderAddress {
     }
 }
 
-// MARK: - SearchCompleter
+// MARK: - SearchCompleter Adapters
 
 extension LocalSearchCompleter: SearchCompleter {
     
@@ -244,7 +241,19 @@ private extension CompletionsResult {
     }
 }
 
-// MARK: - LocalSearch
+private extension Completion {
+    
+    init(completion: LocalSearchCompletion) {
+        self.init(
+            title: completion.title,
+            subtitle: completion.subtitle,
+            titleHighlightRanges: completion.titleHighlightRanges,
+            subtitleHighlightRanges: completion.subtitleHighlightRanges
+        )
+    }
+}
+
+// MARK: - LocalSearch Adapters
 
 extension LocalTextSearchClient: LocalSearch {
     
@@ -273,19 +282,5 @@ private extension SearchAddress {
     
     var mapAddress: MapAddress {
         .init(street: .init(street), city: .init(city))
-    }
-}
-
-// MARK: - Completion Adapters
-
-private extension Completion {
-    
-    init(completion: LocalSearchCompletion) {
-        self.init(
-            title: completion.title,
-            subtitle: completion.subtitle,
-            titleHighlightRanges: completion.titleHighlightRanges,
-            subtitleHighlightRanges: completion.subtitleHighlightRanges
-        )
     }
 }
