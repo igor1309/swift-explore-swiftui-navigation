@@ -18,6 +18,7 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var useCase: UseCase = .live
+    @State private var isShowingOverlay = false
     
     var body: some View {
         AddressMapSearchView(
@@ -28,44 +29,57 @@ struct ContentView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .navigationTitle("Search address")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: toolbar)
     }
     
     private func mapView(region: Binding<CoordinateRegion>) -> some View {
         Map(region: region)
         // Color.indigo
             .ignoresSafeArea()
-        // .safeAreaInset(edge: .bottom) { watch(region: region.wrappedValue) }
+            .safeAreaInset(edge: .bottom) { watch(region: region.wrappedValue) }
     }
     
+    @ViewBuilder
     private func watch(region: CoordinateRegion) -> some View {
-        VStack {
-            Picker("Use case", selection: $useCase) {
-                ForEach(UseCase.allCases) { useCase in
-                    Text(useCase.rawValue)
+        if isShowingOverlay {
+            VStack {
+                useCasePicker()
+                    .pickerStyle(.segmented)
+                    .padding(.bottom, 6)
+                
+                placeButtons()
+                
+                Text(location)
+                    .padding(2)
+                
+                HStack {
+                    Text(region.center.description)
+                    Text(region.span.description)
                 }
             }
-            .pickerStyle(.segmented)
-            .padding(.bottom, 6)
-            
-            HStack {
-                ForEach([Place].preview) { place in
-                    Button(place.title) {
-                        useCase.viewModel.updateRegion(to: place.region)
-                    }
-                }
-            }
-            Text(location)
-                .padding(2)
-            
-            HStack {
-                Text(region.center.description)
-                Text(region.span.description)
+            .font(.caption)
+            .padding(.top, 6)
+            .monospaced()
+            .background(.thinMaterial)
+        }
+    }
+    
+    private func useCasePicker() -> some View {
+        Picker("Use case", selection: $useCase) {
+            ForEach(UseCase.allCases) { useCase in
+                Text(useCase.rawValue)
             }
         }
-        .font(.caption)
-        .padding(.top, 6)
-        .monospaced()
-        .background(.thinMaterial)
+    }
+    
+    private func placeButtons() -> some View {
+        HStack {
+            ForEach([Place].preview) { place in
+                Button(place.title) {
+                    useCase.viewModel.updateRegion(to: place.region)
+                }
+            }
+        }
     }
     
     var location: String {
@@ -73,6 +87,22 @@ struct ContentView: View {
         let city = useCase.viewModel.address?.city ?? "city n/a"
         
         return street + " | " + city
+    }
+    
+    @ToolbarContentBuilder
+    private func toolbar() -> some ToolbarContent {
+        ToolbarItem(placement: .cancellationAction, content: toggleOverlayButton)
+    }
+    
+    private func toggleOverlayButton() -> some View {
+        Button {
+            isShowingOverlay.toggle()
+        } label: {
+            Label(
+                isShowingOverlay ? "Hide" : "Show",
+                systemImage: isShowingOverlay ? "rectangle.on.rectangle.slash" : "rectangle.on.rectangle"
+            )
+        }
     }
     
     enum UseCase: String, CaseIterable, Identifiable {
