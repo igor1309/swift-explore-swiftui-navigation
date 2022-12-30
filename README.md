@@ -138,7 +138,7 @@ Map zoom and pan interactions and search address by coordinate API
 - selecting completion should set address state to searching
 - selecting search result should be possible from provided search results only
 - selecting search result should set address to the address in selected result
-- selecting search result should set coordinate region to region in selected search result - via subject, see Map interactions
+- selecting search result should set coordinate region to region in selected search result - via subject (?), see Map interactions
 - selecting search result should not trigger any searches - use spy for every API to prove
 - selecting search result should dismiss search - subject that is observed in the view and call dismissSearch | Apple Developer Documentation
 - selecting search result should reset searchText // note that dismissSearch clears any text from the search field and removes focus from the search field
