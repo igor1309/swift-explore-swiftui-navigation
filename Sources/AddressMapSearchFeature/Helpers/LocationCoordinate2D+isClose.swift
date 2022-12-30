@@ -7,6 +7,13 @@
 
 import MapDomain
 
+/// - Warning: super simplified approach just to move on
+/// see [Precision of coordinates - OpenStreetMap Wiki](https://wiki.openstreetmap.org/wiki/Precision_of_coordinates)
+/// https://stackoverflow.com/a/39540339/11793043
+/// [Universal Transverse Mercator coordinate system - Wikipedia](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)
+/// [Haversine formula - Wikipedia](https://en.wikipedia.org/wiki/Haversine_formula)
+/// https://en.wikipedia.org/wiki/Geographic_coordinate_system#Latitude_and_longitude
+///
 func isClose(
     _ lhs: LocationCoordinate2D,
     to rhs: LocationCoordinate2D,

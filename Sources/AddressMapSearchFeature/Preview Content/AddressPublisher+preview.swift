@@ -11,21 +11,19 @@ import Foundation
 import MapDomain
 
 #if DEBUG
-extension AddressMapSearchViewModel.AddressPublisher {
+extension CoordinateSearch.AddressResultPublisher {
     
     static func preview(coordinate: LocationCoordinate2D) -> Self {
-        Just(Address.preview)
-            .map(/Optional.some)
+        Just(.success(Address.preview))
             .eraseToAnyPublisher()
     }
     static func delayedPreview(coordinate: LocationCoordinate2D) -> Self {
-        Just(Address.preview)
+        Just(.success(Address.preview))
             .delay(for: 1, scheduler: DispatchQueue.main)
-            .map(/Optional.some)
             .eraseToAnyPublisher()
     }
     static func failing(coordinate: LocationCoordinate2D) -> Self {
-        Just(Address?.none)
+        Just(.failure(NSError(domain: "failing publisher", code: 0)))
             .delay(for: 0.5, scheduler: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

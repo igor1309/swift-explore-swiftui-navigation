@@ -14,5 +14,9 @@ extension Address {
         street: "Preview Street, 123",
         city: "PCity"
     )
+    static let another: Self = .init(
+        street: "Another Street, 123",
+        city: "ACity"
+    )
 }
 #endif

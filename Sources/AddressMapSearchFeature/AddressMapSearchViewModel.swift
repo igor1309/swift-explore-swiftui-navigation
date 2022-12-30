@@ -11,123 +11,192 @@ import CombineSchedulers
 import Foundation
 import MapDomain
 
+#warning("replace protocols with closures")
+
+public protocol CoordinateSearch {
+    
+    typealias AddressResult = Result<Address, Error>
+    typealias AddressResultPublisher = AnyPublisher<AddressResult, Never>
+    
+    func search(for coordinate: LocationCoordinate2D) -> AddressResultPublisher
+}
+
+public protocol SearchCompleter {
+    
+    typealias CompletionsResult = Result<[Completion], Error>
+    typealias CompletionsResultPublisher = AnyPublisher<CompletionsResult, Never>
+    
+    func complete(query: String) -> CompletionsResultPublisher
+}
+
+public protocol LocalSearch {
+    
+    typealias SearchResult = Result<[SearchItem], Error>
+    typealias SearchResultPublisher = AnyPublisher<SearchResult, Never>
+    
+    func search(completion: Completion) -> SearchResultPublisher
+}
+
 public final class AddressMapSearchViewModel: ObservableObject {
     
-    @Published private(set) var region: CoordinateRegion
-    @Published private(set) var addressState: AddressState
-    @Published private(set) var searchText: String = ""
-    @Published private(set) var suggestions: Suggestions?
+    @Published public private(set) var state: AddressMapSearchState
     
-    let dismissSearch = PassthroughSubject<Void, Never>()
+    public let dismissSearchSubject = PassthroughSubject<Void, Never>()
     
-    private let regionSearch = PassthroughSubject<CoordinateRegion, Never>()
+    private let coordinateSearchSubject = PassthroughSubject<CoordinateRegion, Never>()
+    private let searchTextSubject = PassthroughSubject<String, Never>()
     private let completionSubject = PassthroughSubject<Completion, Never>()
     
-    public typealias AddressPublisher = AnyPublisher<Address?, Never>
-    public typealias GetAddressFromCoordinate = (LocationCoordinate2D) -> AddressPublisher
+    private var cancellables = Set<AnyCancellable>()
     
-    public typealias CompletionsPublisher = AnyPublisher<[Completion], Never>
-    public typealias GetCompletions = (String) -> CompletionsPublisher
-    
-    public typealias SearchPublisher = AnyPublisher<[Address], Never>
-    public typealias Search = (Completion) -> SearchPublisher
+    public typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
     
     public init(
         initialRegion: CoordinateRegion,
-        getAddressFromCoordinate: @escaping GetAddressFromCoordinate,
-        getCompletions: @escaping GetCompletions,
-        search: @escaping Search,
+        coordinateSearch: CoordinateSearch,
+        isClose: @escaping IsClose,
+        searchCompleter: SearchCompleter,
+        localSearch: LocalSearch,
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
-        self.region = initialRegion
-        self.addressState = .none
+        self.state = .init(region: initialRegion)
         
-        regionSearch
-            .map(\.center)
-            .removeDuplicates { isClose($0, to: $1, withAccuracy: 0.0001) }
+        // a publisher with side-effects: state changes inside the pipeline
+        // see `handleEvents`
+        let addressByCoordinateSearch: CoordinateSearch.AddressResultPublisher = coordinateSearchSubject
             .debounce(for: 0.5, scheduler: scheduler)
-            .handleEvents(receiveOutput: { [weak self] _ in
-                self?.addressState = .searching
+            .handleEvents(receiveOutput: { [weak self] in
+                #warning("would this `handleEvents` be enough for UI to update without errors? Or need additional `receive(on:)` dancing?")
+                self?.state.region = $0
             })
-            .flatMap(getAddressFromCoordinate)
-            .map(AddressState.make(address:))
-            .receive(on: scheduler)
-            .assign(to: &$addressState)
-        
-        Publishers.Merge(
-            $searchText
-                .removeDuplicates()
-                .debounce(for: 0.5, scheduler: scheduler)
-                .handleEvents(receiveOutput: {
-                    print("$searchText pipeline:", String(describing: $0))
-                })
-                .flatMap(getCompletions)
-                .map { .completions($0) },
-            completionSubject
-                .flatMap(search)
-                .map { .addresses($0) }
-        )
-        .receive(on: scheduler)
-        .assign(to: &$suggestions)
-    }
-    
-    private let addressCasePath = /AddressState.address
-    
-    public var address: Address? {
-        addressCasePath.extract(from: addressState)
-    }
-    
-    public func addressPublisher() -> AnyPublisher<Address?, Never> {
-        $addressState
-            .map(addressCasePath.extract(from:))
+            .map(\.center)
+            .removeDuplicates(by: isClose)
+            .handleEvents(receiveOutput: { [weak self] _ in
+                self?.state.addressState = .searching
+            })
+            .flatMap(coordinateSearch.search(for:))
             .eraseToAnyPublisher()
+        
+        addressByCoordinateSearch
+            .receive(on: scheduler)
+            .sink { [weak self] in
+                self?.updateAddressState(with: $0)
+            }
+            .store(in: &cancellables)
+        
+        searchTextSubject
+            .debounce(for: 0.3, scheduler: scheduler)
+            .removeDuplicates()
+            .handleEvents(receiveOutput: { [weak self] in
+                self?.state.search = .some(.init(searchText: $0))
+            })
+            .flatMap(searchCompleter.complete(query:))
+            .receive(on: scheduler)
+            .sink { [weak self] in
+                self?.updateSearchState(with: $0)
+            }
+            .store(in: &cancellables)
+        
+        completionSubject
+            .flatMap(localSearch.search(completion:))
+            .receive(on: scheduler)
+            .sink { [weak self] in
+                self?.updateSearchState(with: $0)
+            }
+            .store(in: &cancellables)
+    }
+    
+    public func updateRegion(to region: CoordinateRegion) {
+        coordinateSearchSubject.send(region)
+    }
+    
+    public func handleIsSearching(_ isSearching: Bool) {
+        switch (state.search, isSearching) {
+        case (.some, true),
+            (.none, false):
+            break
+            
+        case (.some, false):
+            state.search = .none
+            
+        case (.none, true):
+            state.search = .some(.init())
+        }
+    }
+    
+    public func dismissSearch() {
+        guard case .some = state.search else {
+            return
+        }
+        state.search = .none
     }
     
     /// The `setter` part of the `searchText` binding.
-    func setSearchText(to text: String) {
-        self.searchText = text
+    public func setSearchText(to text: String) {
+        searchTextSubject.send(text)
     }
     
-    /// The `setter` part of the `region` binding: update map region,
-    /// but do not invoke search for the address.
-    public func update(region: CoordinateRegion) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+    public func completionButtonTapped(_ completion: Completion) {
+        completionSubject.send(completion)
+    }
+    
+    public func searchItemButtonTapped(_ searchItem: SearchItem) {
+        state = .init(
+            region: searchItem.region,
+            search: .none,
+            addressState: .address(searchItem.address)
+        )
+        dismissSearchSubject.send(())
+    }
+    
+    private func updateAddressState(with result: CoordinateSearch.AddressResult) {
+        switch result {
+        case .failure:
+            state.addressState = .none
             
-            self.region = region
+        case let .success(address):
+            state.addressState = .address(address)
         }
     }
     
-    /// The `setter` part of the `region` binding: update map region,
-    /// and invoke search for the address at the center of the region.
-    public func updateAndSearch(region: CoordinateRegion) {
-        self.regionSearch.send(region)
-        self.update(region: region)
-    }
-    
-    func completionButtonTapped(completion: Completion) {
-        self.completionSubject.send(completion)
-    }
-    
-    func addressButtonTapped(address: Address) {
-        // self.selectAddress.send(address)
-        self.addressState = .address(address)
-        #warning("need to position map! - so need to call `update(region:)` with region returned from API")
-        self.suggestions = nil
-        self.dismissSearch.send(())
-    }
-    
-    enum AddressState: Equatable {
-        case searching
-        case none
-        case address(Address)
-        
-        static func make(address: Address?) -> Self {
-            guard let address else {
-                return .none
-            }
-            
-            return .address(address)
+    private func updateSearchState(with result: SearchCompleter.CompletionsResult) {
+        switch result {
+        case .failure:
+            state.search?.suggestions = .completions([])
+
+        case let .success(completions):
+            state.search?.suggestions = .completions(completions)
         }
+    }
+    
+    private func updateSearchState(with result: LocalSearch.SearchResult) {
+        switch result {
+        case .failure:
+            state.search?.suggestions = .searchItems([])
+
+        case let .success(searchItems):
+            state.search?.suggestions = .searchItems(searchItems)
+        }
+    }
+}
+
+// MARK: - View Bindings
+
+import SwiftUI
+
+extension AddressMapSearchViewModel {
+    
+    var region: Binding<CoordinateRegion> {
+        .init(
+            get: { self.state.region },
+            set: updateRegion(to:)
+        )
+    }
+    
+    var searchText: Binding<String> {
+        .init(
+            get: { self.state.search?.searchText ?? "" },
+            set: setSearchText
+        )
     }
 }

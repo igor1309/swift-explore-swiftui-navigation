@@ -22,24 +22,16 @@ public struct AddressMapSearchView<MapView: View>: View {
     }
     
     public var body: some View {
-        mapView(
-            .init(
-                get: { viewModel.region },
-                set: viewModel.updateAndSearch(region:)
+        mapView(viewModel.region)
+            .animation(.easeInOut, value: viewModel.state)
+            .overlay(alignment: .center, content: target)
+            .overlay(content: addressView)
+            .overlay(content: dismissSearchView)
+            .searchable(
+                text: viewModel.searchText,
+                prompt: Text("SEARCH_FIELD", bundle: .module)
             )
-        )
-        .animation(.easeInOut, value: viewModel.region)
-        .overlay(alignment: .center, content: target)
-        .overlay(content: addressView)
-        .overlay(content: dismissSearchView)
-        .searchable(
-            text: .init(
-                get: { viewModel.searchText },
-                set: viewModel.setSearchText
-            ),
-            prompt: Text("SEARCH_FIELD", bundle: .module)
-        )
-        .searchSuggestions(searchSuggestions)
+            .searchSuggestions(searchSuggestions)
     }
     
     private func target() -> some View {
@@ -54,7 +46,7 @@ public struct AddressMapSearchView<MapView: View>: View {
     
     @ViewBuilder
     private func addressView() -> some View {
-        switch viewModel.addressState {
+        switch viewModel.state.addressState {
         case .searching:
             ProgressView()
             
@@ -69,26 +61,26 @@ public struct AddressMapSearchView<MapView: View>: View {
     }
     
     private func dismissSearchView() -> some View {
-        DismissSearchView(dismiss: viewModel.dismissSearch)
+        DismissSearchView(dismiss: viewModel.dismissSearchSubject)
     }
     
     @ViewBuilder
     private func searchSuggestions() -> some View {
-        switch viewModel.suggestions {
+        switch viewModel.state.search?.suggestions {
         case .none:
             EmptyView()
             
         case let .completions(completions):
             ForEach(completions, content: completionButton)
             
-        case let .addresses(addresses):
-            ForEach(addresses, content: addressButton)
+        case let .searchItems(searchItems):
+            ForEach(searchItems, content: addressButton)
         }
     }
     
     private func completionButton(completion: Completion) -> some View {
         Button {
-            viewModel.completionButtonTapped(completion: completion)
+            viewModel.completionButtonTapped(completion)
         } label: {
             CompletionView(completion, attributes: .primary)
         }
@@ -96,11 +88,11 @@ public struct AddressMapSearchView<MapView: View>: View {
         .buttonStyle(.plain)
     }
     
-    private func addressButton(address: Address) -> some View {
+    private func addressButton(searchItem: SearchItem) -> some View {
         Button {
-            viewModel.addressButtonTapped(address: address)
+            viewModel.searchItemButtonTapped(searchItem)
         } label: {
-            PlainRow(address: address)
+            PlainRow(address: searchItem.address)
         }
     }
 }
@@ -116,7 +108,7 @@ struct AddressMapSearchView_Previews: PreviewProvider {
                 .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .onAppear {
-                    viewModel.updateAndSearch(region: .streetLondon)
+                    viewModel.updateRegion(to: .streetLondon)
                 }
         }
     }

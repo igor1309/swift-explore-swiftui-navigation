@@ -5,233 +5,13 @@
 //  Created by Igor Malyarov on 29.12.2022.
 //
 
+import AddressMapSearchFeature
 import CasePaths
 import Combine
 import CombineSchedulers
 import MapDomain
 import Tagged
 import XCTest
-
-struct AddressMapSearchState: Equatable {
-    
-    /// A region that corresponds to an area to display on the map.
-    var region: CoordinateRegion
-    
-    /// A search state.
-    var search: Search?
-    
-    /// A state of address.
-    var addressState: AddressState?
-    
-    struct Search: Equatable {
-        
-        /// The text to display and edit in the search field.
-        var searchText: String = ""
-        
-        var suggestions: Suggestions?
-    }
-    
-    enum AddressState: Equatable {
-        case searching
-        case address(Address)
-    }
-    
-    enum Suggestions: Equatable {
-        case completions([Completion])
-        case searchItems([SearchItem])
-    }
-}
-
-struct Address: Equatable {}
-
-typealias AddressResult = Result<Address, Error>
-typealias AddressResultPublisher = AnyPublisher<AddressResult, Never>
-
-protocol CoordinateSearch {
-    func search(for coordinate: LocationCoordinate2D) -> AddressResultPublisher
-}
-
-struct Completion: Equatable, Identifiable {
-    
-    typealias ID = Tagged<Self, UUID>
-    
-    let id: ID
-    
-    init(id: ID = .init()) {
-        self.id = id
-    }
-}
-
-typealias CompletionsResult = Result<[Completion], Error>
-typealias CompletionsResultPublisher = AnyPublisher<CompletionsResult, Never>
-
-protocol SearchCompleter {
-    func complete(query: String) -> CompletionsResultPublisher
-}
-
-struct SearchItem: Equatable, Identifiable {
-    
-    typealias ID = Tagged<Self, UUID>
-    
-    let id: ID
-    let address: Address
-    let region: CoordinateRegion
-    
-    init(id: ID = .init(), address: Address, region: CoordinateRegion) {
-        self.id = id
-        self.address = address
-        self.region = region
-    }
-}
-
-typealias SearchResult = Result<[SearchItem], Error>
-typealias SearchResultPublisher = AnyPublisher<SearchResult, Never>
-
-protocol LocalSearch {
-    func search(completion: Completion) -> SearchResultPublisher
-}
-
-private final class AddressMapSearchViewModel: ObservableObject {
-    
-    @Published private(set) var state: AddressMapSearchState
-    
-    private let coordinateSearchSubject = PassthroughSubject<CoordinateRegion, Never>()
-    private let searchTextSubject = PassthroughSubject<String, Never>()
-    private let completionSubject = PassthroughSubject<Completion, Never>()
-    let dismissSearchSubject = PassthroughSubject<Void, Never>()
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
-    
-    init(
-        initialRegion: CoordinateRegion,
-        coordinateSearch: CoordinateSearch,
-        isClose: @escaping IsClose,
-        searchCompleter: SearchCompleter,
-        localSearch: LocalSearch,
-        scheduler: AnySchedulerOf<DispatchQueue> = .main
-    ) {
-        self.state = .init(region: initialRegion)
-        
-        // a publisher with side-effects: state changes inside the pipeline
-        // see `handleEvents`
-        let addressByCoordinateSearch: AnyPublisher<AddressResult, Never> = coordinateSearchSubject
-            .debounce(for: 0.5, scheduler: scheduler)
-            .handleEvents(receiveOutput: { [weak self] in
-                #warning("would this `handleEvents` be enough for UI to update without errors? Or need additional `receive(on:)` dancing?")
-                self?.state.region = $0
-            })
-            .map(\.center)
-            .removeDuplicates(by: isClose)
-            .handleEvents(receiveOutput: { [weak self] _ in
-                self?.state.addressState = .searching
-            })
-            .flatMap(coordinateSearch.search(for:))
-            .eraseToAnyPublisher()
-        
-        addressByCoordinateSearch
-            .receive(on: scheduler)
-            .sink { [weak self] in
-                self?.updateAddressState(with: $0)
-            }
-            .store(in: &cancellables)
-        
-        searchTextSubject
-            .debounce(for: 0.3, scheduler: scheduler)
-            .removeDuplicates()
-            .handleEvents(receiveOutput: { [weak self] in
-                self?.state.search = .some(.init(searchText: $0))
-            })
-            .flatMap(searchCompleter.complete(query:))
-            .receive(on: scheduler)
-            .sink { [weak self] in
-                self?.updateSearchState(with: $0)
-            }
-            .store(in: &cancellables)
-        
-        completionSubject
-            .flatMap(localSearch.search(completion:))
-            .receive(on: scheduler)
-            .sink { [weak self] in
-                self?.updateSearchState(with: $0)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func updateRegion(to region: CoordinateRegion) {
-        coordinateSearchSubject.send(region)
-    }
-    
-    func handleIsSearching(_ isSearching: Bool) {
-        switch (state.search, isSearching) {
-        case (.some, true),
-            (.none, false):
-            break
-            
-        case (.some, false):
-            state.search = .none
-            
-        case (.none, true):
-            state.search = .some(.init())
-        }
-    }
-    
-    func dismissSearch() {
-        guard case .some = state.search else {
-            return
-        }
-        state.search = .none
-    }
-    
-    /// The `setter` part of the `searchText` binding.
-    func setSearchText(to text: String) {
-        searchTextSubject.send(text)
-    }
-    
-    func completionButtonTapped(_ completion: Completion) {
-        completionSubject.send(completion)
-    }
-    
-    func searchItemButtonTapped(_ searchItem: SearchItem) {
-        state = .init(
-            region: searchItem.region,
-            search: .none,
-            addressState: .address(searchItem.address)
-        )
-        dismissSearchSubject.send(())
-    }
-    
-    private func updateAddressState(with result: AddressResult) {
-        switch result {
-        case .failure:
-            state.addressState = .none
-            
-        case let .success(address):
-            state.addressState = .address(address)
-        }
-    }
-    
-    private func updateSearchState(with result: CompletionsResult) {
-        switch result {
-        case .failure:
-            state.search?.suggestions = .completions([])
-
-        case let .success(completions):
-            state.search?.suggestions = .completions(completions)
-        }
-    }
-    
-    private func updateSearchState(with result: SearchResult) {
-        switch result {
-        case .failure:
-            state.search?.suggestions = .searchItems([])
-
-        case let .success(searchItems):
-            state.search?.suggestions = .searchItems(searchItems)
-        }
-    }
-}
 
 final class AddressMapSearchViewModelTests: XCTestCase {
     
@@ -932,11 +712,11 @@ func anyError() -> Error {
 
 private extension Address {
     
-    static let test:    Self = .init()
-    static let another: Self = .init()
+    static let test:    Self = .init(street: "Test Street, 123", city: "TCity")
+    static let another: Self = .init(street: "Another Street, 456", city: "ACity")
 }
 
-private extension AddressResult {
+private extension CoordinateSearch.AddressResult {
     
     static let test:  Self = .success(.test)
     static let error: Self = .failure(anyError())
@@ -944,11 +724,11 @@ private extension AddressResult {
 
 private extension Completion {
     
-    static let test:    Self = .init()
-    static let another: Self = .init()
+    static let test:    Self = .preview
+    static let another: Self = .fake1
 }
 
-private extension CompletionsResult {
+private extension SearchCompleter.CompletionsResult {
     
     static let test:  Self = .success([.test, .another])
     static let empty: Self = .success([])
@@ -961,7 +741,7 @@ private extension SearchItem {
     static let another: Self = .init(address: .another, region: .another)
 }
 
-private extension SearchResult {
+private extension LocalSearch.SearchResult {
     
     static let test:  Self = .success([.test, .another])
     static let empty: Self = .success([])
@@ -1010,7 +790,7 @@ extension CoordinateSpan: CustomStringConvertible {
 
 extension AddressMapSearchState: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         switch (region, search, addressState) {
         case (region, .none, .none):
             return "\n\(region)"
@@ -1032,7 +812,7 @@ extension AddressMapSearchState: CustomStringConvertible {
 
 extension AddressMapSearchState.AddressState: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         switch self {
         case .searching:
             return "searching"

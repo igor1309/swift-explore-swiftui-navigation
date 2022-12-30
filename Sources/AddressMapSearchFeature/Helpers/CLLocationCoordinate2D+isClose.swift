@@ -14,7 +14,7 @@ import MapKit
 /// [Haversine formula - Wikipedia](https://en.wikipedia.org/wiki/Haversine_formula)
 /// https://en.wikipedia.org/wiki/Geographic_coordinate_system#Latitude_and_longitude
 ///
-func isClose(
+private func isClose(
     _ lhs: CLLocationCoordinate2D,
     to rhs: CLLocationCoordinate2D,
     withAccuracy accuracy: CLLocationDegrees = 0.0001
