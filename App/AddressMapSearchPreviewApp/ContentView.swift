@@ -91,6 +91,8 @@ struct ContentView: View {
     }
 }
 
+typealias MapAddress = AddressMapSearchFeature.Address
+
 extension AddressMapSearchViewModel {
     
     var address: MapAddress? {
@@ -164,26 +166,6 @@ extension Array where Element == Place {
 
 // MARK: - Adapters
 
-typealias MapAddress = AddressMapSearchFeature.Address
-typealias SearchAddress = AddressSearchService.Address
-
-typealias GeocoderAddress = GeocoderAddressCoordinateSearchService.Address
-typealias FeatureAddress = AddressMapSearchFeature.Address
-
-typealias GeocoderAddressResultPublisher = AnyPublisher<Result<[GeocoderAddress], Error>, Never>
-typealias SearchGeocoderAddresses = (Completion, CoordinateRegion) -> GeocoderAddressResultPublisher
-
-extension Swift.Optional where Wrapped == GeocoderAddress {
-    
-    var featureAddress: FeatureAddress? {
-        guard let wrapped = self else {
-            return nil
-        }
-        
-        return wrapped.featureAddress
-    }
-}
-
 extension AddressMapSearchViewModel {
     
     static let live: AddressMapSearchViewModel = .init(
@@ -216,9 +198,9 @@ extension GeocoderAddressCoordinateSearch: CoordinateSearch {
     }
 }
 
-private extension GeocoderAddress {
+private extension GeocoderAddressCoordinateSearchService.Address {
     
-    var featureAddress: FeatureAddress {
+    var featureAddress: AddressMapSearchFeature.Address {
         .init(street: .init(street), city: .init(city))
     }
 }
@@ -278,7 +260,7 @@ private extension LocalTextSearchClient.SearchResult {
     }
 }
 
-private extension SearchAddress {
+private extension AddressSearchService.Address {
     
     var mapAddress: MapAddress {
         .init(street: .init(street), city: .init(city))
