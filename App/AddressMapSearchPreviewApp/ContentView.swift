@@ -17,7 +17,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var useCase: UseCase = .delayed
+    @State private var useCase: UseCase = .live
     
     var body: some View {
         AddressMapSearchView(
@@ -26,42 +26,46 @@ struct ContentView: View {
         )
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .navigationTitle("Search address")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func mapView(region: Binding<CoordinateRegion>) -> some View {
         Map(region: region)
         // Color.indigo
             .ignoresSafeArea()
-            .safeAreaInset(edge: .bottom) {
-                VStack {
-                    Picker("Use case", selection: $useCase) {
-                        ForEach(UseCase.allCases) { useCase in
-                            Text(useCase.rawValue)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.bottom, 6)
-                    
-                    HStack {
-                        ForEach([Place].preview) { place in
-                            Button(place.title) {
-                                useCase.viewModel.updateRegion(to: place.region)
-                            }
-                        }
-                    }
-                    Text(location)
-                        .padding(2)
-                    
-                    HStack {
-                        Text(region.wrappedValue.center.description)
-                        Text(region.wrappedValue.span.description)
+        // .safeAreaInset(edge: .bottom) { watch(region: region.wrappedValue) }
+    }
+    
+    private func watch(region: CoordinateRegion) -> some View {
+        VStack {
+            Picker("Use case", selection: $useCase) {
+                ForEach(UseCase.allCases) { useCase in
+                    Text(useCase.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.bottom, 6)
+            
+            HStack {
+                ForEach([Place].preview) { place in
+                    Button(place.title) {
+                        useCase.viewModel.updateRegion(to: place.region)
                     }
                 }
-                .font(.caption)
-                .padding(.top, 6)
-                .monospaced()
-                .background(.thinMaterial)
             }
+            Text(location)
+                .padding(2)
+            
+            HStack {
+                Text(region.center.description)
+                Text(region.span.description)
+            }
+        }
+        .font(.caption)
+        .padding(.top, 6)
+        .monospaced()
+        .background(.thinMaterial)
     }
     
     var location: String {
