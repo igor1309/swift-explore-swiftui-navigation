@@ -131,7 +131,7 @@ Map zoom and pan interactions and search address by coordinate API
 - suggestions should be empty if no completions returned by API** - it’s a non-failing API call, just empty
 - should have empty completions for non empty searchText on failing API call
 - should have non empty completions for non empty searchText on non-failing API call
-- committing search should call search API with searchText
+- committing search should call search API with searchText: `.onSubmit(of: .search, "runSearch")`
 - selecting suggested completion should call search API with completion
 - selecting suggested completion should not call other search APIs
 - selecting completion should be possible only from provided completions
