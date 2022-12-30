@@ -7,6 +7,7 @@
 
 import AddressMapSearchFeature
 import AddressSearchService
+import CasePaths
 import Combine
 import GeocoderAddressCoordinateSearchService
 import MapDomain
@@ -44,7 +45,7 @@ struct ContentView: View {
                     HStack {
                         ForEach([Place].preview) { place in
                             Button(place.title) {
-                                useCase.viewModel.updateAndSearch(region: place.region)
+                                useCase.viewModel.updateRegion(to: place.region)
                             }
                         }
                     }
@@ -87,6 +88,18 @@ struct ContentView: View {
                 return .preview
             }
         }
+    }
+}
+
+extension AddressMapSearchViewModel {
+    
+    var address: MapAddress? {
+        guard let addressState = state.addressState else {
+            return nil
+        }
+        
+        let casePath = /AddressMapSearchState.AddressState.address
+        return casePath.extract(from: addressState)
     }
 }
 
@@ -133,11 +146,15 @@ struct Place: Identifiable {
 
 extension Place {
     
-    static let barcelona: Self = .init(title: "Barcelona", region: .neighborhood(center: .barcelona))
-    static let london:    Self = .init(title: "London",    region: .neighborhood(center: .london))
-    static let moscow:    Self = .init(title: "Moscow",    region: .neighborhood(center: .moscow))
-    static let paris:     Self = .init(title: "Paris",     region: .neighborhood(center: .paris))
-    static let rome:      Self = .init(title: "Rome",      region: .neighborhood(center: .rome))
+    static let barcelona: Self = .init("Barcelona", .neighborhood(center: .barcelona))
+    static let london:    Self = .init("London",    .neighborhood(center: .london))
+    static let moscow:    Self = .init("Moscow",    .neighborhood(center: .moscow))
+    static let paris:     Self = .init("Paris",     .neighborhood(center: .paris))
+    static let rome:      Self = .init("Rome",      .neighborhood(center: .rome))
+    
+    private init(_ title: String, _ region: CoordinateRegion) {
+        self.init(title: title, region: region)
+    }
 }
 
 extension Array where Element == Place {
@@ -171,143 +188,104 @@ extension AddressMapSearchViewModel {
     
     static let live: AddressMapSearchViewModel = .init(
         initialRegion: .townLondon,
-        getAddressFromCoordinate: getAddressFromCoordinate,
-        getCompletions: getCompletions,
-        search: search
+        // coordinateSearch: getAddressFromCoordinate,
+        coordinateSearch: GeocoderCoordinateSearch(),
+        isClose: { isClose($0, to: $1, withAccuracy: 0.0001) },
+        // getCompletions: getCompletions,
+        searchCompleter: LocalSearchCompleter(),
+        // search: search
+        localSearch: LocalTextSearchClient.live
     )
+}
+
+// MARK: - CoordinateSearch
+
+private final class GeocoderCoordinateSearch: CoordinateSearch {
     
-    private static func getAddressFromCoordinate(
-        coordinate: LocationCoordinate2D
-    ) -> AddressPublisher {
-        let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
-        
-        return addressCoordinateSearch
+    private let addressCoordinateSearch = GeocoderAddressCoordinateSearch()
+    
+    func search(
+        for coordinate: LocationCoordinate2D
+    ) -> AddressResultPublisher {
+        addressCoordinateSearch
             .getAddress(from: coordinate)
-            .map(\.featureAddress)
-            .eraseToAnyPublisher()
-    }
-    
-    private static func getCompletions(text: String) -> CompletionsPublisher {
-        print("getCompletions", text)
-        let completer = LocalSearchCompleter()
-        _ = completer
-        return completer
-            .searchCompletions(text)
-            .handleEvents(receiveOutput: {
-                print("LocalSearchCompleter:", String(describing: $0))
-            })
-            .map(\.searchCompletions)
-            .handleEvents(receiveOutput: {
-                print("searchCompletions:", String(describing: $0))
-            })
-            .map { $0.map(\.completion) }
-            .handleEvents(receiveOutput: {
-                print("completion:", String(describing: $0))
-            })
-            .eraseToAnyPublisher()
-    }
-    
-#warning("use region")
-    private static func search(completion: Completion) -> SearchPublisher {
-        LocalTextSearchClient.live
-            .searchAddresses(completion: completion, region: nil)
+            .map { address in
+                guard let address else {
+                    return .failure(NSError(domain: "address", code: 0))
+                }
+                return .success(address.featureAddress)
+            }
             .eraseToAnyPublisher()
     }
 }
 
-typealias MapAddressPublisher = AnyPublisher<[MapAddress], Never>
-
-private extension LocalTextSearchClient {
-    
-    func searchAddresses(
-        completion: Completion,
-        region: CoordinateRegion?
-    ) -> MapAddressPublisher {
-        searchAddresses(
-            completion.title + " " + completion.subtitle,
-            region: region
-        )
-        .map(\.addresses)
-        .map { $0.map(\.mapAddress) }
-        .eraseToAnyPublisher()
-    }
-}
-
-// MARK: - Completion Adapters
-
-private extension LocalSearchCompletion {
-    
-    var completion: Completion {
-        .init(
-            title: title,
-            subtitle: subtitle,
-            titleHighlightRanges: titleHighlightRanges,
-            subtitleHighlightRanges: subtitleHighlightRanges
-        )
-    }
-}
-
-// MARK: - Result Adapters
-
-private extension CompletionsResult {
-    
-    var searchCompletions: [LocalSearchCompletion] {
-        switch self {
-        case .failure:
-            return []
-            
-        case let .success(searchCompletions):
-            return searchCompletions
-        }
-    }
-}
-
-private extension Result where Success == [GeocoderAddress] {
-    
-    var addresses: [GeocoderAddress] {
-        switch self {
-        case .failure:
-            return []
-            
-        case let .success(addresses):
-            return addresses
-        }
-    }
-}
-
-private extension Result where Success == [SearchAddress] {
-    
-    var addresses: [SearchAddress] {
-        switch self {
-        case .failure:
-            return []
-            
-        case let .success(addresses):
-            return addresses
-        }
-    }
-}
-
-// MARK: - Address Adapters
-
-extension SearchAddress {
-    
-    var mapAddress: MapAddress {
-        .init(street: .init(street), city: .init(city))
-    }
-}
-
-extension GeocoderAddress {
-    
-    var searchAddress: SearchAddress {
-        .init(street: street, city: city)
-    }
-}
-
-extension GeocoderAddress {
+private extension GeocoderAddress {
     
     var featureAddress: FeatureAddress {
         .init(street: .init(street), city: .init(city))
     }
 }
 
+// MARK: - SearchCompleter
+
+extension LocalSearchCompleter: SearchCompleter {
+    
+    public func complete(query: String) -> CompletionsResultPublisher {
+        searchCompletions(query)
+            .map(\.searchCompletionsResult)
+            .eraseToAnyPublisher()
+    }
+}
+
+private extension CompletionsResult {
+    
+    var searchCompletionsResult: SearchCompleter.CompletionsResult {
+        map { $0.map(Completion.init(completion:)) }
+    }
+}
+
+// MARK: - LocalSearch
+
+extension LocalTextSearchClient: LocalSearch {
+    
+    public func search(completion: Completion) -> SearchResultPublisher {
+        searchAddresses(
+            completion.title + " " + completion.subtitle,
+            region: nil
+        )
+        .map(\.localSearchResult)
+        .eraseToAnyPublisher()
+    }
+}
+
+private extension LocalTextSearchClient.SearchResult {
+    
+    var localSearchResult: LocalSearch.SearchResult {
+        map { items in
+            items.map { (address, region) in
+                SearchItem(address: address.mapAddress, region: region)
+            }
+        }
+    }
+}
+
+private extension SearchAddress {
+    
+    var mapAddress: MapAddress {
+        .init(street: .init(street), city: .init(city))
+    }
+}
+
+// MARK: - Completion Adapters
+
+private extension Completion {
+    
+    init(completion: LocalSearchCompletion) {
+        self.init(
+            title: completion.title,
+            subtitle: completion.subtitle,
+            titleHighlightRanges: completion.titleHighlightRanges,
+            subtitleHighlightRanges: completion.subtitleHighlightRanges
+        )
+    }
+}

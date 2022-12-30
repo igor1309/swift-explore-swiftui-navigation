@@ -48,6 +48,7 @@
 		2AA0ABD9295C645F00711FF4 /* AddressSearchService in Frameworks */ = {isa = PBXBuildFile; productRef = 2AA0ABD8295C645F00711FF4 /* AddressSearchService */; };
 		2AC4E5DD295AF1D200EAB861 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DC295AF1D200EAB861 /* Composer.swift */; };
 		2AC4E5DF295AF8B600EAB861 /* AddNewAddressUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC4E5DE295AF8B600EAB861 /* AddNewAddressUIComposer.swift */; };
+		2AECE852295EE9B0009D3A57 /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 2AECE851295EE9B0009D3A57 /* CasePaths */; };
 		2AFF10482952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10472952FBA2003E11E5 /* ShopUIPrototypePreviewAppApp.swift */; };
 		2AFF104A2952FBA2003E11E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF10492952FBA2003E11E5 /* ContentView.swift */; };
 		2AFF104C2952FBA3003E11E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AFF104B2952FBA3003E11E5 /* Assets.xcassets */; };
@@ -150,6 +151,7 @@
 				2AA0ABD3295C286D00711FF4 /* MapDomain in Frameworks */,
 				2AA0ABCF295C278500711FF4 /* AddressMapSearchFeature in Frameworks */,
 				2AA0ABD7295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService in Frameworks */,
+				2AECE852295EE9B0009D3A57 /* CasePaths in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +463,7 @@
 				2AA0ABD2295C286D00711FF4 /* MapDomain */,
 				2AA0ABD6295C4BEC00711FF4 /* GeocoderAddressCoordinateSearchService */,
 				2AA0ABD8295C645F00711FF4 /* AddressSearchService */,
+				2AECE851295EE9B0009D3A57 /* CasePaths */,
 			);
 			productName = AddressMapSearchPreviewApp;
 			productReference = 2AA0ABC0295C276A00711FF4 /* AddressMapSearchPreviewApp.app */;
@@ -530,6 +533,7 @@
 			mainGroup = 2AFF100F2952F953003E11E5;
 			packageReferences = (
 				2A390CAA2955EAE700779C18 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
+				2AECE850295EE9B0009D3A57 /* XCRemoteSwiftPackageReference "swift-case-paths" */,
 			);
 			productRefGroup = 2AFF10192952F953003E11E5 /* Products */;
 			projectDirPath = "";
@@ -1289,6 +1293,14 @@
 				minimumVersion = 0.4.5;
 			};
 		};
+		2AECE850295EE9B0009D3A57 /* XCRemoteSwiftPackageReference "swift-case-paths" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-case-paths.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1352,6 +1364,11 @@
 		2AA0ABD8295C645F00711FF4 /* AddressSearchService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AddressSearchService;
+		};
+		2AECE851295EE9B0009D3A57 /* CasePaths */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2AECE850295EE9B0009D3A57 /* XCRemoteSwiftPackageReference "swift-case-paths" */;
+			productName = CasePaths;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

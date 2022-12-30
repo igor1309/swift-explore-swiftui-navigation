@@ -14,7 +14,7 @@ import MapDomain
 /// [Haversine formula - Wikipedia](https://en.wikipedia.org/wiki/Haversine_formula)
 /// https://en.wikipedia.org/wiki/Geographic_coordinate_system#Latitude_and_longitude
 ///
-func isClose(
+public func isClose(
     _ lhs: LocationCoordinate2D,
     to rhs: LocationCoordinate2D,
     withAccuracy accuracy: LocationDegrees = 0.0001

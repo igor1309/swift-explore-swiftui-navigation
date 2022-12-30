@@ -13,20 +13,22 @@ extension LocalTextSearchClient {
     public func searchAddresses(
         _ query: String,
         region: CoordinateRegion? = nil
-    ) async throws -> [Address] {
+    ) async throws -> [(Address, CoordinateRegion)] {
         try await .init(search(query, region))
     }
+    
+    public typealias SearchResult = Result<[(Address, CoordinateRegion)], Error>
     
     public func searchAddresses(
         _ query: String,
         region: CoordinateRegion? = nil
-    ) -> AnyPublisher<Result<[Address], Error>, Never> {
+    ) -> AnyPublisher<SearchResult, Never> {
         Deferred {
             Future { promise in
                 Task {
                     do {
-                        let addresses = try await searchAddresses(query, region: region)
-                        promise(.success(.success(addresses)))
+                        let items = try await searchAddresses(query, region: region)
+                        promise(.success(.success(items)))
                     } catch {
                         promise(.success(.failure(error)))
                     }
@@ -37,9 +39,14 @@ extension LocalTextSearchClient {
     }
 }
 
-private extension Array where Element == Address {
+private extension Array where Element == (Address, CoordinateRegion) {
     
     init(_ response: LocalTextSearchClient.Response) {
-        self = response.mapItems.compactMap(Address.init(mapItem:))
+        self = response.mapItems.map { mapItem in
+            let address = Address(mapItem: mapItem)
+            let region = response.boundingRegion
+            
+            return (address, region)
+        }
     }
 }
