@@ -484,6 +484,7 @@ private extension String {
     static let addressSearchServiceTests = "AddressSearchServiceTests"
     static let geocoderAddressCoordinateSearch = "GeocoderAddressCoordinateSearchService"
 }
+
 // MARK: - Point-Free
 
 private extension Package.Dependency {

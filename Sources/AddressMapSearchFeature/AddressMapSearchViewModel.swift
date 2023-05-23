@@ -37,69 +37,6 @@ public protocol LocalSearch {
     func search(completion: Completion) -> SearchResultPublisher
 }
 
-extension AddressMapSearchState {
-    
-    typealias Effect = AnyPublisher<Action, Never>
-    
-    static func reducer(_ state: Self, _ action: Action) -> Self {
-        var state = state
-        
-        switch action {
-        case let .setSearchText(text):
-            state.search = .some(.init(searchText: text))
-            
-        case let .setRegion(region):
-            state.region = region
-            
-        case let .setCompletions(result):
-            switch result {
-            case .failure:
-                state.search?.suggestions = .completions([])
-                
-            case let .success(completions):
-                state.search?.suggestions = .completions(completions)
-            }
-            
-        case let .setSearchItems(result):
-            switch result {
-            case .failure:
-                state.search?.suggestions = .searchItems([])
-                
-            case let .success(searchItems):
-                state.search?.suggestions = .searchItems(searchItems)
-            }
-            
-        case let .setStateOn(searchItem):
-            state = .init(
-                region: searchItem.region,
-                search: nil,
-                addressState: .address(searchItem.address)
-            )
-            
-        case let .setAddress(result):
-            switch result {
-            case .failure:
-                state.addressState = .none
-                
-            case let .success(address):
-                state.addressState = .address(address)
-            }
-        }
-        
-        return state
-    }
-    
-    enum Action {
-        case setRegion(CoordinateRegion)
-        case setSearchText(String)
-        case setCompletions(SearchCompleter.CompletionsResult)
-        case setSearchItems(LocalSearch.SearchResult)
-        case setStateOn(SearchItem)
-        case setAddress(CoordinateSearch.AddressResult)
-    }
-
-}
-
 public final class AddressMapSearchViewModel: ObservableObject {
     
     @Published public private(set) var state: AddressMapSearchState
@@ -113,6 +50,11 @@ public final class AddressMapSearchViewModel: ObservableObject {
     
     public typealias IsClose = (LocationCoordinate2D, LocationCoordinate2D) -> Bool
     
+    private let coordinateSearch: CoordinateSearch
+    private let searchCompleter: SearchCompleter
+    private let localSearch: LocalSearch
+    private let scheduler: AnySchedulerOf<DispatchQueue>
+    
     public init(
         initialRegion: CoordinateRegion,
         coordinateSearch: CoordinateSearch,
@@ -122,6 +64,10 @@ public final class AddressMapSearchViewModel: ObservableObject {
         scheduler: AnySchedulerOf<DispatchQueue> = .main
     ) {
         self.state = .init(region: initialRegion)
+        self.coordinateSearch = coordinateSearch
+        self.searchCompleter = searchCompleter
+        self.localSearch = localSearch
+        self.scheduler = scheduler
         
         // a pipeline with side-effects: state changes inside the pipeline
         // see `handleEvents`
@@ -172,42 +118,165 @@ public final class AddressMapSearchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        inputSubject
-            .flatMap { /* capture list*/ input -> AnyPublisher<AddressMapSearchState.Action, Never> in
+       let p = inputSubject
+            .flatMap { /* capture list*/ input -> Effect in
                 switch input {
                 case let .region(region):
                     #warning("debounce? remove duplicates? handle events??")
                     return coordinateSearch.search(for: region.center)
-                        .map(AddressMapSearchState.Action.setAddress)
+                        .map(Action.setAddress)
                         .eraseToAnyPublisher()
                     
                 case let .searchText(text):
                     #warning("debounce? remove duplicates? handle events??")
                     return searchCompleter.complete(query: text)
-                        .map(AddressMapSearchState.Action.setCompletions)
+                        .map(Action.setCompletions)
                         .eraseToAnyPublisher()
                     
                 case let .completion(completion):
                     #warning("debounce? remove duplicates? handle events??")
                     return localSearch.search(completion: completion)
-                        .map(AddressMapSearchState.Action.setSearchItems)
+                        .map(Action.setSearchItems)
                         .eraseToAnyPublisher()
                     
                 case let .searchItem(searchItem):
                     #warning("debounce? remove duplicates? handle events??")
                     return Just(searchItem)
-                        .map(AddressMapSearchState.Action.setStateOn)
+                        .map(Action.setStateOn)
                         .eraseToAnyPublisher()
                 }
             }
-            .scan(state, AddressMapSearchState.reducer)
+            //.scan(state, AddressMapSearchState.reducer)
             .receive(on: scheduler)
-            .assign(to: &$state)
+            //.assign(to: &$state)
+            .eraseToAnyPublisher()
     }
     
-    private func send(_ input: Input) {
-        inputSubject.send(input)
+//    private func send(_ input: Input) {
+//        inputSubject.send(input)
+//    }
+    
+    private var effectCancellables = Set<AnyCancellable>()
+    
+    private func send(_ action: Action) {
+        let effects = reducer(&state, action)
+        effects.forEach { effect in
+            var effectCancellable: AnyCancellable?
+            var didFinish = false
+            effectCancellable = effect.sink(
+                receiveCompletion: { [weak self] _ in
+                    didFinish = true
+                    guard let effectCancellable else { return }
+                    self?.cancellables.remove(effectCancellable)
+                },
+                receiveValue: self.send
+            )
+            if !didFinish, let effectCancellable {
+                self.cancellables.insert(effectCancellable)
+            }
+        }
     }
+    
+    typealias Effect = AnyPublisher<Action, Never>
+    
+    func reducer(
+        _ state: inout AddressMapSearchState,
+        _ action: Action
+    ) -> [Effect] {
+        switch action {
+        case let .setSearchText(text):
+            state.search = .some(.init(searchText: text))
+            return [
+                Just(text)
+                    // .removeDuplicates()
+                    // .debounce(for: 0.3, scheduler: scheduler)
+                    .flatMap(searchCompleter.complete(query:))
+                    .map(Action.setCompletions)
+                    .receive(on: scheduler)
+                    .eraseToAnyPublisher()
+            ]
+            
+        case let .setRegion(region):
+            state.region = region
+            return [
+                Just(AddressMapSearchState.AddressState.searching)
+                    .map(Action.setAddressState)
+                    .eraseToAnyPublisher(),
+//                Just(region)
+                // .debounce(for: 0.5, scheduler: scheduler)
+//                    .map(\.center)
+                    // .removeDuplicates(by: isClose)
+//                    .flatMap(coordinateSearch.search(for:))
+                coordinateSearch.search(for: region.center)
+                    .map(Action.setAddress)
+                    .receive(on: scheduler)
+                    .eraseToAnyPublisher()
+            ]
+            
+        case let .setAddressState(addressState):
+            state.addressState = addressState
+            return []
+            
+        case let .setCompletions(result):
+            switch result {
+            case .failure:
+                state.search?.suggestions = .completions([])
+                
+            case let .success(completions):
+                state.search?.suggestions = .completions(completions)
+            }
+            return []
+            
+        case let .select(completion):
+            return [
+                Just(completion)
+                    .flatMap(localSearch.search(completion:))
+                    .map(Action.setSearchItems)
+                    .receive(on: scheduler)
+                    .eraseToAnyPublisher()
+            ]
+            
+        case let .setSearchItems(result):
+            switch result {
+            case .failure:
+                state.search?.suggestions = .searchItems([])
+                
+            case let .success(searchItems):
+                state.search?.suggestions = .searchItems(searchItems)
+            }
+            return []
+            
+        case let .setStateOn(searchItem):
+            state = .init(
+                region: searchItem.region,
+                search: nil,
+                addressState: .address(searchItem.address)
+            )
+            return []
+            
+        case let .setAddress(result):
+            switch result {
+            case .failure:
+                state.addressState = .none
+                
+            case let .success(address):
+                state.addressState = .address(address)
+            }
+            return []
+        }
+    }
+    
+    enum Action {
+        case setRegion(CoordinateRegion)
+        case setSearchText(String)
+        case setAddressState(AddressMapSearchState.AddressState)
+        case setCompletions(SearchCompleter.CompletionsResult)
+        case select(Completion)
+        case setSearchItems(LocalSearch.SearchResult)
+        case setStateOn(SearchItem)
+        case setAddress(CoordinateSearch.AddressResult)
+    }
+
     
     #warning("remove as unused")
     private func updateAddressState(with result: CoordinateSearch.AddressResult) {
@@ -261,6 +330,7 @@ public final class AddressMapSearchViewModel: ObservableObject {
 }
 
 // MARK: - ????
+
 extension AddressMapSearchViewModel {
     
     func handleIsSearching(_ isSearching: Bool) {
@@ -290,16 +360,16 @@ extension AddressMapSearchViewModel {
 public extension AddressMapSearchViewModel {
     
     func updateRegion(to region: CoordinateRegion) {
-        send(.region(region))
+        send(.setRegion(region))
     }
     
     /// The `setter` part of the `searchText` binding.
     func setSearchText(to text: String) {
-        send(.searchText(text))
+        send(.setSearchText(text))
     }
     
     func completionButtonTapped(_ completion: Completion) {
-        send(.completion(completion))
+        send(.select(completion))
     }
     
     func searchItemButtonTapped(_ searchItem: SearchItem) {

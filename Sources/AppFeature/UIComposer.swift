@@ -160,7 +160,7 @@ extension UIComposer {
                     route: route,
                     selectAddress: appViewModel.setAddress(to:)
                 ) { [weak self] in
-                    guard let self else { return }
+                    guard let self = self else { return }
                     
                     self.navigation.addNewAddressButtonTapped(profile: profile)
                 }

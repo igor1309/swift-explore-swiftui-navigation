@@ -11,7 +11,8 @@ import SwiftUI
 struct ContentView: View {
     
     // private let route: AppNavigation.Route? = nil
-    private let route: AppNavigation.Route? = .logout
+    // private let route: AppNavigation.Route? = .logout
+    private let route: AppNavigation.Route? = .sheet(.profile(.preview))
     
     var body: some View {
         AppView(
