@@ -1,6 +1,6 @@
 # swift-explore-navigation
 
-Exploring state-driven navigation in SwiftUI: API and navigation modeling.
+Exploring state-driven navigation in SwiftUI: API and navigation modelling.
 
 UI inspired by СберМаркет app.
 
